@@ -1,93 +1,72 @@
 package org.firstinspires.ftc.teamcode.drive.opmode.Vision;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SimpleThresholdPipeline extends OpenCvPipeline {
+    public Scalar lowerScalar = new Scalar(110,50,50);
+    public Scalar upperSclar = new Scalar(130,255,255);
 
-    /*
-     * These are our variables that will be
-     * modifiable from the variable tuner.
-     *
-     * Scalars in OpenCV are generally used to
-     * represent color. So our values in the
-     * lower and upper Scalars here represent
-     * the Y, Cr and Cb values respectively.
-     *
-     * YCbCr, like most color spaces, range
-     * from 0-255, so we default to those
-     * min and max values here for now, meaning
-     * that all pixels will be shown.
-     */
-    public Scalar lower = new Scalar(0, 0, 0);
-    public Scalar upper = new Scalar(255, 255, 255);
+    public boolean showGreen = true;
+    public boolean showPurlple = false;
+    public boolean showOrange = false;
 
-    public Scalar greenLower = new Scalar(70,85,0);
-    public Scalar greenUpper = new Scalar(194,119, 136);
+    private Telemetry telemetry;
 
-    /*
-     * A good practice when typing EOCV pipelines is
-     * declaring the Mats you will use here at the top
-     * of your pipeline, to reuse the same buffers every
-     * time. This removes the need to call mat.release()
-     * with every Mat you create on the processFrame method,
-     * and therefore, reducing the possibility of getting a
-     * memory leak and causing the app to crash due to an
-     * "Out of Memory" error.
-     */
-    private Mat ycrcbMat       = new Mat();
-    private Mat binaryMat      = new Mat();
-    private Mat maskedInputMat = new Mat();
-
+    public SimpleThresholdPipeline(Telemetry tela){
+        telemetry = tela;
+    }
     @Override
     public Mat processFrame(Mat input) {
-        /*
-         * Converts our input mat from RGB to YCrCb.
-         * EOCV ALWAYS returns RGB mats, so you'd
-         * always convert from RGB to the color
-         * space you want to use.
-         *
-         * Takes our "input" mat as an input, and outputs
-         * to a separate Mat buffer "ycrcbMat"
-         */
-        Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
 
-        /*
-         * This is where our thresholding actually happens.
-         * Takes our "ycrcbMat" as input and outputs a "binary"
-         * Mat to "binaryMat" of the same size as our input.
-         * "Discards" all the pixels outside the bounds specified
-         * by the scalars above (and modifiable with EOCV-Sim's
-         * live variable tuner.)
-         *
-         * Binary meaning that we have either a 0 or 255 value
-         * for every pixel.
-         *
-         * 0 represents our pixels that were outside the bounds
-         * 255 represents our pixels that are inside the bounds
-         */
-        Core.inRange(ycrcbMat, lower, upper, binaryMat);
+        if(showGreen){
+            lowerScalar = new Scalar(40,50,50);
+            upperSclar = new Scalar(80,255,255);
+        }
+        else if(showOrange){
+            lowerScalar = new Scalar(100,50,255);
+            upperSclar = new Scalar(140,255,255);
+        }
+        else if(showPurlple){
+            lowerScalar = new Scalar(130,50,50);
+            upperSclar = new Scalar(170,255,255);
+        }
+
+
+        Mat hsvMat = new Mat();
+        Imgproc.cvtColor(input, hsvMat, Imgproc.COLOR_BGR2HSV);
+
+        Mat mask = new Mat();
+        Core.inRange(hsvMat, lowerScalar, upperSclar, mask);
+
+        //remove noise
+        Imgproc.morphologyEx(mask, mask, Imgproc.MORPH_CLOSE, new Mat());
+        Imgproc.morphologyEx(mask, mask, Imgproc.MORPH_OPEN, new Mat());
+
+        List<MatOfPoint> contourPoints = new ArrayList<>();
+        Mat hierarchyMat = new Mat();
+        Imgproc.findContours(mask, contourPoints, hierarchyMat, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        telemetry.addData("Contour Points: ", contourPoints.size());
 
         /*
          * Release the reusable Mat so that old data doesn't
          * affect the next step in the current processing
          */
-        maskedInputMat.release();
+        hsvMat.release();
+        //greenMask.release();
 
-        /*
-         * Now, with our binary Mat, we perform a "bitwise and"
-         * to our input image, meaning that we will perform a mask
-         * which will include the pixels from our input Mat which
-         * are "255" in our binary Mat (meaning that they're inside
-         * the range) and will discard any other pixel outside the
-         * range (RGB 0, 0, 0. All discarded pixels will be black)
-         */
-        Core.bitwise_and(input, input, maskedInputMat, binaryMat);
+        //Core.bitwise_and(input, input, maskedInputMat, binaryMat);
 
-
+        telemetry.update();
         /*
          * The Mat returned from this method is the
          * one displayed on the viewport.
@@ -97,7 +76,7 @@ public class SimpleThresholdPipeline extends OpenCvPipeline {
          * pixel from the input Mat that were inside
          * the threshold range.
          */
-        return maskedInputMat;
+        return mask;
     }
 
 }

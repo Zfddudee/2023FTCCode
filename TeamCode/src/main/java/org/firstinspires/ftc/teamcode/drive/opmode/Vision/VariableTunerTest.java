@@ -158,19 +158,19 @@ public class VariableTunerTest extends OpenCvPipeline {
     public Mat processFrame(Mat input) {
         try {
             // Green: (144,77,65)
-            int g1 = 144, g2 = 77, g3 = 65;
-            lowerGreen = new Scalar(g1-Sensitivity, g2, g3);
-            upperGreen = new Scalar(g1+Sensitivity, g2, g3);
+            int g1 = 40, g2 = 50, g3 = 50;
+            lowerGreen = new Scalar(40,50,50);
+            upperGreen = new Scalar(80,255,255);
 
             //orange  (28,85,90)
             int o1 = 28, o2 = 85, o3 = 90;
-            lowerOrange = new Scalar(o1-Sensitivity, o2, o3);   //28,85,90
-            upperOrange = new Scalar(o1+Sensitivity, 02, 03);
+            lowerOrange = new Scalar(100,50,255);   //28,85,90
+            upperOrange = new Scalar(140,255,255);
 
             //purple:  (270,66,60)
             int p1 = 270, p2 = 66, p3 = 60;
-            lowerPurple = new Scalar(p1-Sensitivity, p2, p3);
-            upperPurple = new Scalar(p1+Sensitivity, p2, p3);
+            lowerPurple = new Scalar(130,50,50);
+            upperPurple = new Scalar(170,255,255);
 
 
             /*
