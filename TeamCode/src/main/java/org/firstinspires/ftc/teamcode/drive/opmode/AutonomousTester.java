@@ -1,31 +1,31 @@
-package org.firstinspires.ftc.teamcode.drive;
+package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.VariableTunerTest;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "LeftRed", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
-public class LeftRed extends LinearOpMode {
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+// THIS IS A TEST FOR LEFT BLUE
+
+@Autonomous(name = "AutonomousTester", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
+public class AutonomousTester extends LinearOpMode {
 
     private DcMotor Lift;
     private DcMotor Intake;
     private Servo Bucket;
     private Servo TapeUpDown;
     private Servo TapeLeftRight;
-
-
-
 
     OpenCvCamera webcam;
     VariableTunerTest pipeline;
@@ -38,60 +38,58 @@ public class LeftRed extends LinearOpMode {
         TapeUpDown = hardwareMap.get(Servo.class, "tapeUpDown");
         TapeLeftRight = hardwareMap.get(Servo.class, "tapeLeftRight");
 
-
-
         //start bot at pose x = 30, y = 64, heading 90 degrees
         Pose2d startPose = new Pose2d(35, 60, Math.toRadians(270));
 
         //start bot at pose x = 12, y = 0, heading 90 degrees
         Pose2d endPose = new Pose2d(12, 0, Math.toRadians(270));
 
-        int d1 = 90;
+        int d1 = 270;
 
-        int d2 = -180;
+        int d2 = 0;
 
-        int d3 = 0;
+        int d3 = 180;
 
-        int d4 = 0;
+        int d4 = 180;
 
         // These values should be x = Positive, y = Positive
 
         // This is an x value
-        int c1 = -12;
+        int c1 = 12;
         // This is a y-value
-        int c2 = -2;
+        int c2 = 2;
         // This is an x-value
-        int c3 = -16;
+        int c3 = 16;
         // This is a y-value
-        int c4 = -12;
+        int c4 = 12;
         // This is an x-value
-        int c5 = -25;
+        int c5 = 25;
         // This is a y-value
-        int c6 = -4;
+        int c6 = 4;
         // This is a y-value
         int c7 = 0;
         // This is an x-value
-        int c8 = -35;
+        int c8 = 35;
         // This is a y-value
-        int c9 = -20;
+        int c9 = 20;
         // This is an x-value
-        int c10 = -56;
+        int c10 = 56;
         // This is an x-value
-        int c11 = -54;
+        int c11 = 54;
         // This is an x-value
-        int c12 = -50;
+        int c12 = 50;
         // This is an x-value
-        int c13 = -46;
+        int c13 = 46;
         // This is an x-value
-        int c14 = -42;
+        int c14 = 42;
         // This is a y-value
-        int c15 = -36;
+        int c15 = 36;
         // This is an x-value
-        int c16 = -36;
+        int c16 = 36;
         // This is a y-value
-        int c17 = -32;
+        int c17 = 32;
         // This is an x-value
-        int c18 = -60;
+        int c18 = 60;
 
         drive.setPoseEstimate(startPose);
 
@@ -110,12 +108,9 @@ public class LeftRed extends LinearOpMode {
                                              webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
                                          }
 
-
                                          public void onError(int errorCode) {
-
-                                         }
-                                     }
-
+                }
+            }
         );
 
         //drive.trajectoryBuilder(new Pose2d()).addTemporalMarker(3, () -> {Bucket.setPosition(intaking);}).build();
@@ -215,10 +210,7 @@ public class LeftRed extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(c3, c15), Math.toRadians(d2))
                 .lineToSplineHeading(new Pose2d(c18, c15, Math.toRadians(d1)))
 
-
                 .build();
-
-
 
         waitForStart();
         if(pipeline.Last == 0) {
@@ -235,9 +227,6 @@ public class LeftRed extends LinearOpMode {
             // telemetry.addData("placement]", Pipeline.Last);
             // telemetry.update();
             //sleep(50);
-
-
-
 
         }
     }

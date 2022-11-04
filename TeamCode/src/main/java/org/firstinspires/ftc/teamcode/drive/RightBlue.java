@@ -63,7 +63,7 @@ public class RightBlue extends LinearOpMode {
         // This is an x-value
         int c3 = -16;
         // This is a y-value
-        int c4 = 11;
+        int c4 = 12;
         // This is an x-value
         int c5 = -25;
         // This is a y-value

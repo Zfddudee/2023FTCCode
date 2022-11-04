@@ -18,7 +18,7 @@ public class FalconRoboticsTester {
             // LEFT RED
 
             //start bot at pose x = 30, y = 64, heading 90 degrees
-            v.Init(-35, -60, 90, -1, 0, 90);
+            v.Init(-35, -62, 90, -1, 0, 90);
 
             v.d1 = 90;
             v.d2 = -180;
@@ -32,7 +32,7 @@ public class FalconRoboticsTester {
             // This is an x-value
             v.c3 = -16;
             // This is a y-value
-            v.c4 = -11;
+            v.c4 = -12;
             // This is an x-value
             v.c5 = -25;
             // This is a y-value
@@ -66,7 +66,7 @@ public class FalconRoboticsTester {
             // RIGHT RED
             //start bot at pose x = 30, y = 64, heading 90 degrees
             //start bot at pose x = 12, y = 0, heading 90 degrees
-            v.Init(35, 60, 270, 12, 0, 270);
+            v.Init(35, -62, 90, 12, 0, 270);
 
             v.d1 = 90;
             v.d2 = 0;
@@ -80,7 +80,7 @@ public class FalconRoboticsTester {
             // This is an x-value
             v.c3 = 16;
             // This is a y-value
-            v.c4 = -11;
+            v.c4 = -12;
             // This is an x-value
             v.c5 = 25;
             // This is a y-value
@@ -116,48 +116,48 @@ public class FalconRoboticsTester {
             //static Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(270));
             //start bot at pose x = 12, y = 0, heading 90 degrees
             //static Pose2d endPose = new Pose2d(-12, 0, Math.toRadians(270));
-            v.Init(-35, 60, 270, -12, 0, 270);
+            v.Init(35, 62, 270, 12, 0, 270);
             v.d1 = 270;
-            v.d2 = -180;
-            v.d3 = 0;
-            v.d4 = 0;
+            v.d2 = 0;
+            v.d3 = 180;
+            v.d4 = 180;
 
             // This is an x value
-            v.c1 = -12;
+            v.c1 = 12;
             // This is a y-value
-            v.c2 = -2;
+            v.c2 = 2;
             // This is an x-value
-            v.c3 = -16;
+            v.c3 = 16;
             // This is a y-value
             v.c4 = 12;
             // This is an x-value
-            v.c5 = -25;
+            v.c5 = 25;
             // This is a y-value
             v.c6 = 4;
             // This is a y-value
             v.c7 = 0;
             // This is an x-value
-            v.c8 = -35;
+            v.c8 = 35;
             // This is a y-value
             v.c9 = 20;
             // This is an x-value
-            v.c10 = -56;
+            v.c10 = 56;
             // This is an x-value
-            v.c11 = -54;
+            v.c11 = 54;
             // This is an x-value
-            v.c12 = -50;
+            v.c12 = 50;
             // This is an x-value
-            v.c13 = -46;
+            v.c13 = 46;
             // This is an x-value
-            v.c14 = -42;
+            v.c14 = 42;
             // This is a y-value
             v.c15 = 36;
             // This is an x-value
-            v.c16 = -36;
+            v.c16 = 36;
             // This is a y-value
             v.c17 = 32;
             // This is an x-value
-            v.c18 = -60;
+            v.c18 = 60;
         }
         else if(mode == Mode.RightBlue) {
             // RIGHT BLUE
@@ -165,7 +165,7 @@ public class FalconRoboticsTester {
             //static Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(270));
             //start bot at pose x = 12, y = 0, heading 90 degrees
             //static Pose2d endPose = new Pose2d(-12, 0, Math.toRadians(270));
-            v.Init(-35, 60, 270, -12, 0, 270);
+            v.Init(-35, 62, 270, -12, 0, 270);
 
             v.d1 = 270;
             v.d2 = -180;
@@ -181,7 +181,7 @@ public class FalconRoboticsTester {
             // This is an x-value
             v.c3 = -16;
             // This is a y-value
-            v.c4 = 11;
+            v.c4 = 12;
             // This is an x-value
             v.c5 = -25;
             // This is a y-value
@@ -222,10 +222,12 @@ public class FalconRoboticsTester {
 //.UNSTABLE_addTemporalMarkerOffset(0, () -> )
     //trajectory0
     public static void main(String[] args) {
-        //Vars v = GetVars(Mode.RightRed);
+
         //Vars v = GetVars(Mode.LeftRed);
-        Vars v = GetVars(Mode.RightBlue);
-        //Vars v = GetVars(Mode.LeftBlue);
+        //Vars v = GetVars(Mode.RightRed);
+        Vars v = GetVars(Mode.LeftBlue);
+        //Vars v = GetVars(Mode.RightBlue);
+
 
         MeepMeep meepMeep = new MeepMeep(800);
 
@@ -310,7 +312,7 @@ public class FalconRoboticsTester {
 
                                 .build()
                 );
-
+        myBot.pause();
         myBot.setDimensions(12, 18);
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
                 .setDarkMode(true)

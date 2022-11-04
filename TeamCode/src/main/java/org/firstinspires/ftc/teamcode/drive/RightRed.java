@@ -41,7 +41,7 @@ public class RightRed extends LinearOpMode {
 
 
         //start bot at pose x = 30, y = 64, heading 90 degrees
-        Pose2d startPose = new Pose2d(35, 60, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(35, -60, Math.toRadians(270));
 
         //start bot at pose x = 12, y = 0, heading 90 degrees
         Pose2d endPose = new Pose2d(12, 0, Math.toRadians(270));
@@ -63,7 +63,7 @@ public class RightRed extends LinearOpMode {
         // This is an x-value
         int c3 = 16;
         // This is a y-value
-        int c4 = -11;
+        int c4 = -12;
         // This is an x-value
         int c5 = 25;
         // This is a y-value

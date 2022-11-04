@@ -66,17 +66,17 @@ public class RROCVTracking extends LinearOpMode {
                 .build();
 
         waitForStart();
-        if(pipeline.xRed <= 135) {
+        if(pipeline.xOrange <= 135) {
             drive.followTrajectorySequence(TrajectoryTest1);
         }
-        else if(pipeline.xRed >= 165) {
+        else if(pipeline.xOrange >= 165) {
             drive.followTrajectorySequence(TrajectoryTest2);
         }
 
-        else if(pipeline.areaRed <= 700) {
+        else if(pipeline.areaOrange <= 700) {
             drive.followTrajectorySequence(TrajectoryTest3);
         }
-        else if(pipeline.areaRed >= 750) {
+        else if(pipeline.areaOrange >= 750) {
             drive.followTrajectorySequence(TrajectoryTest4);
         }
         while (opModeIsActive()) {
