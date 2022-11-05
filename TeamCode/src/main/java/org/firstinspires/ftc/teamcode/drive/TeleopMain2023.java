@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.opencv.core.Mat;
 
 @Config
@@ -64,7 +65,7 @@ public class TeleopMain2023 extends LinearOpMode {
     public Servo ExtakeFlip1;
     public Servo ExtakeFlip2;
     public Servo Turret1;
-    public Servo Turret2;
+//    public Servo Turret2;
     public Servo SlideExtension;
     public Servo Claw;
 
@@ -82,7 +83,7 @@ public class TeleopMain2023 extends LinearOpMode {
 
     double TurretRight = 0.5;
     double TurretLeft = 0;
-    double TurretDefault = 0.5;
+    double TurretDefault = 0.25;
 
     double OdoUp = 0.5;
     double OdoDown = 0;
@@ -128,13 +129,18 @@ public class TeleopMain2023 extends LinearOpMode {
         ExtakeFlip1 = hardwareMap.get(Servo.class, "ExtakeFlip1");
         ExtakeFlip2 = hardwareMap.get(Servo.class, "ExtakeFlip2");
         Turret1 = hardwareMap.get(Servo.class, "Turret1");
-        Turret2 = hardwareMap.get(Servo.class, "Turret2");
+//        Turret2 = hardwareMap.get(Servo.class, "Turret2");
         SlideExtension = hardwareMap.get(Servo.class, "SlideExtension");
         Claw = hardwareMap.get(Servo.class, "Claw");
 
         IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
 
-        Claw.scaleRange(0.3, 0.5);
+        Claw.scaleRange(0.2, 0.5);
+        ExtakeFlip1.scaleRange(0, 1);
+        ExtakeFlip2.scaleRange(0, 1);
+
+        IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        IntakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
         IntakeSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -171,7 +177,7 @@ public class TeleopMain2023 extends LinearOpMode {
                     IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     ((DcMotorEx) IntakeSlideMotor).setVelocity(2700);
                     IntakeFlip.setPosition(ServoIntakeFlipIntaking);
-                    Claw.setPosition(0.4);
+                    Claw.setPosition(0.8);
 
                 }
                 if (Math.abs(IntakeSlideMotor.getCurrentPosition() - IntakeOut) <= 100) {
@@ -199,12 +205,16 @@ public class TeleopMain2023 extends LinearOpMode {
                 if (gamepad1.a) {
                     IntakeFlip.setPosition(0.2);
                     IntakeWheels.setPower(0.5);
+                    timer.reset();
+                    timer.startTime();
                     cycleState = CycleState.ExtakeTransfer;
                 }
                 if (gamepad1.x) {
                     IntakeFlip.setPosition(0.2);
                     IntakeWheels.setPower(0.5);
                     Left = true;
+                    timer.reset();
+                    timer.startTime();
                     cycleState = CycleState.ExtakeTransfer;
                 }
                 break;
@@ -214,20 +224,22 @@ public class TeleopMain2023 extends LinearOpMode {
                     IntakeFlipMotor.setTargetPosition(0);
                     ((DcMotorEx) IntakeFlipMotor).setVelocity(600);
                     IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    IntakeSlideMotor.setTargetPosition(700);
-                if (Math.abs(IntakeFlipMotor.getCurrentPosition()) <= 20) {
-                    Claw.setPosition(0.4);
+                    IntakeSlideMotor.setTargetPosition(650);
+                if (Math.abs(IntakeFlipMotor.getCurrentPosition()) <= 20 && timer.time() >= 0.15) {
+                    Claw.setPosition(0);
+                    timer.reset();
+                    timer.startTime();
                     cycleState = CycleState.LiftUp;
                 }
                 break;
 
             //Worked on
             case LiftUp:
-                //ExtakeFlip1.setPosition(1);
-                //ExtakeFlip2.setPosition(0);
+                ExtakeFlip1.setPosition(1);
+                ExtakeFlip2.setPosition(0); //Wrong dirrection
                 SlideExtension.setPosition(0);
                 IntakeSlideMotor.setTargetPosition(IntakeOut);
-                IntakeFlip.setPosition(ServoIntakeFlipIntaking);
+//                IntakeFlip.setPosition(ServoIntakeFlipIntaking);
                 if (!Left) {
                     liftMotorR.setTargetPosition(1000);//-790
                     liftMotorL.setTargetPosition(1000);//-790
@@ -236,10 +248,12 @@ public class TeleopMain2023 extends LinearOpMode {
                     ((DcMotorEx) liftMotorL).setVelocity(2700);
                     ((DcMotorEx) liftMotorR).setVelocity(2700);
 
-                    timer.reset();
+
                     if(timer.seconds() > 2) {
                         Turret1.setPosition(TurretRight);
-                        Turret2.setPosition(TurretRight);
+//                        Turret2.setPosition(TurretRight);
+                        timer.reset();
+                        timer.startTime();
                         cycleState = CycleState.Drop;
                     }
                 }else{
@@ -248,10 +262,11 @@ public class TeleopMain2023 extends LinearOpMode {
                     liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                    timer.reset();
                     if(timer.seconds() > 2) {
                         Turret1.setPosition(TurretLeft);
-                        Turret2.setPosition(TurretLeft);
+//                        Turret2.setPosition(TurretLeft);
+                        timer.reset();
+                        timer.startTime();
                         cycleState = CycleState.Drop;
                     }
                 }
@@ -261,9 +276,10 @@ public class TeleopMain2023 extends LinearOpMode {
             case Drop:
                 if(gamepad1.a){
                     Claw.setPosition(0.5);
+                    sleep(150);
                     //Retract here as well
                     Turret1.setPosition(TurretDefault);
-                    Turret2.setPosition(TurretDefault);
+//                    Turret2.setPosition(TurretDefault);
                     SlideExtension.setPosition(1);
                     liftMotorR.setTargetPosition(0);//-790
                     liftMotorL.setTargetPosition(0);//-790
@@ -271,8 +287,8 @@ public class TeleopMain2023 extends LinearOpMode {
                     liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     ((DcMotorEx) liftMotorL).setVelocity(537);
                     ((DcMotorEx) liftMotorR).setVelocity(537);
-                    if(Math.abs(Turret2.getPosition() - TurretDefault) <= 0.05) {
-                        ExtakeFlip1.setPosition(0);
+                    if(timer.time() >= 1) {
+                        ExtakeFlip1.setPosition(-1);
                         ExtakeFlip2.setPosition(1);
                         cycleState = CycleState.START;
                     }
@@ -282,7 +298,7 @@ public class TeleopMain2023 extends LinearOpMode {
             //
             case FullRetract:
                 Turret1.setPosition(TurretDefault);
-                Turret2.setPosition(TurretDefault);
+//                Turret2.setPosition(TurretDefault);
                 Stomp.setPosition(StompUp);
                 IntakeFlip.setPosition(ServoIntakeFlipExchanging);
                 IntakeSlideMotor.setTargetPosition( IntakeIn);
@@ -292,11 +308,9 @@ public class TeleopMain2023 extends LinearOpMode {
                 liftMotorR.setTargetPosition(LiftLow);
                 Claw.setPosition(0.4);
                 IntakeWheels.setPower(0);
-                if(Math.abs(Turret2.getPosition() - TurretDefault) <= 0.05) {
                     ExtakeFlip1.setPosition(0);
-                    ExtakeFlip2.setPosition(1);
+//                    ExtakeFlip2.setPosition(1);
                     cycleState = CycleState.START;
-                }
                 break;
 
             //
@@ -327,17 +341,17 @@ public class TeleopMain2023 extends LinearOpMode {
             readyToStomp = true;
         }
 
-        if(odoReady && gamepad1.start) {
+        if(odoReady && gamepad1.share) {
             switch (odoState) {
                 case Up:
-                    OdoRetractRear.setPosition(OdoUp);
+                    OdoRetractRear.setPosition(0);
                     OdoRetractLeft.setPosition(OdoUp);
                     OdoRetractRight.setPosition(OdoUp);
                     odoState = OdoState.Down;
                     break;
 
                 case Down:
-                    OdoRetractRear.setPosition(OdoDown);
+                    OdoRetractRear.setPosition(0.5);
                     OdoRetractLeft.setPosition(OdoDown);
                     OdoRetractRight.setPosition(OdoDown);
                     odoState = OdoState.Up;
@@ -382,6 +396,22 @@ public class TeleopMain2023 extends LinearOpMode {
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.addData("Current states", cycleState);
             telemetry.addData("Current states", stompState);
+            telemetry.addData("SensorValue", IntakeSensor.getDistance(DistanceUnit.MM));
+            telemetry.addData("IntakeMotorPos", IntakeSlideMotor.getCurrentPosition());
+            telemetry.addData("LiftMotorR", liftMotorR.getCurrentPosition());
+            telemetry.addData("LiftMotorL", liftMotorL.getCurrentPosition());
+            telemetry.addData("IntakeFlipMotor", IntakeFlipMotor.getCurrentPosition());
+            telemetry.addData("IntakeFlip", IntakeFlip.getPosition());
+            telemetry.addData("Stomp", Stomp.getPosition());
+            telemetry.addData("OdoRetractRight", OdoRetractRight.getPosition());
+            telemetry.addData("OdoRetractLeft", OdoRetractLeft.getPosition());
+            telemetry.addData("OdoRetractRear", OdoRetractRear.getPosition());
+            telemetry.addData("ExtakeFlip1", ExtakeFlip1.getPosition());
+            telemetry.addData("ExtakeFlip2", ExtakeFlip2.getPosition());
+            telemetry.addData("Turret1", Turret1.getPosition());
+//            telemetry.addData("Turret2", Turret2.getPosition());
+            telemetry.addData("SlideExtension", SlideExtension.getPosition());
+            telemetry.addData("Claw", Claw.getPosition());
             telemetry.update();
 
 
