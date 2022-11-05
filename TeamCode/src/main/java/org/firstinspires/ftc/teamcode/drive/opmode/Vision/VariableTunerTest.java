@@ -56,46 +56,54 @@ public class VariableTunerTest extends OpenCvPipeline {
      * min and max values here for now, meaning
      * that all pixels will be shown.
      */
+    enum ColorIdentified
+    {
+        Green,
+        Purple,
+        Orange
+    }
 
     public static Scalar DISPLAY_COLOR = new Scalar(210, 150, 190);
-    public Scalar lowerGreen = new Scalar(0, 72, 0);
-    public Scalar lowerBlue = new Scalar(0, 72, 0);
-    public Scalar lowerRed = new Scalar(0, 72, 0);
+    public Scalar lowerGreen;// = new Scalar(76,77,118);
+    public Scalar lowerPurple;// = new Scalar(0, 0, 140);
+    public Scalar lowerOrange;// = new Scalar(0,0,93);   //28,85,90
 
-    public Scalar upperGreen = new Scalar(255, 93, 255);
-    public Scalar upperBlue = new Scalar(124, 104, 215);
-    public Scalar upperRed = new Scalar(154, 255, 96);
+    public Scalar upperGreen;// = new Scalar(140, 123, 133);
+    public Scalar upperPurple;// = new Scalar(95, 163, 170);
+    public Scalar upperOrange;// = new Scalar(255,255,120);
 
     public int Last;
-    public double areaRed;
-    public double areaBlue;
-    public double ErrorX = 0;
-    public double ErrorY = 0;
+    public int Sensitivity = 15;
+    public ColorIdentified colorIdentified;
+    public double areaOrange;
+    public double areaPurple;
+    public double areaGreen;
+    //public double ErrorX = 0;
+    //public double ErrorY = 0;
 
-    public static int BORDER_LEFT_X = 0;   //amount of pixels from the left side of the cam to skip
-    public static int BORDER_RIGHT_X = 0;   //amount of pixels from the right of the cam to skip
-    public static int BORDER_TOP_Y = 70;   //amount of pixels from the top of the cam to skip
-    public static int BORDER_BOTTOM_Y = 70;   //amount of pixels from the bottom of the cam to skip
+//    public static int BORDER_LEFT_X = 0;   //amount of pixels from the left side of the cam to skip
+//    public static int BORDER_RIGHT_X = 0;   //amount of pixels from the right of the cam to skip
+//    public static int BORDER_TOP_Y = 70;   //amount of pixels from the top of the cam to skip
+//    public static int BORDER_BOTTOM_Y = 70;   //amount of pixels from the bottom of the cam to skip
 
-    public static double MIN_AREA = 500;
-    private double maxArea = 0;
+//    public static double MIN_AREA = 500;
+//    private double maxArea = 0;
 
 
     public Exception debug;
-    public double xRed = -1;
-    public double yRed = -1;
-    public double xBlue = -1;
-    public double yBlue = -1;
+    public double xOrange = -1;
+    public double yOrange = -1;
+    public double xPurple = -1;
+    public double yPurple = -1;
+    public double xGreen = -1;
+    public double yGreen = -1;
 
-
-//added
     /**
      * This will allow us to choose the color
      * space we want to use on the live field
      * tuner instead of hardcoding it
      */
     public ColorSpace colorSpace = ColorSpace.RGB;
-
 
     /*
      * A good practice when typing EOCV pipelines is
@@ -109,8 +117,8 @@ public class VariableTunerTest extends OpenCvPipeline {
      */
     private Mat ycrcbMat = new Mat();
     private Mat MaskGreen = new Mat();
-    private Mat MaskBlue = new Mat();
-    private Mat MaskRed = new Mat();
+    private Mat MaskPurple = new Mat();
+    private Mat MaskOrange = new Mat();
     //private Mat MaskSides = new Mat();
     private Mat maskedInputMat = new Mat();
 
@@ -149,6 +157,21 @@ public class VariableTunerTest extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) {
         try {
+            // Green: (144,77,65)
+            int g1 = 40, g2 = 50, g3 = 50;
+            lowerGreen = new Scalar(40,50,50);
+            upperGreen = new Scalar(80,255,255);
+
+            //orange  (28,85,90)
+            int o1 = 28, o2 = 85, o3 = 90;
+            lowerOrange = new Scalar(100,50,255);   //28,85,90
+            upperOrange = new Scalar(140,255,255);
+
+            //purple:  (270,66,60)
+            int p1 = 270, p2 = 66, p3 = 60;
+            lowerPurple = new Scalar(130,50,50);
+            upperPurple = new Scalar(170,255,255);
+
 
             /*
              * Converts our input mat from RGB to
@@ -160,7 +183,7 @@ public class VariableTunerTest extends OpenCvPipeline {
              * Takes our "input" mat as an input, and outputs
              * to a separate Mat buffer "ycrcbMat"
              */
-            Imgproc.cvtColor(input, ycrcbMat, colorSpace.cvtCode);
+            //Imgproc.cvtColor(input, ycrcbMat, colorSpace.cvtCode);
             //Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_BGR2GRAY);
             Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
 
@@ -179,97 +202,64 @@ public class VariableTunerTest extends OpenCvPipeline {
              * 255 represents our pixels that are inside the bounds
              */
             Core.inRange(ycrcbMat, lowerGreen, upperGreen, MaskGreen);
-            Core.inRange(ycrcbMat, lowerRed, upperRed, MaskRed);
-            Core.inRange(ycrcbMat, lowerBlue, upperBlue , MaskBlue);
+            Core.inRange(ycrcbMat, lowerOrange, upperOrange, MaskOrange);
+            Core.inRange(ycrcbMat, lowerPurple, upperPurple, MaskPurple);
 
             // Remove Noise
             //Green
             Imgproc.morphologyEx(MaskGreen, MaskGreen, Imgproc.MORPH_OPEN, new Mat());
             Imgproc.morphologyEx(MaskGreen, MaskGreen, Imgproc.MORPH_CLOSE, new Mat());
             //Red
-            Imgproc.morphologyEx(MaskRed, MaskRed, Imgproc.MORPH_OPEN, new Mat());
-            Imgproc.morphologyEx(MaskRed, MaskRed, Imgproc.MORPH_CLOSE, new Mat());
+            Imgproc.morphologyEx(MaskOrange, MaskOrange, Imgproc.MORPH_OPEN, new Mat());
+            Imgproc.morphologyEx(MaskOrange, MaskOrange, Imgproc.MORPH_CLOSE, new Mat());
             //Blue
-            Imgproc.morphologyEx(MaskBlue, MaskBlue, Imgproc.MORPH_OPEN, new Mat());
-            Imgproc.morphologyEx(MaskBlue, MaskBlue, Imgproc.MORPH_CLOSE, new Mat());
+            Imgproc.morphologyEx(MaskPurple, MaskPurple, Imgproc.MORPH_OPEN, new Mat());
+            Imgproc.morphologyEx(MaskPurple, MaskPurple, Imgproc.MORPH_CLOSE, new Mat());
 
             // GaussianBlur
             //Green
             Imgproc.GaussianBlur(MaskGreen, MaskGreen, new Size(5.0, 5.0), 0.00);
             List<MatOfPoint> contoursGreen = new ArrayList<>();
-            //Red
-            Imgproc.GaussianBlur(MaskRed, MaskRed, new Size(5.0, 5.0), 0.00);
-            List<MatOfPoint> contoursRed = new ArrayList<>();
-            //Blue
-            Imgproc.GaussianBlur(MaskBlue, MaskBlue, new Size(5.0, 5.0), 0.00);
-            List<MatOfPoint> contoursBlue = new ArrayList<>();
+            //Orange
+            Imgproc.GaussianBlur(MaskOrange, MaskOrange, new Size(5.0, 5.0), 0.00);
+            List<MatOfPoint> contoursOrange = new ArrayList<>();
+            //Purple
+            Imgproc.GaussianBlur(MaskPurple, MaskPurple, new Size(5.0, 5.0), 0.00);
+            List<MatOfPoint> contoursPurple = new ArrayList<>();
 
             //finding the contours
             //Green
             Mat hierarchyGreen = new Mat();
-            Imgproc.findContours(MaskGreen, contoursGreen, hierarchyGreen, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
-            Imgproc.drawContours(MaskGreen, contoursGreen, -1, DISPLAY_COLOR, 2);
-            //Red
-            Mat hierarchyRed = new Mat();
-            Imgproc.findContours(MaskRed, contoursRed, hierarchyRed, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
-            Imgproc.drawContours(MaskRed, contoursRed, -1, DISPLAY_COLOR, 2);
-            //Blue
-            Mat hierarchyBlue = new Mat();
-            Imgproc.findContours(MaskBlue, contoursBlue, hierarchyBlue, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
-            Imgproc.drawContours(MaskBlue, contoursBlue, -1, DISPLAY_COLOR, 2);
+            ImgProcAssignment(MaskGreen, contoursGreen, hierarchyGreen);
+            //Orange
+            Mat hierarchyOrange = new Mat();
+            ImgProcAssignment(MaskOrange, contoursOrange, hierarchyOrange);
+            //Purple
+            Mat hierarchyPurple = new Mat();
+            ImgProcAssignment(MaskPurple, contoursPurple, hierarchyPurple);
 
+            // finding the coordinates of purple contour.
+            FindColor(contoursPurple, xPurple, yPurple, areaPurple, MaskPurple);
 
-            // finding the coordinates of red contour.
-            List<Moments> muRed = new ArrayList<Moments>(contoursRed.size());
-            for (int i = 0; i < contoursRed.size(); i++) {
-                muRed.add(i, Imgproc.moments(contoursRed.get(i), false));
-                Moments mRed = muRed.get(i);
-                xRed = -1;
-                xRed = (int) (mRed.get_m10() / mRed.get_m00());
-                yRed = (int) (mRed.get_m01() / mRed.get_m00());
-                Imgproc.circle(MaskRed, new Point(xRed, yRed), 4, new Scalar(255, 49, 0, 255));
-            }
-            for (MatOfPoint contourRed : contoursRed) {
-                Point[] contourArrayRed = contourRed.toArray();
-                MatOfPoint2f areaPointsRed = new MatOfPoint2f(contourArrayRed);
-                Rect rectRed = Imgproc.boundingRect(areaPointsRed);
-                areaRed = rectRed.area();
-                Imgproc.rectangle(MaskRed, rectRed, DISPLAY_COLOR, 2);
-            }
+            // finding the coordinates of orange contour.
+            FindColor(contoursOrange, xOrange, yOrange, areaOrange, MaskOrange);
 
-            // finding the coordinates of blue contour.
-            List<Moments> muBlue = new ArrayList<Moments>(contoursBlue.size());
-            for (int i = 0; i < contoursBlue.size(); i++) {
-                muBlue.add(i, Imgproc.moments(contoursBlue.get(i), false));
-                Moments mBlue = muBlue.get(i);
-                xBlue = -1;
-                xBlue = (int) (mBlue.get_m10() / mBlue.get_m00());
-                yBlue = (int) (mBlue.get_m01() / mBlue.get_m00());
-                Imgproc.circle(MaskBlue, new Point(xBlue, yBlue), 4, new Scalar(100, 100, 194, 255));
-            }
-            for (MatOfPoint contourBlue : contoursBlue) {
-                Point[] contourArrayBlue = contourBlue.toArray();
-                MatOfPoint2f areaPointsBlue = new MatOfPoint2f(contourArrayBlue);
-                Rect rectBlue = Imgproc.boundingRect(areaPointsBlue);
-                areaBlue = rectBlue.area();
-                Imgproc.rectangle(MaskBlue, rectBlue, DISPLAY_COLOR, 2);
-            }
+            // finding the coordinates of green contour.
+            FindColor(contoursGreen, xGreen, yGreen, areaGreen, MaskGreen);
 
             // setting last output value.
-            if(contoursGreen.size() > 1) Last = 0;
-            else if(contoursRed.size() > 1) Last = 1;
-            else if(contoursBlue.size() > 1) Last = 2;
-
-            //Imgproc.circle(binaryMat, RIGHT, 50, DISPLAY_COLOR);
-            // Display Data
-            /*
-             * Release the reusable Mat so that old data doesn't
-             * affect the next step in the current processing
-             */
-            //added
-
-            //added
-
+            if(contoursGreen.size() > 1) {
+                Last = 0;
+                colorIdentified = ColorIdentified.Green;
+            }
+            else if(contoursOrange.size() > 1) {
+                Last = 1;
+                colorIdentified = ColorIdentified.Orange;
+            }
+            else if(contoursPurple.size() > 1) {
+                Last = 2;
+                colorIdentified = ColorIdentified.Purple;
+            }
 
             maskedInputMat.release();
 
@@ -282,25 +272,26 @@ public class VariableTunerTest extends OpenCvPipeline {
              * range (RGB 0, 0, 0. All discarded pixels will be black)
              */
             Core.bitwise_and(input, input, maskedInputMat, MaskGreen);
-            Core.bitwise_and(input, input, maskedInputMat, MaskRed);
-            Core.bitwise_and(input, input, maskedInputMat, MaskBlue);
+            Core.bitwise_and(input, input, maskedInputMat, MaskOrange);
+            Core.bitwise_and(input, input, maskedInputMat, MaskPurple);
             //Core.bitwise_and(input, input, maskedInputMat, MaskSides);
             /**
              * Add some nice and informative telemetry messages
              */
-            telemetry.addData("[>]", "Change these values in tuner menu");
-            telemetry.addData("[Color Space]", colorSpace.name());
-            telemetry.addData("[Lower Scalar]", lowerGreen);
-            telemetry.addData("[Upper Scalar]", upperGreen);
-            telemetry.addData("[Position]", Last);
-            telemetry.addData("xBlue", xBlue);
-            telemetry.addData("yBlue", yBlue);
-            telemetry.addData("xRed", xRed);
-            telemetry.addData("yRed", yRed);
-            telemetry.addData("SizeBlue", contoursBlue.size());
-            telemetry.addData("SizeRed", contoursRed.size());
-            telemetry.addData("SizeGreen", contoursGreen.size());
-            telemetry.addData("area", areaRed);
+            //telemetry.addData("[>]", "Change these values in tuner menu");
+//            telemetry.addData("[Color Space]", colorSpace.name());
+//            telemetry.addData("[Lower Scalar]", lowerGreen);
+//            telemetry.addData("[Upper Scalar]", upperGreen);
+//            telemetry.addData("[Position]", Last);
+//            telemetry.addData("xBlue", xPurple);
+//            telemetry.addData("yBlue", yPurple);
+//            telemetry.addData("xOrange", xOrange);
+//            telemetry.addData("yOrange", yOrange);
+//            telemetry.addData("SizeBlue", contoursPurple.size());
+//            telemetry.addData("SizeRed", contoursOrange.size());
+//            telemetry.addData("SizeGreen", contoursGreen.size());
+//            telemetry.addData("areaOrange", areaOrange);
+            telemetry.addData("Color Identified", colorIdentified);
             telemetry.update();
 
             /*
@@ -320,5 +311,30 @@ public class VariableTunerTest extends OpenCvPipeline {
             boolean error = true;
         }
         return MaskGreen;
+    }
+
+    private void FindColor(List<MatOfPoint> contoursGreen, double xGreen, double yGreen, double areaGreen, Mat maskGreen) {
+        List<Moments> muGreen = new ArrayList<Moments>(contoursGreen.size());
+        for (int i = 0; i < contoursGreen.size(); i++) {
+            muGreen.add(i, Imgproc.moments(contoursGreen.get(i), false));
+            Moments mGreen = muGreen.get(i);
+            xGreen = -1;
+            xGreen = (int) (mGreen.get_m10() / mGreen.get_m00());
+            yGreen = (int) (mGreen.get_m01() / mGreen.get_m00());
+            //Imgproc.circle(MaskGreen, new Point(xGreen, yGreen), 4, new Scalar(100, 100, 194, 255));
+            //Imgproc.circle(MaskGreen, new Point(xGreen, yGreen), 4, upperGreen);
+        }
+        for (MatOfPoint contourGreen : contoursGreen) {
+            Point[] contourArrayGreen = contourGreen.toArray();
+            MatOfPoint2f areaPointsGreen = new MatOfPoint2f(contourArrayGreen);
+            Rect rectGreen = Imgproc.boundingRect(areaPointsGreen);
+            areaGreen = rectGreen.area();
+            Imgproc.rectangle(maskGreen, rectGreen, DISPLAY_COLOR, 2);
+        }
+    }
+
+    private void ImgProcAssignment(Mat mat, List<MatOfPoint> contours, Mat hierarchy) {
+        Imgproc.findContours(mat, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.drawContours(mat, contours, -1, DISPLAY_COLOR, 10);
     }
 }
