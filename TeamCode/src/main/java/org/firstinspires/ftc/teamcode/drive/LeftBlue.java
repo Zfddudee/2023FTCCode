@@ -57,41 +57,41 @@ public class LeftBlue extends LinearOpMode {
         // These values should be x = Positive, y = Positive
 
         // This is an x value
-        int c1 = 12;
+        double c1 = 12;
         // This is a y-value
-        int c2 = 2;
+        double c2 = 2;
         // This is an x-value
-        int c3 = 16;
+        double c3 = 16;
         // This is a y-value
-        int c4 = 12;
+        double c4 = 12;
         // This is an x-value
-        int c5 = 25;
+        double c5 = 25;
         // This is a y-value
-        int c6 = 4;
+        double c6 = 4;
         // This is a y-value
-        int c7 = 0;
+        double c7 = 0;
         // This is an x-value
-        int c8 = 35;
+        double c8 = 35;
         // This is a y-value
-        int c9 = 20;
+        double c9 = 20;
         // This is an x-value
-        int c10 = 56;
+        double c10 = 47.125;
         // This is an x-value
-        int c11 = 54;
+        double c11 = 46.375;
         // This is an x-value
-        int c12 = 50;
+        double c12 = 45.875;
         // This is an x-value
-        int c13 = 46;
+        double c13 = 45.775;
         // This is an x-value
-        int c14 = 42;
+        double c14 = 45.775;
         // This is a y-value
-        int c15 = 36;
+        double c15 = 36;
         // This is an x-value
-        int c16 = 36;
+        double c16 = 36;
         // This is a y-value
-        int c17 = 32;
+        double c17 = 32;
         // This is an x-value
-        int c18 = 60;
+        double c18 = 60;
 
         drive.setPoseEstimate(startPose);
 
@@ -188,7 +188,7 @@ public class LeftBlue extends LinearOpMode {
                 .lineToSplineHeading(new Pose2d(c14, c4, Math.toRadians(d4)))
                 .waitSeconds(1)
 
-                // This segment goes from intake #5 to extake #6
+                // This segment goes from doubleake #5 to extake #6
                 .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d1)))
                 .lineToSplineHeading(new Pose2d(c3, c4, Math.toRadians(d1)))
                 .splineToConstantHeading(new Vector2d(c1, c6), Math.toRadians(d1))

@@ -4,5 +4,9 @@ public enum Mode{
     LeftBlue,
     RightBlue,
     LeftRed,
-    RightRed
+    RightRed,
+    AutoCompLeftBlue,
+    AutoCompLeftRed,
+    AutoCompRightBlue,
+    AutoCompRightRed
 }
