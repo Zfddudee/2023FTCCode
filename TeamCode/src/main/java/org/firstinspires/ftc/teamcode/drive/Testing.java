@@ -95,12 +95,19 @@ public class Testing extends LinearOpMode {
             if(gamepad1.options){
                 IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 IntakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
             if(gamepad1.a){
 
-                IntakeSlideMotor.setTargetPosition(790);//-790
-                IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) IntakeSlideMotor).setVelocity(2700);
+                liftMotorR.setTargetPosition(1000);//-790
+                liftMotorL.setTargetPosition(1000);//-790
+                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) liftMotorL).setVelocity(2700);
+                ((DcMotorEx) liftMotorR).setVelocity(2700);
+//                ExtakeFlip2.setPosition(1);
+
 
 
 //                IntakeFlip.setPosition(0);
@@ -108,21 +115,35 @@ public class Testing extends LinearOpMode {
             if(gamepad1.x){
 //                Stomp.setPosition(0.5);
 //                Stomp.setPosition(1);
-                IntakeFlip.setPosition(0.9);
-                IntakeWheels.setPower(1);
-                IntakeFlipMotor.setTargetPosition(550);
-                //300 for above cone
-                IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) IntakeFlipMotor).setVelocity(2700);
+//                IntakeFlip.setPosition(0.9);
+//                IntakeWheels.setPower(1);
+//                IntakeFlipMotor.setTargetPosition(550);
+//                //300 for above cone
+//                IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                ((DcMotorEx) IntakeFlipMotor).setVelocity(2700);
+//                Turret2.setPosition(1);
+                liftMotorR.setTargetPosition(300);//-790
+                liftMotorL.setTargetPosition(300);//-790
+                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) liftMotorL).setVelocity(2700);
+                ((DcMotorEx) liftMotorR).setVelocity(2700);
             }
             if (gamepad1.y){
 //                ExtakeFlip1.setPosition(1);
 //                ExtakeFlip2.setPosition(0);
-                IntakeSlideMotor.setTargetPosition(0);
-                IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) IntakeSlideMotor).setVelocity(2700);
+//                IntakeSlideMotor.setTargetPosition(0);
+//                IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                ((DcMotorEx) IntakeSlideMotor).setVelocity(2700);
 //                ExtakeFlip1.setPosition(0);
 //                ExtakeFlip2.setPosition(1);
+//                Turret1.setPosition(1);
+                liftMotorR.setTargetPosition(0);//-790
+                liftMotorL.setTargetPosition(0);//-790
+                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) liftMotorL).setVelocity(537);
+                ((DcMotorEx) liftMotorR).setVelocity(537);
             }
             if(gamepad1.b){
 //                Turret1.setPosition(1);
