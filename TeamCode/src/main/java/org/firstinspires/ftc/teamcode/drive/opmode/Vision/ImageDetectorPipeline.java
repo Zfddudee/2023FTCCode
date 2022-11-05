@@ -9,13 +9,12 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.imgproc.Moments;
 import org.openftc.easyopencv.OpenCvPipeline;
-import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ColorRange;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleThresholdPipeline extends OpenCvPipeline {
+public class ImageDetectorPipeline extends OpenCvPipeline {
     public Scalar lScalar = new Scalar(110,50,50);
     public Scalar uScalar = new Scalar(130,255,255);
 
@@ -24,11 +23,11 @@ public class SimpleThresholdPipeline extends OpenCvPipeline {
     public boolean showOrange = true;
 
     private ArrayList<ColorRange> colors = new ArrayList<>();
-    private int AREA_THRESHOLD = 10000;
+    final int AREA_THRESHOLD = 10000;
 
     private Telemetry telemetry;
 
-    public SimpleThresholdPipeline(Telemetry tela){
+    public ImageDetectorPipeline(Telemetry tela){
         telemetry = tela;
         if(showGreen){
             lScalar = new Scalar(40,50,50);
@@ -55,6 +54,8 @@ public class SimpleThresholdPipeline extends OpenCvPipeline {
                 telemetry.update();
             }
         }
+
+        telemetry.update();
         /*
          * The Mat returned from this method is the
          * one displayed on the viewport.
@@ -85,38 +86,42 @@ public class SimpleThresholdPipeline extends OpenCvPipeline {
 
         int x,y;
         double area = 0.0;
-        List<Moments> moments = new ArrayList<Moments>(contourPoints.size());
-        for (int i = 0; i <= moments.size(); i++) {
-            try {
-                moments.add(i, Imgproc.moments(contourPoints.get(i), false));
-                Moments mom = moments.get(i);
-                x = -1;
-                x = (int) (mom.get_m10() / mom.get_m00());
-                y = (int) (mom.get_m01() / mom.get_m00());
-
-                for (MatOfPoint contour : contourPoints) {
-                    Point[] contourArrayGreen = contour.toArray();
-                    MatOfPoint2f areaPointsGreen = new MatOfPoint2f(contourArrayGreen);
-                    Rect rect = Imgproc.boundingRect(areaPointsGreen);
-                    area = rect.area();
-                    Imgproc.rectangle(mask, rect, new Scalar(50,50,50), 5);
+        //List<Moments> moments = new ArrayList<Moments>(contourPoints.size());
+        if(contourPoints.size() >1) {
+            for (int i = 0; i < contourPoints.size(); i++) {
+                try {
+                    for (MatOfPoint contour : contourPoints) {
+                        area = this.getArea(contour);
+                    }
+                } catch (Exception ex) {
+                    telemetry.addData("EX ", ex.getMessage());
                 }
             }
-            catch(Exception ex){
-                telemetry.addData("EX ", ex.getMessage());
-            }
         }
-        //telemetry.addData("Area: ", area);
+        else if( contourPoints.size() == 1){
+            area = this.getArea(contourPoints.get(0));
+        }
+        else
+            area = 0.0;
+
+        telemetry.addData("Area of: ", area);
         /*
          * Release the reusable Mat so that old data doesn't
          * affect the next step in the current processing
          */
         hsvMat.release();
+        mask.release();
+        hierarchyMat.release();
 
-        if(area > AREA_THRESHOLD)
-            return true;
-        else
-            return false;
+        return area > AREA_THRESHOLD;
     }
 
+    private double getArea(MatOfPoint contour)
+    {
+        Point[] contourArrayGreen = contour.toArray();
+        MatOfPoint2f areaPointsGreen = new MatOfPoint2f(contourArrayGreen);
+        Rect rect = Imgproc.boundingRect(areaPointsGreen);
+        //Imgproc.rectangle(mask, rect, new Scalar(50, 50, 50), 5);
+        return rect.area();
+    }
 }
