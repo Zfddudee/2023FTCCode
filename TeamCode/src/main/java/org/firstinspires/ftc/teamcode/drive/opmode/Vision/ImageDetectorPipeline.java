@@ -13,7 +13,6 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class ImageDetectorPipeline extends OpenCvPipeline {
     public Scalar lScalar = new Scalar(110,50,50);
     public Scalar uScalar = new Scalar(130,255,255);
@@ -26,6 +25,8 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
     final int AREA_THRESHOLD = 10000;
 
     private Telemetry telemetry;
+
+    public String ColorSeen = "";
 
     public ImageDetectorPipeline(Telemetry tela){
         telemetry = tela;
@@ -50,6 +51,7 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
     public Mat processFrame(Mat input) {
         for(ColorRange cr : colors){
             if(this.isColor(input, cr.Lower, cr.Upper)) {
+                this.ColorSeen = cr.Color;
                 telemetry.addData("Color Seen: ", cr.Color);
                 telemetry.update();
             }

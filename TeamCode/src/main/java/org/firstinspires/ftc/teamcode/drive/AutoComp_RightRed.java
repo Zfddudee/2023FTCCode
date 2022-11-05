@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.opmode.Vision.VariableTunerTest;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -16,7 +16,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class AutoComp_RightRed {
 
-    @Autonomous(name = "AutoComp_LeftRed", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
+    @Autonomous(name = "AutoComp_RightRed", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
     public class LeftBlue extends LinearOpMode {
 
         private DcMotor Lift;
@@ -26,19 +26,17 @@ public class AutoComp_RightRed {
         private Servo TapeLeftRight;
 
 
-
-
         OpenCvCamera webcam;
-        VariableTunerTest pipeline;
+        ImageDetectorPipeline pipeline;
+
         @Override
-        public void runOpMode() throws InterruptedException{
+        public void runOpMode() throws InterruptedException {
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
             Lift = hardwareMap.get(DcMotor.class, "LiftMotor");
             Intake = hardwareMap.get(DcMotor.class, "IntakeMotor");
             Bucket = hardwareMap.get(Servo.class, "Bucket_Servo");
             TapeUpDown = hardwareMap.get(Servo.class, "tapeUpDown");
             TapeLeftRight = hardwareMap.get(Servo.class, "tapeLeftRight");
-
 
 
             //start bot at pose x = 30, y = 64, heading 90 degrees
@@ -97,7 +95,7 @@ public class AutoComp_RightRed {
             // OR...  Do Not Activate the Camera Monitor View
             //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-            pipeline = new VariableTunerTest(telemetry);
+            pipeline = new ImageDetectorPipeline(telemetry);
             webcam.setPipeline(pipeline);
 
             webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -117,12 +115,13 @@ public class AutoComp_RightRed {
             //drive.trajectoryBuilder(new Pose2d()).addTemporalMarker(3, () -> {Bucket.setPosition(intaking);}).build();
 //.UNSTABLE_addTemporalMarkerOffset(0, () -> )
             //trajectory0
+            waitForStart();
             TrajectorySequence Trajectory0 = drive.trajectorySequenceBuilder(startPose)
 
                     // This goes from the origin to the first extake position
                     .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d2)))
-                    .lineToSplineHeading(new Pose2d(c1,c3, Math.toRadians(d2)))
-                    .splineToConstantHeading(new Vector2d(c4,c5), Math.toRadians(d1))
+                    .lineToSplineHeading(new Pose2d(c1, c3, Math.toRadians(d2)))
+                    .splineToConstantHeading(new Vector2d(c4, c5), Math.toRadians(d1))
                     .lineToSplineHeading(new Pose2d(c6, c5, Math.toRadians(d2)))
 
                     .waitSeconds(1)
@@ -139,15 +138,15 @@ public class AutoComp_RightRed {
 
                     // This is the movement for extake #4 and #5
                     // DO THE INTAKE AND EXTAKE MOTIONS TWICE FOR THIS STEP BECAUSE POSITION STAYS THE SAME FOR TWO ROUNDS
-                    .lineToSplineHeading(new Pose2d(c9,c5, Math.toRadians(d2)))
+                    .lineToSplineHeading(new Pose2d(c9, c5, Math.toRadians(d2)))
 
                     .waitSeconds(2)
 
                     .build();
 
             TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(endPose)
-                    .lineToSplineHeading(new Pose2d(c10, c5, Math.toRadians( d2)))
-                    .lineToSplineHeading(new Pose2d(c11,c5, Math.toRadians(d4)))
+                    .lineToSplineHeading(new Pose2d(c10, c5, Math.toRadians(d2)))
+                    .lineToSplineHeading(new Pose2d(c11, c5, Math.toRadians(d4)))
                     .splineToConstantHeading(new Vector2d(c12, c13), Math.toRadians(d3))
                     .lineToSplineHeading(new Pose2d(c12, c14, Math.toRadians(d4)))
 
@@ -167,19 +166,14 @@ public class AutoComp_RightRed {
 
                     .build();
 
-            waitForStart();
-            if(pipeline.Last == 0) {
+            if (pipeline.ColorSeen == "Green") {
                 drive.followTrajectorySequence(TrajectoryX);
 
-            }
-            else if(pipeline.Last == 1) {
+            } else if (pipeline.ColorSeen == "Orange") {
                 drive.followTrajectorySequence(TrajectoryY);
 
-            }
-
-            else if(pipeline.Last == 2) {
+            } else if (pipeline.ColorSeen == "Purple") {
                 drive.followTrajectorySequence(TrajectoryZ);
-
             }
             while (opModeIsActive()) {
                 // telemetry.addData("placement]", Pipeline.Last);
@@ -187,12 +181,8 @@ public class AutoComp_RightRed {
                 //sleep(50);
 
 
-
-
             }
         }
     }
-
-
 }
 

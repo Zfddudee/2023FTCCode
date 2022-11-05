@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.opmode.Vision.VariableTunerTest;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
+//import org.firstinspires.ftc.teamcode.drive.opmode.Vision.VariableTunerTest;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -25,11 +26,9 @@ public class AutoComp_LeftBlue {
         private Servo TapeUpDown;
         private Servo TapeLeftRight;
 
-
-
-
         OpenCvCamera webcam;
-        VariableTunerTest pipeline;
+        //VariableTunerTest pipeline;
+        ImageDetectorPipeline pipeline;
         @Override
         public void runOpMode() throws InterruptedException{
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -38,8 +37,6 @@ public class AutoComp_LeftBlue {
             Bucket = hardwareMap.get(Servo.class, "Bucket_Servo");
             TapeUpDown = hardwareMap.get(Servo.class, "tapeUpDown");
             TapeLeftRight = hardwareMap.get(Servo.class, "tapeLeftRight");
-
-
 
             //start bot at pose x = 30, y = 64, heading 90 degrees
             Pose2d startPose = new Pose2d(35, 62, Math.toRadians(270));
@@ -87,8 +84,7 @@ public class AutoComp_LeftBlue {
             double c16 = 14;
             // This is an x value
             double c17 = 12;
-            
-            
+
             drive.setPoseEstimate(startPose);
 
             int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -97,7 +93,8 @@ public class AutoComp_LeftBlue {
             // OR...  Do Not Activate the Camera Monitor View
             //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-            pipeline = new VariableTunerTest(telemetry);
+            //pipeline = new VariableTunerTest(telemetry);
+            pipeline = new ImageDetectorPipeline(telemetry);
             webcam.setPipeline(pipeline);
 
             webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -113,6 +110,7 @@ public class AutoComp_LeftBlue {
                                          }
 
             );
+            waitForStart();
 
             //drive.trajectoryBuilder(new Pose2d()).addTemporalMarker(3, () -> {Bucket.setPosition(intaking);}).build();
 //.UNSTABLE_addTemporalMarkerOffset(0, () -> )
@@ -167,17 +165,17 @@ public class AutoComp_LeftBlue {
 
                             .build();
 
-            waitForStart();
-            if(pipeline.Last == 0) {
+
+            if(pipeline.ColorSeen == "Green") {
                 drive.followTrajectorySequence(TrajectoryX);
 
             }
-            else if(pipeline.Last == 1) {
+            else if(pipeline.ColorSeen == "Orange") {
                 drive.followTrajectorySequence(TrajectoryY);
 
             }
 
-            else if(pipeline.Last == 2) {
+            else if(pipeline.ColorSeen == "Purple") {
                 drive.followTrajectorySequence(TrajectoryZ);
 
             }
