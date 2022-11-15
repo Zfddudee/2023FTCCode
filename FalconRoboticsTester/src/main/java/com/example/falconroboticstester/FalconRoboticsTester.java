@@ -214,7 +214,7 @@ public class FalconRoboticsTester {
         else if(mode == Mode.AutoCompLeftBlue) {
             // AUTONOMOUS COMPETITION LEFT BLUE
 
-            v.Init(35, 62, 270, 12, 0, 270);
+            v.Init(35, 61, 270, 12, 0, 270);
 
             v.d1 = 0;
             v.d2 = 180;
@@ -524,46 +524,21 @@ public class FalconRoboticsTester {
             .followTrajectorySequence(drive ->
                     drive.trajectorySequenceBuilder(v.startPose)
 
-                            // This goes from the origin to the first extake position
-                            .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(v.d2)))
-                            .lineToSplineHeading(new Pose2d(v.c1,v.c3, Math.toRadians(v.d2)))
-                            .splineToConstantHeading(new Vector2d(v.c4,v.c5), Math.toRadians(v.d1))
-                            .lineToSplineHeading(new Pose2d(v.c6, v.c5, Math.toRadians(v.d2)))
-
-                            .waitSeconds(1)
-
-                            // This is the movement for extake #2
-                            .lineToSplineHeading(new Pose2d(v.c7, v.c5, Math.toRadians(v.d2)))
-
-                            .waitSeconds(1)
-
-                            // This is the movement for extake #3
-                            .lineToSplineHeading(new Pose2d(v.c8, v.c5, Math.toRadians(v.d2)))
-
-                            .waitSeconds(1)
-
-                            // This is the movement for extake #4 and #5
-                            // DO THE INTAKE AND EXTAKE MOTIONS TWICE FOR THIS STEP BECAUSE POSITION STAYS THE SAME FOR TWO ROUNDS
-                            .lineToSplineHeading(new Pose2d(v.c9,v.c5, Math.toRadians(v.d2)))
-
-                            .waitSeconds(2)
 
                             // TrajectoryX
-                            .lineToSplineHeading(new Pose2d(v.c10, v.c5, Math.toRadians( v.d2)))
-                            .lineToSplineHeading(new Pose2d(v.c11,v.c5, Math.toRadians(v.d4)))
-                            .splineToConstantHeading(new Vector2d(v.c12, v.c13), Math.toRadians(v.d3))
-                            .lineToSplineHeading(new Pose2d(v.c12, v.c14, Math.toRadians(v.d4)))
+                            .lineToSplineHeading(new Pose2d(36, 61, Math.toRadians(270)))
+                            .lineToSplineHeading(new Pose2d(58, 61, Math.toRadians(270)))
+                            .splineToConstantHeading(new Vector2d(60, 59), Math.toRadians(270))
+                            .lineToSplineHeading(new Pose2d(60, 35, Math.toRadians(270)))
 
-                            // TrajectoryY
-//                            .lineToSplineHeading(new Pose2d(v.c15, v.c5, Math.toRadians(v.d4)))
-//                            .splineToConstantHeading(new Vector2d(v.c1, v.c13), Math.toRadians(v.d3))
-//                            .lineToSplineHeading(new Pose2d(v.c1, v.c14, Math.toRadians(v.d4)))
-
-                            // TrajectoryZ
-//                            .lineToSplineHeading(new Pose2d(v.c16, v.c5, Math.toRadians(v.d4)))
-//                            .splineToConstantHeading(new Vector2d(v.c17, v.c13), Math.toRadians(v.d3))
-//                            .lineToSplineHeading(new Pose2d(v.c17, v.c14, Math.toRadians(v.d4)))
-
+//                            // TrajectoryY
+//                          .lineToSplineHeading(new Pose2d(-35,-35, Math.toRadians(90)))
+//
+//                            // TrajectoryZ
+//                            .lineToSplineHeading(new Pose2d(-13,-61, Math.toRadians(90)))
+//                            .splineToConstantHeading(new Vector2d(-11, -59), Math.toRadians(90))
+//                            .lineToSplineHeading(new Pose2d(-11, -35, Math.toRadians(90)))
+//
                             .build()
             );
         myBot.pause();
