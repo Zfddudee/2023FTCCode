@@ -13,8 +13,7 @@ abstract class BaseRobot {
         telemetry = tel;
     }
     public BaseRobot(HardwareMap map){
-        hardwareMap = map;
-        telemetry = null;
+       this(map, null);
     }
 
     protected void LogTelemetry(String caption, Object value){

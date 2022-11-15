@@ -34,6 +34,10 @@ public class Constants {
     public static final double ClawClosed = 0;
     public static final double ClawOpen = 0.9;
 
+    //Claw scale range
+    public static final double ClawLowRange = 0.2;
+    public static final double ClawHighRange = 0.5;
+
     //Extake servo flip values
     public static final double ExtakeFlipIn = 1;
     public static final double ExtakeFlipOut = 0.3;
@@ -60,8 +64,5 @@ public class Constants {
     public static final int LiftHigh = 1150;
     public static final int LiftMid = 400;
     public static final int LiftLow = 0;
-
-
-
 
 }
