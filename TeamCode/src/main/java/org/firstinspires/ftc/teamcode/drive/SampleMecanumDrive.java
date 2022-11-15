@@ -19,11 +19,14 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -72,6 +75,11 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
+
+    public DcMotor IntakeSlideMotor, IntakeFlipMotor, liftMotorR, liftMotorL;
+    public CRServo IntakeWheels;
+    public Servo IntakeFlip, Stomp, OdoRetractRight, OdoRetractLeft, OdoRetractRear, ExtakeFlip1, ExtakeFlip2, Turret1, SlideExtension, Claw;
+    public ColorRangeSensor IntakeSensor;
 
     private BNO055IMU imu;
     private VoltageSensor batteryVoltageSensor;
@@ -122,6 +130,24 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        IntakeFlipMotor = hardwareMap.get(DcMotor.class, "IntakeFlipMotor");
+        IntakeSlideMotor = hardwareMap.get(DcMotor.class, "IntakeSlideMotor");
+        liftMotorL = hardwareMap.get(DcMotor.class, "LiftMotorL");
+        liftMotorR = hardwareMap.get(DcMotor.class, "LiftMotorR");
+
+        IntakeWheels = hardwareMap.get(CRServo.class, "IntakeWheels");
+        IntakeFlip = hardwareMap.get(Servo.class, "IntakeFlip");
+        Stomp = hardwareMap.get(Servo.class, "Stomp");
+        OdoRetractRight = hardwareMap.get(Servo.class, "OdoRetractRight");
+        OdoRetractLeft = hardwareMap.get(Servo.class, "OdoRetractLeft");
+        OdoRetractRear = hardwareMap.get(Servo.class, "OdoRetractRear");
+        ExtakeFlip1 = hardwareMap.get(Servo.class, "ExtakeFlip1");
+        ExtakeFlip2 = hardwareMap.get(Servo.class, "ExtakeFlip2");
+        Turret1 = hardwareMap.get(Servo.class, "Turret1");
+        SlideExtension = hardwareMap.get(Servo.class, "SlideExtension");
+        Claw = hardwareMap.get(Servo.class, "Claw");
+
+        IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -142,9 +168,20 @@ public class SampleMecanumDrive extends MecanumDrive {
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
-
+        //Reversing motor dirrections as needed
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
+        IntakeSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        IntakeFlipMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //setting zero power behaviors
+        IntakeSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        IntakeFlipMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //setting servo scale ranges
+        Claw.scaleRange(0.2, 0.5);
+
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
         setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));

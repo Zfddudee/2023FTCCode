@@ -72,7 +72,7 @@ public class Testing extends LinearOpMode {
         IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
 
         liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
-        Claw.scaleRange(0.3, 0.5);
+        Claw.scaleRange(0, 0.5);
 //        SlideExtension.scaleRange(0, 0.5);
 //        ExtakeFlip1.scaleRange(0, 0.7);
 //        ExtakeFlip2.scaleRange(0, 0.7);
@@ -160,12 +160,12 @@ public class Testing extends LinearOpMode {
             }
 
             if (gamepad1.left_bumper){
-                Claw.setPosition(0.4);
+                Claw.setPosition(0.5);
                 SlideExtension.setPosition(500);
             }
             if(gamepad1.right_bumper){
 //open                Claw.setPosition(0.5);
-                        Claw.setPosition(0);
+                        Claw.setPosition(0.2);
             }
 
 //            drive.setWeightedDrivePower(
