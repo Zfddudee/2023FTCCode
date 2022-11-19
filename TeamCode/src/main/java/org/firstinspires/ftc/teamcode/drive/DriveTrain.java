@@ -26,7 +26,6 @@ public class DriveTrain extends BaseRobot {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
     private VoltageSensor batteryVoltageSensor;
-    //TODO need to implement Stomp, OdoRetractRight, OdoRetractLeft, and odoRetractRear
     private Servo Stomp, OdoRetractRight, OdoRetractLeft, OdoRetractRear;
     private BNO055IMU imu;
     //endregion
@@ -113,7 +112,7 @@ public class DriveTrain extends BaseRobot {
         setDrivePower(vel);
     }
 
-    //region Private Methods
+    //region Private Methods to control moving the robot
     private void setDrivePower( Pose2d drivePower) {
         List<Double> powers = MecanumKinematics.robotToWheelVelocities(
                 drivePower,
@@ -154,4 +153,57 @@ public class DriveTrain extends BaseRobot {
         rightFront.setPower(v3);
     }
     //endregion
+
+    ///region Odometry Wheel Control
+    public void OdoSideWheelsUp() {
+        OdoRetractLeft.setPosition(Constants.OdoUp);
+        OdoRetractRight.setPosition(Constants.OdoUp);
+    }
+
+    public void OdoSideWheelsDown() {
+        OdoRetractLeft.setPosition(Constants.OdoDown);
+        OdoRetractRight.setPosition(Constants.OdoDown);
+    }
+
+    public void OdoRearWheelUp() {
+        OdoRetractRear.setPosition(Constants.OdoUp);
+    }
+
+    public void OdoRearWheelDown() {
+        OdoRetractRear.setPosition(Constants.OdoDown);
+    }
+
+    public double GetRightOdoPosition() {
+        return OdoRetractRight.getPosition();
+    }
+
+    public double GetLeftOdoPosition() {
+        return OdoRetractLeft.getPosition();
+    }
+
+    public double GetRearOdoPosition() {
+        return OdoRetractRear.getPosition();
+    }
+    ///endregion
+
+    public double GetRawExternalHeading() {
+        return imu.getAngularOrientation().firstAngle;
+    }
+
+    public double GetExternalHeadingVelocity() {
+        // To work around an SDK bug, use -zRotationRate in place of xRotationRate
+        // and -xRotationRate in place of zRotationRate (yRotationRate behaves as
+        // expected). This bug does NOT affect orientation.
+        //
+        // See https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/251 for details.
+        return (double) -imu.getAngularVelocity().xRotationRate;
+    }
+
+    public void StompDown() {
+        Stomp.setPosition(Constants.StompUp);
+    }
+
+    public void StompUp() {
+        Stomp.setPosition(Constants.StompDown);
+    }
 }

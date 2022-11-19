@@ -66,4 +66,8 @@ public class Constants {
     public static final int LiftMid = 400;
     public static final int LiftLow = 0;
 
+    //Intake wheels
+    public static final double IntakeWheelsIn = 0.5;
+    public static final double IntakeWheelsOut = -1.0;
+
 }

@@ -18,6 +18,7 @@ public class Bertha{
     private DriveTrain driveTrain;
     private Turret turret;
     private Intake intake;
+
     //endregion
 
     public Bertha(HardwareMap map, Telemetry tel){
@@ -37,15 +38,7 @@ public class Bertha{
     public void RetractFlipMotor(){
         //TODO: Implement retract flip motor
     }
-//    public void StartIntakeWheels(Direction direction){
-//        //TODO: Implement code to move intake wheels
-//    }
-//    public void StopIntakeWheels(){
-//        //TODO: Stop intake wheels
-//    }
-//    public void SetClawDirection(ClawDirection direction){
-//        //TODO: set the claw direction
-//    }
+
     public void MoveLift(Lift.LiftHeight height) throws Exception {
         lift.MoveLift(height);
     }
