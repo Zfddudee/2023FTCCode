@@ -5,11 +5,13 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCO
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -24,6 +26,9 @@ public class DriveTrain extends BaseRobot {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
     private VoltageSensor batteryVoltageSensor;
+    //TODO need to implement Stomp, OdoRetractRight, OdoRetractLeft, and odoRetractRear
+    private Servo Stomp, OdoRetractRight, OdoRetractLeft, OdoRetractRear;
+    private BNO055IMU imu;
     //endregion
 
     //region Constants & Statics
@@ -37,7 +42,7 @@ public class DriveTrain extends BaseRobot {
 
     public DriveTrain(HardwareMap map, Telemetry tel) {
         super(map, tel);
-        MapHardware();
+//        MapHardware();
     }
 
     @Override
@@ -47,6 +52,11 @@ public class DriveTrain extends BaseRobot {
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+
+        Stomp = hardwareMap.get(Servo.class, "Stomp");
+        OdoRetractRight = hardwareMap.get(Servo.class, "OdoRetractRight");
+        OdoRetractLeft = hardwareMap.get(Servo.class, "OdoRetractLeft");
+        OdoRetractRear = hardwareMap.get(Servo.class, "OdoRetractRear");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -69,6 +79,11 @@ public class DriveTrain extends BaseRobot {
         if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(parameters);
     }
 
     /**

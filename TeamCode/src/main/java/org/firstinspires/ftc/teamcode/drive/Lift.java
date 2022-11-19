@@ -40,6 +40,8 @@ public class Lift extends BaseRobot{
             throw new Exception("Lift velocity exceeds maximum range");
         if(position > Constants.LiftHigh)
             position = Constants.LiftHigh;
+        if(position < Constants.LiftLow)
+            position = Constants.LiftLow;
 
         liftMotorR.setTargetPosition(position);
         liftMotorL.setTargetPosition(position);
@@ -57,6 +59,11 @@ public class Lift extends BaseRobot{
      */
     public void MoveLift(int positionOffset) throws Exception {
         int newPosition = currentPosition + positionOffset;
+        if(newPosition > Constants.LiftHigh)
+            newPosition = Constants.LiftHigh;
+        if(newPosition < Constants.LiftLow)
+            newPosition = Constants.LiftLow;
+
         int velocity = (positionOffset > 0)? Constants.HighVelocity : Constants.LowVelocity;
         MoveLift(newPosition, velocity);
         currentPosition = newPosition;

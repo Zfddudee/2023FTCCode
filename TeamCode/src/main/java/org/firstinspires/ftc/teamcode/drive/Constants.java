@@ -41,6 +41,7 @@ public class Constants {
     //Extake servo flip values
     public static final double ExtakeFlipIn = 1;
     public static final double ExtakeFlipOut = 0.3;
+    public static final double ExtakeFlipLow =  0.5; //TODO Varify this variable is accurate
 
     //Extake servo slide values
     public static final double SlideOut = 0;

@@ -11,6 +11,7 @@ abstract class BaseRobot {
     public BaseRobot(HardwareMap map, Telemetry tel){
         hardwareMap = map;
         telemetry = tel;
+        MapHardware();
     }
     public BaseRobot(HardwareMap map){
        this(map, null);
