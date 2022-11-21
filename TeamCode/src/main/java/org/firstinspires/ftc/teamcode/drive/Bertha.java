@@ -34,6 +34,8 @@ public class Bertha{
 
     public void ExtendFlipMotor(){
         //TODO: Implement code to extend flip motor
+        
+
     }
     public void RetractFlipMotor(){
         //TODO: Implement retract flip motor

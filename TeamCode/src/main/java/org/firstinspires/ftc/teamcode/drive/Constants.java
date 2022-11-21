@@ -41,7 +41,7 @@ public class Constants {
     //Extake servo flip values
     public static final double ExtakeFlipIn = 1;
     public static final double ExtakeFlipOut = 0.3;
-    public static final double ExtakeFlipLow =  0.5; //TODO Varify this variable is accurate
+    public static final double ExtakeFlipLow =  0.8; //TODO Varify this variable is accurate
 
     //Extake servo slide values
     public static final double SlideOut = 0;
@@ -64,10 +64,11 @@ public class Constants {
     //Lift motor values
     public static final int LiftHigh = 1150;
     public static final int LiftMid = 400;
-    public static final int LiftLow = 0;
+    public static final int LiftDefault = 0;
 
     //Intake wheels
     public static final double IntakeWheelsIn = 0.5;
     public static final double IntakeWheelsOut = -1.0;
+    public static final double IntakeWheelStop = 0;
 
 }

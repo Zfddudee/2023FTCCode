@@ -73,7 +73,7 @@ public class Intake extends BaseRobot {
     /**
      * This controls the motor to move the slide in a position to exchange
      */
-    public void SetSlideMotorExchange() {
+    public void SlideMotorExchange() {
         SetSlidePosition(Constants.IntakeExchanging);
     }
 
@@ -150,6 +150,13 @@ public class Intake extends BaseRobot {
      */
     public void IntakeSpinOut() {
         IntakeWheels.setPower(Constants.IntakeWheelsOut);
+    }
+
+    /**
+     * This stops the servo that spins the intake wheels
+     */
+    public void IntakeSpinStop() {
+        IntakeWheels.setPower(Constants.IntakeWheelStop);
     }
     ///endregion
 }

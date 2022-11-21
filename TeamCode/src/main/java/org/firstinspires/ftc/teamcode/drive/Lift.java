@@ -13,7 +13,7 @@ public class Lift extends BaseRobot{
     public enum LiftHeight{
         High,
         Medium,
-        Low
+        Default
     }
 
     private DcMotor liftMotorR, liftMotorL;
@@ -24,9 +24,9 @@ public class Lift extends BaseRobot{
         MapHardware();
     }
 
-    public void MoveLift(LiftHeight height) throws Exception {
-         if(height == LiftHeight.Low)
-            MoveLift(Constants.LiftLow, Constants.LowVelocity);
+    public void MoveLift(LiftHeight height) {
+         if(height == LiftHeight.Default)
+            MoveLift(Constants.LiftDefault, Constants.LowVelocity);
         else if(height == LiftHeight.High)
             MoveLift(Constants.LiftHigh, Constants.HighVelocity);
         else {
@@ -35,13 +35,13 @@ public class Lift extends BaseRobot{
             MoveLift(Constants.LiftMid, velocity);
         }
     }
-    public void MoveLift(int position, int velocity) throws Exception {
+    public void MoveLift(int position, int velocity) {
         if(velocity > Constants.HighVelocity)
-            throw new Exception("Lift velocity exceeds maximum range");
+            velocity = Constants.HighVelocity;
         if(position > Constants.LiftHigh)
             position = Constants.LiftHigh;
-        if(position < Constants.LiftLow)
-            position = Constants.LiftLow;
+        if(position < Constants.LiftDefault)
+            position = Constants.LiftDefault;
 
         liftMotorR.setTargetPosition(position);
         liftMotorL.setTargetPosition(position);
@@ -55,14 +55,13 @@ public class Lift extends BaseRobot{
     /**
      * moves the lift by an offset that's passed in
      * @param positionOffset
-     * @throws Exception
      */
-    public void MoveLift(int positionOffset) throws Exception {
+    public void MoveLift(int positionOffset) {
         int newPosition = currentPosition + positionOffset;
         if(newPosition > Constants.LiftHigh)
             newPosition = Constants.LiftHigh;
-        if(newPosition < Constants.LiftLow)
-            newPosition = Constants.LiftLow;
+        if(newPosition < Constants.LiftDefault)
+            newPosition = Constants.LiftDefault;
 
         int velocity = (positionOffset > 0)? Constants.HighVelocity : Constants.LowVelocity;
         MoveLift(newPosition, velocity);
