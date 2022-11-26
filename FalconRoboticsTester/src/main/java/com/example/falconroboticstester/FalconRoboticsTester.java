@@ -409,17 +409,17 @@ public class FalconRoboticsTester {
     public static void main(String[] args) {
 
         //Vars v = GetVars(Mode.LeftRed);
-        //Vars v = GetVars(Mode.RightRed);
+        Vars v = GetVars(Mode.RightRed);
         //Vars v = GetVars(Mode.LeftBlue);
         //Vars v = GetVars(Mode.RightBlue);
-        Vars v = GetVars(Mode.AutoCompLeftBlue);
+        //Vars v = GetVars(Mode.AutoCompLeftBlue);
         //Vars v = GetVars(Mode.AutoCompLeftRed);
         //Vars v = GetVars(Mode.AutoCompRightBlue);
         //Vars v = GetVars(Mode.AutoCompRightRed);
 
         MeepMeep meepMeep = new MeepMeep(800);
 
- /*
+// /*
         // THIS CODE IS FOR LEFT BLUE - RIGHT BLUE - LEFT RED - RIGHT RED
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -512,10 +512,10 @@ public class FalconRoboticsTester {
     }
 }
 
- */
 
 
- // /*
+
+  /*
 
     // THIS IS FOR AUTOCOMP_LEFTBLUE - AUTOCOMP_LEFTRED - AUTOCOMP_RIGHTBLUE - AUTOCOMP_RIGHTRED
     RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)

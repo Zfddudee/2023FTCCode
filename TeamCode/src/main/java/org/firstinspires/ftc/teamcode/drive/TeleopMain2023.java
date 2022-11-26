@@ -197,8 +197,11 @@ public class TeleopMain2023 extends LinearOpMode {
                         //Retract here as well
                         drive.Turret1.setPosition(Constants.TurretDefault);
                         drive.SlideExtension.setPosition(Constants.SlideIn);
+
+                        //TODO change name from bottom to default
                         drive.liftMotorR.setTargetPosition(Constants.LiftBottom);//-790
                         drive.liftMotorL.setTargetPosition(Constants.LiftBottom);//-790
+
                         drive.liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         drive.liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         ((DcMotorEx) drive.liftMotorL).setVelocity(Constants.LowVelocity);
@@ -221,8 +224,11 @@ public class TeleopMain2023 extends LinearOpMode {
                     drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeIn);
                     drive.IntakeFlipMotor.setTargetPosition(Constants.IntakeFlipsIn);
                     drive.SlideExtension.setPosition(Constants.SlideIn);
-                    drive.liftMotorL.setTargetPosition(Constants.LiftBottom);
+                   
+                   //TODO change name from bottom to default
+                   drive.liftMotorL.setTargetPosition(Constants.LiftBottom);
                     drive.liftMotorR.setTargetPosition(Constants.LiftBottom);
+
                     drive.Claw.setPosition(Constants.ClawOpen);
                     drive.ExtakeFlip2.setPosition(Constants.ExtakeFlipIn);
                     cycleState = CycleState.START;

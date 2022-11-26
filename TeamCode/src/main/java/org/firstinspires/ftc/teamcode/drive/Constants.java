@@ -13,7 +13,7 @@ public class Constants {
     //Boolean for weather or not turret is turning to the left
     public static boolean Left = false;
 
-    //Values for velocities of motors
+    //Velocity for the slide vertical movement
     public static int HighVelocity = 2700;
     public static int LowVelocity = 600;
 
@@ -67,7 +67,9 @@ public class Constants {
     public static int LiftLow = -200;
     public static int LiftBottom = 0;
 
-
-
+ //Intake wheels
+    public static  double IntakeWheelsIn = 0.5;
+    public static  double IntakeWheelsOut = -1.0;
+    public static  double IntakeWheelStop = 0;
 
 }
