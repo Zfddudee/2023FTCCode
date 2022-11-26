@@ -46,7 +46,6 @@ public class Testing extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Lift lift = new Lift();
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         IntakeFlipMotor = hardwareMap.get(DcMotor.class, "IntakeFlipMotor");
@@ -137,8 +136,8 @@ public class Testing extends LinearOpMode {
 //                ExtakeFlip1.setPosition(0);
 //                ExtakeFlip2.setPosition(1);
 //                Turret1.setPosition(1);
-                liftMotorR.setTargetPosition(Constants.LiftBottom);//-790
-                liftMotorL.setTargetPosition(Constants.LiftBottom);//-790
+                liftMotorR.setTargetPosition(Constants.LiftDefault);//-790
+                liftMotorL.setTargetPosition(Constants.LiftDefault);//-790
                 liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 ((DcMotorEx) liftMotorL).setVelocity(Constants.LowVelocity);
@@ -205,8 +204,8 @@ public class Testing extends LinearOpMode {
             if(gamepad1.share){
                 drive.SlideExtension.setPosition(Constants.SlideIn);
                 drive.SlideExtension2.setPosition(Constants.SlideIn2);
-                liftMotorR.setTargetPosition(Constants.LiftBottom);//-790
-                liftMotorL.setTargetPosition(Constants.LiftBottom);//-790
+                liftMotorR.setTargetPosition(Constants.LiftDefault);//-790
+                liftMotorL.setTargetPosition(Constants.LiftDefault);//-790
                 liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 ((DcMotorEx) liftMotorL).setVelocity(Constants.LowVelocity);

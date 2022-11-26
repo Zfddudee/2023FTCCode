@@ -199,8 +199,8 @@ public class TeleopMain2023 extends LinearOpMode {
                         drive.SlideExtension.setPosition(Constants.SlideIn);
 
                         //TODO change name from bottom to default
-                        drive.liftMotorR.setTargetPosition(Constants.LiftBottom);//-790
-                        drive.liftMotorL.setTargetPosition(Constants.LiftBottom);//-790
+                        drive.liftMotorR.setTargetPosition(Constants.LiftDefault);//-790
+                        drive.liftMotorL.setTargetPosition(Constants.LiftDefault);//-790
 
                         drive.liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         drive.liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -226,8 +226,8 @@ public class TeleopMain2023 extends LinearOpMode {
                     drive.SlideExtension.setPosition(Constants.SlideIn);
                    
                    //TODO change name from bottom to default
-                   drive.liftMotorL.setTargetPosition(Constants.LiftBottom);
-                    drive.liftMotorR.setTargetPosition(Constants.LiftBottom);
+                   drive.liftMotorL.setTargetPosition(Constants.LiftDefault);
+                    drive.liftMotorR.setTargetPosition(Constants.LiftDefault);
 
                     drive.Claw.setPosition(Constants.ClawOpen);
                     drive.ExtakeFlip2.setPosition(Constants.ExtakeFlipIn);
