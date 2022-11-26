@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.acmerobotics.dashboard.config.Config;
 
 @Config
-public class Constants {
+public class ConstantsBackup {
     TeleopMain2023 Cases = new TeleopMain2023();
 
     //Boolean for if stomp is available to raise/lower
@@ -13,7 +13,7 @@ public class Constants {
     //Boolean for weather or not turret is turning to the left
     public static boolean Left = false;
 
-    //Velocity for the slide vertical movement
+    //Values for velocities of motors
     public static int HighVelocity = 2700;
     public static int LowVelocity = 600;
 
@@ -67,9 +67,7 @@ public class Constants {
     public static int LiftLow = -200;
     public static int LiftBottom = 0;
 
- //Intake wheels
-    public static  double IntakeWheelsIn = 0.5;
-    public static  double IntakeWheelsOut = -1.0;
-    public static  double IntakeWheelStop = 0;
+
+
 
 }
