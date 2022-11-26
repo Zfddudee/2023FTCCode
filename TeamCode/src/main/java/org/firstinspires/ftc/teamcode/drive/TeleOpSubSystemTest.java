@@ -80,6 +80,12 @@ public class TeleOpSubSystemTest  extends LinearOpMode {
                 gamepad1.left_stick_x,
                -gamepad1.right_stick_x
             ));
+//
+//            if(gamepad2.dpad_up || gamepad2.dpad_down)
+//                lift.MoveLift((gamepad2.dpad_up) ? 1 : -1);
+//
+//            if(gamepad2.dpad_left || gamepad2.dpad_right)
+//                intake.
         }
     }
 }

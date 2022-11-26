@@ -17,7 +17,6 @@ public class Lift extends BaseRobot{
     }
 
     private DcMotor liftMotorR, liftMotorL;
-    private int currentPosition;
 
     public Lift(HardwareMap map, Telemetry tel){
         super(map, tel);
@@ -31,7 +30,7 @@ public class Lift extends BaseRobot{
             MoveLift(Constants.LiftHigh, Constants.HighVelocity);
         else {
             // to determine when to move fast going up, and slow moving down
-            int velocity = (currentPosition > Constants.LiftMid)? Constants.LowVelocity : Constants.HighVelocity;
+            int velocity = (liftMotorL.getCurrentPosition() > Constants.LiftMid)? Constants.LowVelocity : Constants.HighVelocity;
             MoveLift(Constants.LiftMid, velocity);
         }
     }
@@ -49,7 +48,8 @@ public class Lift extends BaseRobot{
         liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx) liftMotorL).setVelocity(velocity);
         ((DcMotorEx) liftMotorR).setVelocity(velocity);
-        currentPosition = position;
+
+        this.LogTelemetry("Current Lift Position %s", liftMotorR.getCurrentPosition());
     }
 
     /**
@@ -57,15 +57,13 @@ public class Lift extends BaseRobot{
      * @param positionOffset
      */
     public void MoveLift(int positionOffset) {
-        int newPosition = currentPosition + positionOffset;
+        int newPosition = liftMotorR.getCurrentPosition() + positionOffset;
         if(newPosition > Constants.LiftHigh)
             newPosition = Constants.LiftHigh;
-        if(newPosition < Constants.LiftDefault)
+        else if(newPosition < Constants.LiftDefault)
             newPosition = Constants.LiftDefault;
-
         int velocity = (positionOffset > 0)? Constants.HighVelocity : Constants.LowVelocity;
         MoveLift(newPosition, velocity);
-        currentPosition = newPosition;
     }
 
     @Override
