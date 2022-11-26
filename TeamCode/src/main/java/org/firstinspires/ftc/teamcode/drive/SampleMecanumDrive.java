@@ -78,7 +78,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public DcMotor IntakeSlideMotor, IntakeFlipMotor, liftMotorR, liftMotorL;
     public CRServo IntakeWheels;
-    public Servo IntakeFlip, Stomp, OdoRetractRight, OdoRetractLeft, OdoRetractRear, ExtakeFlip1, ExtakeFlip2, Turret1, SlideExtension, Claw;
+    public Servo IntakeFlip, Stomp, OdoRetractRight, OdoRetractLeft, OdoRetractRear, ExtakeFlip1, ExtakeFlip2, Turret1, SlideExtension, SlideExtension2, Claw;
     public ColorRangeSensor IntakeSensor;
 
     private BNO055IMU imu;
@@ -130,10 +130,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-        IntakeFlipMotor = hardwareMap.get(DcMotor.class, "IntakeFlipMotor");
-        IntakeSlideMotor = hardwareMap.get(DcMotor.class, "IntakeSlideMotor");
-        liftMotorL = hardwareMap.get(DcMotor.class, "LiftMotorL");
-        liftMotorR = hardwareMap.get(DcMotor.class, "LiftMotorR");
+        IntakeFlipMotor = hardwareMap.get(DcMotorEx.class, "IntakeFlipMotor");
+        IntakeSlideMotor = hardwareMap.get(DcMotorEx.class, "IntakeSlideMotor");
+        liftMotorL = hardwareMap.get(DcMotorEx.class, "LiftMotorL");
+        liftMotorR = hardwareMap.get(DcMotorEx.class, "LiftMotorR");
 
         IntakeWheels = hardwareMap.get(CRServo.class, "IntakeWheels");
         IntakeFlip = hardwareMap.get(Servo.class, "IntakeFlip");
@@ -145,6 +145,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         ExtakeFlip2 = hardwareMap.get(Servo.class, "ExtakeFlip2");
         Turret1 = hardwareMap.get(Servo.class, "Turret1");
         SlideExtension = hardwareMap.get(Servo.class, "SlideExtension");
+        SlideExtension2 = hardwareMap.get(Servo.class, "SlideExtension2");
         Claw = hardwareMap.get(Servo.class, "Claw");
 
         IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
@@ -169,6 +170,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: reverse any motors using DcMotor.setDirection()
         //Reversing motor dirrections as needed
+
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -179,8 +181,6 @@ public class SampleMecanumDrive extends MecanumDrive {
         IntakeFlipMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //setting servo scale ranges
-        Claw.scaleRange(0.2, 0.5);
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));

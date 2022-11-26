@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.drive;
 
-import android.transition.Slide;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,7 +11,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Config
@@ -38,8 +35,8 @@ public class Testing extends LinearOpMode {
     public Servo ExtakeFlip1;
     public Servo ExtakeFlip2;
     public Servo Turret1;
-    public Servo Turret2;
     public Servo SlideExtension;
+    public Servo SlideExtension2;
     public Servo Claw;
 
     public ColorRangeSensor IntakeSensor;
@@ -49,6 +46,7 @@ public class Testing extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        Lift lift = new Lift();
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         IntakeFlipMotor = hardwareMap.get(DcMotor.class, "IntakeFlipMotor");
@@ -65,14 +63,14 @@ public class Testing extends LinearOpMode {
         ExtakeFlip1 = hardwareMap.get(Servo.class, "ExtakeFlip1");
         ExtakeFlip2 = hardwareMap.get(Servo.class, "ExtakeFlip2");
         Turret1 = hardwareMap.get(Servo.class, "Turret1");
-        Turret2 = hardwareMap.get(Servo.class, "Turret2");
         SlideExtension = hardwareMap.get(Servo.class, "SlideExtension");
+        SlideExtension2 = hardwareMap.get(Servo.class, "SlideExtension2");
         Claw = hardwareMap.get(Servo.class, "Claw");
 
         IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
 
         liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
-        Claw.scaleRange(0, 0.5);
+//        Claw.scaleRange(0, 0.5);
 //        SlideExtension.scaleRange(0, 0.5);
 //        ExtakeFlip1.scaleRange(0, 0.7);
 //        ExtakeFlip2.scaleRange(0, 0.7);
@@ -84,7 +82,7 @@ public class Testing extends LinearOpMode {
         IntakeFlipMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         IntakeSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         IntakeFlipMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        double turretPose = 0.5;
 
 
 
@@ -92,6 +90,7 @@ public class Testing extends LinearOpMode {
         waitForStart();
 
         while (!isStopRequested()) {
+            drive.Turret1.setPosition(turretPose);
             if(gamepad1.options){
                 IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 IntakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -100,12 +99,12 @@ public class Testing extends LinearOpMode {
             }
             if(gamepad1.a){
 
-                liftMotorR.setTargetPosition(1000);//-790
-                liftMotorL.setTargetPosition(1000);//-790
+                liftMotorR.setTargetPosition(Constants.LiftHigh);//-790
+                liftMotorL.setTargetPosition(Constants.LiftHigh);//-790
                 liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) liftMotorL).setVelocity(2700);
-                ((DcMotorEx) liftMotorR).setVelocity(2700);
+                ((DcMotorEx) liftMotorL).setVelocity(Constants.HighVelocity);
+                ((DcMotorEx) liftMotorR).setVelocity(Constants.HighVelocity);
 //                ExtakeFlip2.setPosition(1);
 
 
@@ -122,12 +121,12 @@ public class Testing extends LinearOpMode {
 //                IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //                ((DcMotorEx) IntakeFlipMotor).setVelocity(2700);
 //                Turret2.setPosition(1);
-                liftMotorR.setTargetPosition(300);//-790
-                liftMotorL.setTargetPosition(300);//-790
+                liftMotorR.setTargetPosition(Constants.LiftMid);//-790
+                liftMotorL.setTargetPosition(Constants.LiftMid);//-790
                 liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) liftMotorL).setVelocity(2700);
-                ((DcMotorEx) liftMotorR).setVelocity(2700);
+                ((DcMotorEx) liftMotorL).setVelocity(Constants.HighVelocity);
+                ((DcMotorEx) liftMotorR).setVelocity(Constants.HighVelocity);
             }
             if (gamepad1.y){
 //                ExtakeFlip1.setPosition(1);
@@ -138,43 +137,88 @@ public class Testing extends LinearOpMode {
 //                ExtakeFlip1.setPosition(0);
 //                ExtakeFlip2.setPosition(1);
 //                Turret1.setPosition(1);
-                liftMotorR.setTargetPosition(0);//-790
-                liftMotorL.setTargetPosition(0);//-790
+                liftMotorR.setTargetPosition(Constants.LiftBottom);//-790
+                liftMotorL.setTargetPosition(Constants.LiftBottom);//-790
                 liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) liftMotorL).setVelocity(537);
-                ((DcMotorEx) liftMotorR).setVelocity(537);
+                ((DcMotorEx) liftMotorL).setVelocity(Constants.LowVelocity);
+                ((DcMotorEx) liftMotorR).setVelocity(Constants.LowVelocity);
             }
             if(gamepad1.b){
-//                Turret1.setPosition(1);
-//                Turret2.setPosition(0);
-                IntakeFlip.setPosition(0.2);
-                IntakeWheels.setPower(0.5);
-                IntakeFlipMotor.setTargetPosition(0);
-                IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) IntakeFlipMotor).setVelocity(600);
-                IntakeSlideMotor.setTargetPosition(500);
-                IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) IntakeSlideMotor).setVelocity(2700);
-
+                drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeOut);//-790
+                drive.IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) drive.IntakeSlideMotor).setVelocity(Constants.HighVelocity);
+                drive.IntakeFlip.setPosition(Constants.ServoIntakeFlipIntaking);
+                drive.Claw.setPosition(Constants.ClawOpen);
+            }
+            if(gamepad1.right_stick_y > 0.5){
+                drive.IntakeFlipMotor.setTargetPosition(Constants.IntakeFlipsLow);
+                drive.IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) drive.IntakeFlipMotor).setVelocity(Constants.HighVelocity);
+            }
+            if(gamepad1.right_stick_x > 0.5){
+                drive.IntakeFlipMotor.setTargetPosition(Constants.IntakeFlips);
+                drive.IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) drive.IntakeFlipMotor).setVelocity(Constants.HighVelocity);
+            }
+            if(gamepad1.right_stick_y < -0.5){
+                drive.IntakeFlipMotor.setTargetPosition(Constants.IntakeFlipsIn);
+                drive.IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) drive.IntakeFlipMotor).setVelocity(Constants.HighVelocity);
+            }
+            if(gamepad1.right_stick_x < -0.5){
+                drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeIn);//-790
+                drive.IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) drive.IntakeSlideMotor).setVelocity(Constants.HighVelocity);
+                drive.IntakeFlip.setPosition(Constants.ServoIntakeFlipExchanging);
+                drive.Claw.setPosition(Constants.ClawOpen);
             }
 
             if (gamepad1.left_bumper){
-                Claw.setPosition(0.5);
-                SlideExtension.setPosition(500);
+                Claw.setPosition(Constants.ClawClosed);
             }
             if(gamepad1.right_bumper){
-//open                Claw.setPosition(0.5);
-                        Claw.setPosition(0.2);
+                Claw.setPosition(Constants.ClawOpen);
             }
-
-//            drive.setWeightedDrivePower(
-//                    new Pose2d(
-//                            -gamepad1.left_stick_y,
-//                            -gamepad1.left_stick_x,
-//                            -gamepad1.right_stick_x
-//                    )
-//            );
+            if (gamepad1.left_trigger > 0.5){
+                drive.ExtakeFlip1.setPosition(Constants.ExtakeFlipIn);
+                drive.ExtakeFlip2.setPosition(Constants.ExtakeFlipIn2);
+            }
+            if (gamepad1.right_trigger > 0.5){
+                drive.ExtakeFlip1.setPosition(Constants.ExtakeFlipOut);
+                drive.ExtakeFlip2.setPosition(Constants.ExtakeFlipOut2);
+            }
+            if(gamepad1.dpad_right){
+                turretPose = Constants.TurretRight;
+            }
+            if(gamepad1.dpad_left){
+                turretPose = Constants.TurretLeft;
+            }
+            if(gamepad1.dpad_up){
+                drive.SlideExtension.setPosition(Constants.SlideOut);
+                drive.SlideExtension2.setPosition(Constants.SlideOut2);
+            }
+            if(gamepad1.dpad_down){
+                drive.SlideExtension.setPosition(Constants.SlideIn);
+                drive.SlideExtension2.setPosition(Constants.SlideIn2);
+            }
+            if(gamepad1.share){
+                drive.SlideExtension.setPosition(Constants.SlideIn);
+                drive.SlideExtension2.setPosition(Constants.SlideIn2);
+                liftMotorR.setTargetPosition(Constants.LiftBottom);//-790
+                liftMotorL.setTargetPosition(Constants.LiftBottom);//-790
+                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) liftMotorL).setVelocity(Constants.LowVelocity);
+                ((DcMotorEx) liftMotorR).setVelocity(Constants.LowVelocity);
+                turretPose = Constants.TurretDefault;
+            }
+            if(gamepad1.left_stick_x > 0.5){
+                turretPose = turretPose + Constants.TurretStepOver;
+            }
+            if(gamepad1.left_stick_x < -0.5){
+                turretPose = turretPose - Constants.TurretStepOver;
+            }
 
             drive.update();
 
@@ -195,9 +239,11 @@ public class Testing extends LinearOpMode {
             telemetry.addData("ExtakeFlip1", ExtakeFlip1.getPosition());
             telemetry.addData("ExtakeFlip2", ExtakeFlip2.getPosition());
             telemetry.addData("Turret1", Turret1.getPosition());
-            telemetry.addData("Turret2", Turret2.getPosition());
             telemetry.addData("SlideExtension", SlideExtension.getPosition());
             telemetry.addData("Claw", ClawPos);
+            telemetry.addData("TouchpadX", gamepad1.touchpad_finger_1_x);
+            telemetry.addData("TouchpadY", gamepad1.touchpad_finger_1_y);
+            telemetry.addData("leftstickx", gamepad1.left_stick_x);
             telemetry.update();
 
 
