@@ -38,7 +38,6 @@ public class Turret extends BaseRobot{
         Turret1 = hardwareMap.get(Servo.class, "Turret1");
         Claw = hardwareMap.get(Servo.class, "Claw");
         //setting servo scale ranges
-        Claw.scaleRange(Constants.ClawLowRange, Constants.ClawHighRange);
     }
 
     private double CheckBoundries(double position) {
@@ -63,8 +62,8 @@ public class Turret extends BaseRobot{
     public void MoveVertical(TurretHeight height) {
         if(height == TurretHeight.Flipped)
             MoveVertical(Constants.ExtakeFlipOut);
-        else if(height == TurretHeight.Low)
-            MoveVertical(Constants.ExtakeFlipLow);
+//        else if(height == TurretHeight.Low)
+//            MoveVertical(Constants.ExtakeFlipLow);
         else
             MoveVertical(Constants.ExtakeFlipIn);
     }

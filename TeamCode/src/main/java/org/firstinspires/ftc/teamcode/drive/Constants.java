@@ -65,7 +65,7 @@ public class Constants {
     public static int LiftHigh = -1050;
     public static int LiftMid = -400;
     public static int LiftLow = -200;
-    public static int LiftBottom = 0;
+    public static int LiftDefault = 0;
 
  //Intake wheels
     public static  double IntakeWheelsIn = 0.5;
