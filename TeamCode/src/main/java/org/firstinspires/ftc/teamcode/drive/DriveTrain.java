@@ -91,7 +91,7 @@ public class DriveTrain extends BaseRobot {
      * @param drivePower
      */
     public void Move(Pose2d drivePower){
-        Pose2d vel;
+        Pose2d vel = drivePower;
 
         if (Math.abs(drivePower.getX()) + Math.abs(drivePower.getY())
                 + Math.abs(drivePower.getHeading()) > 1) {
@@ -106,8 +106,6 @@ public class DriveTrain extends BaseRobot {
                     OMEGA_WEIGHT * drivePower.getHeading()
             ).div(denom);
         }
-        else
-            vel = null;
 
         setDrivePower(vel);
     }

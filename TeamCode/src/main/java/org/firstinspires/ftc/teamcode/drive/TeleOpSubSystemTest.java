@@ -17,14 +17,15 @@ public class TeleOpSubSystemTest  extends LinearOpMode {
     private Intake intake;
 
     public TeleOpSubSystemTest() {
-        turret = new Turret(hardwareMap, telemetry);
-        lift = new Lift(hardwareMap, telemetry);
-        driveTrain = new DriveTrain(hardwareMap, telemetry);
-        intake = new Intake(hardwareMap, telemetry);
+
     }
 
     @Override
     public void runOpMode() throws InterruptedException {
+        turret = new Turret(hardwareMap, telemetry);
+        lift = new Lift(hardwareMap, telemetry);
+        driveTrain = new DriveTrain(hardwareMap, telemetry);
+        intake = new Intake(hardwareMap, telemetry);
 
         waitForStart();
         ElapsedTime time = new ElapsedTime();
@@ -36,15 +37,24 @@ public class TeleOpSubSystemTest  extends LinearOpMode {
                 ///region Intake to Exchange Test
                 turret.MoveVertical(Turret.TurretHeight.Low);
                 turret.OpenClaw();
+                sleep(5000);
                 intake.SlideMotorOut();
+                sleep(1000);
                 intake.IntakeLow();
+                sleep(5000);
                 intake.FlipDown();
                 intake.IntakeSpinIn();
+                sleep(5000);
                 intake.IntakeOut();
+                sleep(5000);
+                intake.SlowIntakeWheels();
+                sleep(5000);
                 intake.IntakeLow();
                 intake.IntakeSpinStop();
+                sleep(5000);
                 intake.FlipUp();
                 intake.IntakeIn();
+                sleep(5000);
                 intake.SlideMotorExchange();
                 ///endregion
             }
@@ -61,9 +71,16 @@ public class TeleOpSubSystemTest  extends LinearOpMode {
             else if(gamepad1.x) {
                 ///region Extake
                 turret.MoveVertical(Turret.TurretHeight.Flipped);
+                sleep(5000);
+                turret.SlideOut();
+                sleep(2000);
                 turret.MoveHorizontal(Turret.TurretHorizontal.Left);
+                sleep(5000);
                 turret.MoveHorizontal(Turret.TurretHorizontal.Right);
+                sleep(5000);
                 turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+                sleep(2000);
+                turret.SlideIn();
                 ///endregion
             }
             else if(gamepad1.y) {
@@ -76,16 +93,26 @@ public class TeleOpSubSystemTest  extends LinearOpMode {
             }
 
             driveTrain.Move(new Pose2d(
-                gamepad1.left_stick_y,
-                gamepad1.left_stick_x,
-               -gamepad1.right_stick_x
+                    -gamepad1.left_stick_y * -1,
+                    -gamepad1.left_stick_x * -1,
+                    -gamepad1.right_stick_x
             ));
-//
-//            if(gamepad2.dpad_up || gamepad2.dpad_down)
-//                lift.MoveLift((gamepad2.dpad_up) ? 1 : -1);
-//
-//            if(gamepad2.dpad_left || gamepad2.dpad_right)
-//                intake.
+
+            if(gamepad1.dpad_up || gamepad1.dpad_down)
+                lift.MoveLift((gamepad1.dpad_up) ? 1 : -1);
+
+            if(gamepad1.dpad_left || gamepad1.dpad_right)
+                turret.MoveHorizontalOffset((gamepad1.dpad_left)?1 : -1);
+
+            if(gamepad1.right_bumper || gamepad1.left_bumper) {
+                if(gamepad1.right_bumper)
+                    turret.SlideOut();
+                else
+                    turret.SlideIn();
+            }
+
+            //telemetry.addData("Current slide pos:", intake.GetCurrentSlidePosition());
+            telemetry.update();
         }
     }
 }

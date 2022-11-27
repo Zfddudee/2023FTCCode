@@ -60,8 +60,6 @@ public class TeleopMain2023 extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
-
         drive.IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         drive.IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         drive.IntakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

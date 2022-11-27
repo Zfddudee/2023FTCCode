@@ -18,8 +18,10 @@ abstract class BaseRobot {
     }
 
     protected void LogTelemetry(String caption, Object value){
-        if(telemetry != null)
+        if(telemetry != null) {
             telemetry.addData(caption, value);
+            telemetry.update();
+        }
     }
 
     protected abstract void MapHardware();

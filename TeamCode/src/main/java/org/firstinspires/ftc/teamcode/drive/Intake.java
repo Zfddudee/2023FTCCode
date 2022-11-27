@@ -15,7 +15,7 @@ public class Intake extends BaseRobot {
 
     private DcMotor IntakeSlideMotor, IntakeFlipMotor;
     private CRServo IntakeWheels;
-    private Servo IntakeFlip, SlideExtension;
+    private Servo IntakeFlip;
     private ColorRangeSensor IntakeSensor;
 
     public Intake(HardwareMap map, Telemetry tel) {
@@ -30,8 +30,6 @@ public class Intake extends BaseRobot {
         IntakeWheels = hardwareMap.get(CRServo.class, "IntakeWheels");
         IntakeFlip = hardwareMap.get(Servo.class, "IntakeFlip");
 
-        SlideExtension = hardwareMap.get(Servo.class, "SlideExtension");
-
         IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
 
         IntakeSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -40,6 +38,9 @@ public class Intake extends BaseRobot {
         //setting zero power behaviors
         IntakeSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         IntakeFlipMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        IntakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public double GetSensorDistanceMM() {
@@ -47,6 +48,7 @@ public class Intake extends BaseRobot {
     }
 
     public double GetSensorDistance(DistanceUnit unit) {
+        this.LogTelemetry("Intake Sensor Distance(MM): ", GetSensorDistance(DistanceUnit.MM));
         return IntakeSensor.getDistance(unit);
     }
 
@@ -89,8 +91,10 @@ public class Intake extends BaseRobot {
         IntakeSlideMotor.setTargetPosition(position);
         IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx) IntakeSlideMotor).setVelocity(Constants.HighVelocity);
+        this.LogTelemetry("Slide position: ", position);
     }
     ///endregion
+
 
     ///region Wheels Intake Flip
     /**
@@ -134,6 +138,7 @@ public class Intake extends BaseRobot {
         IntakeFlipMotor.setTargetPosition(position);
         IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx) IntakeFlipMotor).setVelocity(velocity);
+        this.LogTelemetry("Intake Position: ", position);
     }
     ///endregion
 

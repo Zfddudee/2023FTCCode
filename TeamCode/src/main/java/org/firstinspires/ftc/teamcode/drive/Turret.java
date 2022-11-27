@@ -22,7 +22,7 @@ public class Turret extends BaseRobot{
     private double currentTurretHeight;
     private double currentTurretHorizontal;
 
-    private Servo ExtakeFlip1, ExtakeFlip2, Turret1, Claw;
+    private Servo ExtakeFlip1, ExtakeFlip2, Turret1, Claw, SlideExtension, SlideExtension2;
 
     public Turret(HardwareMap map, Telemetry tel) {
         super(map, tel);
@@ -37,7 +37,8 @@ public class Turret extends BaseRobot{
         ExtakeFlip2 = hardwareMap.get(Servo.class, "ExtakeFlip2");
         Turret1 = hardwareMap.get(Servo.class, "Turret1");
         Claw = hardwareMap.get(Servo.class, "Claw");
-        //setting servo scale ranges
+        SlideExtension = hardwareMap.get(Servo.class, "SlideExtension");
+        SlideExtension2 = hardwareMap.get(Servo.class, "SlideExtension2");
     }
 
     private double CheckBoundries(double position) {
@@ -57,6 +58,7 @@ public class Turret extends BaseRobot{
     public void MoveVertical(double position) {
         ExtakeFlip2.setPosition(position);
         currentTurretHeight = position;
+        this.LogTelemetry("Turret Height: ", position);
     }
 
     public void MoveVertical(TurretHeight height) {
@@ -77,6 +79,7 @@ public class Turret extends BaseRobot{
     public void MoveHorizontal(double position) {
         Turret1.setPosition(position);
         currentTurretHorizontal = position;
+        LogTelemetry("Turret Horizontal: ", position);
     }
 
     public void MoveHorizontal(TurretHorizontal horizontal) {
@@ -94,5 +97,29 @@ public class Turret extends BaseRobot{
 
     public void CloseClaw() {
         Claw.setPosition(Constants.ClawClosed);
+    }
+
+    public boolean IsClawOpen() {
+        if(Claw.getPosition() == Constants.ClawOpen)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean IsClawClosed() {
+        if(Claw.getPosition() == Constants.ClawClosed)
+            return true;
+        else
+            return false;
+    }
+
+    public void SlideIn(){
+        SlideExtension.setPosition(Constants.SlideIn);
+        SlideExtension2.setPosition(Constants.SlideIn2);
+    }
+
+    public void SlideOut(){
+        SlideExtension.setPosition(Constants.SlideOut);
+        SlideExtension2.setPosition(Constants.SlideOut2);
     }
 }

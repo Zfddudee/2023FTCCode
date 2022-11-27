@@ -8,27 +8,38 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Bertha{
+
+    enum State {
+        None,
+        PreConePickUp
+    };
 
     ///region Robot objects
     private Lift lift;
     private DriveTrain driveTrain;
     private Turret turret;
     private Intake intake;
-
     //endregion
+
+    private ElapsedTime timer;
+    private State state;
 
     public Bertha(HardwareMap map, Telemetry tel){
         lift = new Lift(map, tel);
         driveTrain = new DriveTrain(map, tel);
         turret = new Turret(map, tel);
         intake = new Intake(map, tel);
+
+        timer = new ElapsedTime();
+        state = State.None;
     }
 
-    public void Drive(Pose2d drivePower) {
+    public void Move(Pose2d drivePower) {
        driveTrain.Move(drivePower);
     }
 
@@ -48,4 +59,36 @@ public class Bertha{
         lift.MoveLift(offSet);
     }
 
+
+    public void WheelsSpinOut() {
+        intake.IntakeSpinOut();
+    }
+
+    public void Execute() {
+        switch (state)
+        {
+            case PreConePickUp:
+                if(turret.IsClawOpen() && intake.GetCurrentSlidePosition() > Constants.IntakeExchanging - 100 ) {
+                    intake.IntakeLow();
+                    intake.FlipDown();
+                    state = State.None;
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public void PreConePickUp() {
+        ResetStartTimer();
+        turret.MoveVertical(Turret.TurretHeight.Low);
+        turret.OpenClaw();
+        intake.SlideMotorOut();
+        state = State.PreConePickUp;
+    }
+    private void ResetStartTimer() {
+        timer.reset();
+        timer.startTime();
+    }
 }

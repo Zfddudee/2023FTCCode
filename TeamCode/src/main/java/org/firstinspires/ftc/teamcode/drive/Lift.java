@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 //import org.apache.commons.math3.analysis.function.Constant;
 //import org.firstinspires.ftc.robotcore.external.Const;
@@ -20,7 +21,7 @@ public class Lift extends BaseRobot{
 
     public Lift(HardwareMap map, Telemetry tel){
         super(map, tel);
-        MapHardware();
+//        MapHardware();
     }
 
     public void MoveLift(LiftHeight height) {
@@ -34,13 +35,18 @@ public class Lift extends BaseRobot{
             MoveLift(Constants.LiftMid, velocity);
         }
     }
+
     public void MoveLift(int position, int velocity) {
         if(velocity > Constants.HighVelocity)
             velocity = Constants.HighVelocity;
-        if(position > Constants.LiftHigh)
+
+        //TODO fix for negative values
+        /*
+        if(position > Math.abs(Constants.LiftHigh))
             position = Constants.LiftHigh;
-        if(position < Constants.LiftDefault)
+        if(position < Math.abs(Constants.LiftDefault))
             position = Constants.LiftDefault;
+*/
 
         liftMotorR.setTargetPosition(position);
         liftMotorL.setTargetPosition(position);
@@ -49,7 +55,7 @@ public class Lift extends BaseRobot{
         ((DcMotorEx) liftMotorL).setVelocity(velocity);
         ((DcMotorEx) liftMotorR).setVelocity(velocity);
 
-        this.LogTelemetry("Current Lift Position %s", liftMotorR.getCurrentPosition());
+        this.LogTelemetry("Current Lift Position: ", liftMotorR.getCurrentPosition());
     }
 
     /**
@@ -58,10 +64,12 @@ public class Lift extends BaseRobot{
      */
     public void MoveLift(int positionOffset) {
         int newPosition = liftMotorR.getCurrentPosition() + positionOffset;
+        /*
         if(newPosition > Constants.LiftHigh)
             newPosition = Constants.LiftHigh;
         else if(newPosition < Constants.LiftDefault)
             newPosition = Constants.LiftDefault;
+         */
         int velocity = (positionOffset > 0)? Constants.HighVelocity : Constants.LowVelocity;
         MoveLift(newPosition, velocity);
     }
@@ -75,9 +83,15 @@ public class Lift extends BaseRobot{
 
         liftMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void Reset() {
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+
+
+
 }
