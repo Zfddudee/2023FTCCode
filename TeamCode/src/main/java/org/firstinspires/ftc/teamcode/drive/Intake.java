@@ -91,6 +91,10 @@ public class Intake extends BaseRobot {
         return IntakeSlideMotor.getCurrentPosition();
     }
 
+    public void SetSlidePositionOffset(int offset) {
+        SetSlidePosition(GetCurrentSlidePosition() + offset);
+    }
+
     private void SetSlidePosition(int position) {
         IntakeSlideMotor.setTargetPosition(position);
         IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -147,6 +151,14 @@ public class Intake extends BaseRobot {
             return true;
         else
             return false;
+    }
+
+    public void SetIntakePosition(int positionOffset) {
+        int newPosition = IntakeFlipMotor.getCurrentPosition() + positionOffset;
+        int velocity = Constants.LowVelocity;
+        if(positionOffset > 0)
+            velocity = Constants.HighVelocity;
+        SetIntakePosition(newPosition, velocity);
     }
 
     private void SetIntakePosition(int position, int velocity) {

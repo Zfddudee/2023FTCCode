@@ -49,22 +49,12 @@ public class Bertha{
        driveTrain.Move(drivePower);
     }
 
-    public void ExtendFlipMotor(){
-        //TODO: Implement code to extend flip motor
-        
-
-    }
-    public void RetractFlipMotor(){
-        //TODO: Implement retract flip motor
-    }
-
     public void MoveLift(Lift.LiftHeight height) throws Exception {
         lift.MoveLift(height);
     }
     public void MoveLift(int offSet) throws Exception {
         lift.MoveLift(offSet);
     }
-
 
     public void WheelsSpinOut() {
         intake.IntakeSpinOut();
@@ -183,5 +173,67 @@ public class Bertha{
             lift.MoveLift(Lift.LiftHeight.Default);
             state = State.None;
         }
+    }
+
+    public void TurretRight() {
+        turret.MoveHorizontal(Turret.TurretHorizontal.Right);
+    }
+
+    public void TurretLeft() {
+        turret.MoveHorizontal(Turret.TurretHorizontal.Left);
+    }
+
+    public void LiftMedium() {
+        lift.MoveLift(Lift.LiftHeight.Medium);
+    }
+
+    public void ExtakeSlideInOut() {
+        if(turret.IsSlideOut())
+            turret.SlideIn();
+        else
+            turret.SlideOut();
+    }
+
+    public void MoveLiftOffset(float positionOffset) {
+        int pos = (int)positionOffset;
+        lift.MoveLift(pos);
+    }
+
+    public void MoveIntake(int offset) {
+        intake.SetIntakePosition(offset);
+    }
+
+    public void MoveSlide(int offset) {
+        intake.SetSlidePositionOffset(offset);
+    }
+
+    public void Reset() {
+        lift.MoveLift(Lift.LiftHeight.Medium);
+        PauseTimeMilliseconds(500);
+        intake.FlipUp();
+        PauseTimeMilliseconds(300);
+        intake.IntakeIn();
+        PauseTimeMilliseconds(500);
+        intake.SlideMotorIn();
+        turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+        PauseTimeMilliseconds(500);
+        turret.MoveVertical(Turret.TurretHeight.Default);
+        turret.OpenClaw();
+    }
+
+    public void StompDown() {
+        driveTrain.StompDown();
+    }
+
+    public void StompUp() {
+        driveTrain.StompUp();
+    }
+
+    public void TurretVertical(int offset) {
+        turret.MoveVerticalOffset(offset);
+    }
+
+    public void TurretHorizontal(int offset) {
+        turret.MoveHorizontalOffset(offset);
     }
 }

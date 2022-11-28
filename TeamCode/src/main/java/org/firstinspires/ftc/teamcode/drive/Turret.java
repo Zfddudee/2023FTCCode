@@ -51,11 +51,12 @@ public class Turret extends BaseRobot{
         return position;
     }
 
-//    public void MoveVerticalOffset(double offset) {
-//        currentTurretHeight += offset;
-//        CheckBoundries(currentTurretHeight);
-//        MoveVertical(currentTurretHeight);
-//    }
+    public void MoveVerticalOffset(double offset) {
+        //TODO check these values
+//        double exFlip1Position = ExtakeFlip1.getPosition() + offset;
+//        double exFlip2Position = ExtakeFlip2.getPosition() - offset;
+//        MoveVertical(exFlip1Position, exFlip2Position);
+    }
 
     public void MoveVertical(double extakeFlip1Position, double extakeFlip2Position) {
         ExtakeFlip1.setPosition(extakeFlip1Position);
