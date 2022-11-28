@@ -7,6 +7,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 public class Turret extends BaseRobot{
+
+
     public enum TurretHeight{
         Default,
         Low,
@@ -49,31 +51,32 @@ public class Turret extends BaseRobot{
         return position;
     }
 
-    public void MoveVerticalOffset(double offset) {
-        currentTurretHeight += offset;
-        CheckBoundries(currentTurretHeight);
-        MoveVertical(currentTurretHeight);
-    }
+//    public void MoveVerticalOffset(double offset) {
+//        currentTurretHeight += offset;
+//        CheckBoundries(currentTurretHeight);
+//        MoveVertical(currentTurretHeight);
+//    }
 
-    public void MoveVertical(double position) {
-        ExtakeFlip2.setPosition(position);
-        currentTurretHeight = position;
-        this.LogTelemetry("Turret Height: ", position);
+    public void MoveVertical(double extakeFlip1Position, double extakeFlip2Position) {
+        ExtakeFlip1.setPosition(extakeFlip1Position);
+        ExtakeFlip2.setPosition(extakeFlip2Position);
+        this.LogTelemetry("Current Turret Position 1: ", extakeFlip1Position);
+        this.LogTelemetry("Current Turret Position 2: ", extakeFlip2Position);
     }
 
     public void MoveVertical(TurretHeight height) {
         if(height == TurretHeight.Flipped)
-            MoveVertical(Constants.ExtakeFlipOut);
+            MoveVertical(Constants.ExtakeFlipOut, Constants.ExtakeFlipOut2);
 //        else if(height == TurretHeight.Low)
 //            MoveVertical(Constants.ExtakeFlipLow);
         else
-            MoveVertical(Constants.ExtakeFlipIn);
+            MoveVertical(Constants.ExtakeFlipIn, Constants.ExtakeFlipIn2);
     }
 
     public void MoveHorizontalOffset(double offset) {
         currentTurretHorizontal += offset;
         currentTurretHeight = CheckBoundries(currentTurretHeight);
-        MoveVertical(currentTurretHorizontal);
+        MoveHorizontal(currentTurretHorizontal);
     }
 
     public void MoveHorizontal(double position) {
@@ -121,5 +124,22 @@ public class Turret extends BaseRobot{
     public void SlideOut(){
         SlideExtension.setPosition(Constants.SlideOut);
         SlideExtension2.setPosition(Constants.SlideOut2);
+    }
+
+    public boolean IsSlideOut() {
+        return this.IsAtPosition(Math.abs(Constants.SlideOut),
+                Math.abs(SlideExtension.getPosition()),
+                5.0);
+    }
+
+    public boolean IsAtVerticalPosition(double position, double buffer) {
+        return this.IsAtPosition(Math.abs(position),
+                Math.abs(ExtakeFlip1.getPosition()),
+                buffer);
+    }
+    public boolean IsAtHorizontalPosition(double position, double buffer) {
+        return this.IsAtPosition(Math.abs(position),
+                Math.abs(Turret1.getPosition()),
+                buffer);
     }
 }

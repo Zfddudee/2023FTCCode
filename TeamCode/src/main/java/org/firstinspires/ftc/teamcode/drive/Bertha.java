@@ -1,13 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -16,7 +10,13 @@ public class Bertha{
 
     enum State {
         None,
-        PreConePickUp
+        PreConePickUp,
+        PickAndExchange,
+        PickAndExchange_Step2,
+        PickAndExchange_Step3,
+        PickUpOverRide,
+        ExchangeToExtake,
+        IntakeReturn
     };
 
     ///region Robot objects
@@ -37,6 +37,12 @@ public class Bertha{
 
         timer = new ElapsedTime();
         state = State.None;
+    }
+
+
+    private void ResetStartTimer() {
+        timer.reset();
+        timer.startTime();
     }
 
     public void Move(Pose2d drivePower) {
@@ -64,7 +70,7 @@ public class Bertha{
         intake.IntakeSpinOut();
     }
 
-    public void Execute() {
+    public void RunOpMode() {
         switch (state)
         {
             case PreConePickUp:
@@ -74,21 +80,108 @@ public class Bertha{
                     state = State.None;
                 }
                 break;
+            case PickAndExchange:
+                if(intake.SlowIntakeWheels()) {
+                    intake.IntakeLow();
+                    if(intake.GetIntakePosition() >= Constants.IntakeFlipsLow) {
+                        intake.FlipUp();
+                        state = State.PickAndExchange_Step2;
+                    }
+                }
+                break;
+            case PickAndExchange_Step2:
+                intake.SlideMotorExchange();
+                if(intake.IsIntakeAtPosition(Constants.IntakeExchanging, 10) ) {
+                    turret.MoveVertical(Turret.TurretHeight.Default);
+                }
+                break;
+            case PickAndExchange_Step3:
+                if(turret.IsAtVerticalPosition(Constants.TurretDefault, 10)) {
+                    turret.CloseClaw();
+                    if(turret.IsClawClosed()) {
+                        intake.IntakeSpinOut();
+                        PauseTimeMilliseconds(200);
+                        lift.MoveLift(Lift.LiftHeight.Medium);
+                        state = State.None;
+                    }
+                }
+                break;
             default:
                 break;
         }
 
     }
 
-    public void PreConePickUp() {
+    private void PauseTimeMilliseconds(int milliseconds) {
         ResetStartTimer();
-        turret.MoveVertical(Turret.TurretHeight.Low);
-        turret.OpenClaw();
-        intake.SlideMotorOut();
-        state = State.PreConePickUp;
+        boolean flag = true;
+        while(flag)
+        {
+            if(timer.milliseconds() > milliseconds)
+                flag = false;
+        }
     }
-    private void ResetStartTimer() {
-        timer.reset();
-        timer.startTime();
+
+    //This moves the intake into a position to grab a cone in its low position
+    public void PreConePickUp() {
+        if (state != State.PreConePickUp) {
+            state = State.PreConePickUp;
+            ResetStartTimer();
+            turret.MoveVertical(Turret.TurretHeight.Low);
+            turret.OpenClaw();
+            intake.SlideMotorOut();
+        }
+    }
+
+    //This picks up a cone and moves it past the exchange point to where the cone is in possession of controller 2
+    public void PickAndExchange() {
+        if(state != State.PickAndExchange || state != State.PickAndExchange_Step2 || state != State.PickAndExchange_Step3) {
+            state = State.PickAndExchange;
+            ResetStartTimer();
+            intake.IntakeSpinIn();
+            intake.IntakeOut();
+        }
+    }
+
+    public void PickUpOverRide() {
+        if(state != State.PickUpOverRide) {
+            state = State.PickUpOverRide;
+            intake.IntakeSpinStop();
+            intake.IntakeLow();
+            state = State.None;
+        }
+    }
+
+    public void ExchangeToExtake() {
+        if(state != State.ExchangeToExtake) {
+            state = State.ExchangeToExtake;
+            lift.MoveLift(Lift.LiftHeight.High);
+            turret.SlideOut();
+            turret.MoveVertical(Turret.TurretHeight.Flipped);
+        }
+    }
+
+    public void OpenClaw() {
+        turret.OpenClaw();
+    }
+    public void CloseClaw() {
+        turret.CloseClaw();
+    }
+
+    public void IntakeReturn() {
+        if(state != State.IntakeReturn) {
+            if (!turret.IsAtHorizontalPosition(Constants.TurretDefault, 5.0)) {
+                turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+                PauseTimeMilliseconds(750);
+            }
+            if(turret.IsSlideOut()) {
+                turret.SlideIn();
+            }
+            if(!turret.IsAtVerticalPosition(Constants.ExtakeFlipIn, 2.0)) {
+                turret.MoveVertical(Turret.TurretHeight.Default);
+            }
+            lift.MoveLift(Lift.LiftHeight.Default);
+            state = State.None;
+        }
     }
 }

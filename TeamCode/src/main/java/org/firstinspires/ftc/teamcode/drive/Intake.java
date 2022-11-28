@@ -52,9 +52,13 @@ public class Intake extends BaseRobot {
         return IntakeSensor.getDistance(unit);
     }
 
-    public void SlowIntakeWheels () {
-        if(GetSensorDistanceMM() <= 20)
-            IntakeWheels.setPower(0.5);
+    public boolean SlowIntakeWheels () {
+        if(GetSensorDistanceMM() <= Constants.IntakeWheelSensor) {
+            IntakeWheels.setPower(Constants.IntakeWheelsSlow);
+            return true;
+        }
+        else
+            return false;
     }
 
     ///region Slide Motor
@@ -132,6 +136,17 @@ public class Intake extends BaseRobot {
      */
     public void IntakeIn() {
         SetIntakePosition(Constants.IntakeIn, Constants.LowVelocity);
+    }
+
+    public int GetIntakePosition() {
+        return IntakeFlipMotor.getCurrentPosition();
+    }
+
+    public boolean IsIntakeAtPosition(int position, int buffer) {
+        if(GetIntakePosition() <= (position - buffer) && GetIntakePosition() >= (position + buffer))
+            return true;
+        else
+            return false;
     }
 
     private void SetIntakePosition(int position, int velocity) {

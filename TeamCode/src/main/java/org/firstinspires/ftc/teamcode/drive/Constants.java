@@ -40,6 +40,8 @@ public class Constants {
     public static double ExtakeFlipIn2 = 0;
     public static double ExtakeFlipOut = 0;
     public static double ExtakeFlipOut2 = 1;
+//    public static double ExtakeFlipsLow =
+//    public static double ExtakeFlipsLow2 =
 
     //Extake servo slide values
     public static double SlideOut = 0;
@@ -67,9 +69,11 @@ public class Constants {
     public static int LiftLow = -200;
     public static int LiftDefault = 0;
 
- //Intake wheels
-    public static  double IntakeWheelsIn = 0.5;
-    public static  double IntakeWheelsOut = -1.0;
-    public static  double IntakeWheelStop = 0;
+    //Intake wheels
+    public static double IntakeWheelsSlow = 0.25;
+    public static double IntakeWheelsIn = 1;
+    public static double IntakeWheelsOut = -1.0;
+    public static double IntakeWheelStop = 0;
+    public static double IntakeWheelSensor = 20;
 
 }

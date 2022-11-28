@@ -24,6 +24,13 @@ abstract class BaseRobot {
         }
     }
 
+    protected boolean IsAtPosition(double targetPosition, double currentPosition, double buffer) {
+      if(currentPosition >= (targetPosition - buffer) && currentPosition <= (targetPosition + buffer))
+            return true;
+        else
+            return false;
+    }
+
     protected abstract void MapHardware();
 
 
