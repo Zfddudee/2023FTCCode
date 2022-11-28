@@ -11,5 +11,8 @@ public class test extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.turn(Math.toRadians(180));
 
+        telemetry.addData("Heading", drive.getExternalHeading());
+        telemetry.update();
+        sleep(10000);
     }
 }
