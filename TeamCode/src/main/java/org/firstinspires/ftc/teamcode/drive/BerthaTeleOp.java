@@ -15,9 +15,16 @@ public class BerthaTeleOp extends LinearOpMode {
 
         waitForStart();
         while (!isStopRequested()) {
-            GamePad1Loop();
-            GamePad2Loop();
-            bertha.RunOpMode();
+            try {
+                GamePad1Loop();
+                GamePad2Loop();
+                bertha.RunOpMode();
+            }
+            catch (Exception ex)
+            {
+                telemetry.addData("ERROR in main loop", ex.getMessage());
+                telemetry.addData("Inner exception", ex.getStackTrace());
+            }
             telemetry.update();
         }
     }

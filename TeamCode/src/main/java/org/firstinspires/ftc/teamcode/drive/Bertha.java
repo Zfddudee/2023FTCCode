@@ -39,25 +39,19 @@ public class Bertha{
         state = State.None;
     }
 
-
     private void ResetStartTimer() {
         timer.reset();
         timer.startTime();
     }
 
-    public void Move(Pose2d drivePower) {
-       driveTrain.Move(drivePower);
-    }
-
-    public void MoveLift(Lift.LiftHeight height) throws Exception {
-        lift.MoveLift(height);
-    }
-    public void MoveLift(int offSet) throws Exception {
-        lift.MoveLift(offSet);
-    }
-
-    public void WheelsSpinOut() {
-        intake.IntakeSpinOut();
+    private void PauseTimeMilliseconds(int milliseconds) {
+        ResetStartTimer();
+        boolean flag = true;
+        while(flag)
+        {
+            if(timer.milliseconds() > milliseconds)
+                flag = false;
+        }
     }
 
     public void RunOpMode() {
@@ -83,6 +77,7 @@ public class Bertha{
                 intake.SlideMotorExchange();
                 if(intake.IsIntakeAtPosition(Constants.IntakeExchanging, 10) ) {
                     turret.MoveVertical(Turret.TurretHeight.Default);
+                    state = State.PickAndExchange_Step3;
                 }
                 break;
             case PickAndExchange_Step3:
@@ -102,14 +97,20 @@ public class Bertha{
 
     }
 
-    private void PauseTimeMilliseconds(int milliseconds) {
-        ResetStartTimer();
-        boolean flag = true;
-        while(flag)
-        {
-            if(timer.milliseconds() > milliseconds)
-                flag = false;
-        }
+    public void Move(Pose2d drivePower) {
+       driveTrain.Move(drivePower);
+    }
+
+    public void MoveLift(Lift.LiftHeight height) throws Exception {
+        lift.MoveLift(height);
+    }
+
+    public void MoveLift(int offSet) throws Exception {
+        lift.MoveLift(offSet);
+    }
+
+    public void WheelsSpinOut() {
+        intake.IntakeSpinOut();
     }
 
     //This moves the intake into a position to grab a cone in its low position
@@ -148,12 +149,14 @@ public class Bertha{
             lift.MoveLift(Lift.LiftHeight.High);
             turret.SlideOut();
             turret.MoveVertical(Turret.TurretHeight.Flipped);
+            state = State.None;
         }
     }
 
     public void OpenClaw() {
         turret.OpenClaw();
     }
+
     public void CloseClaw() {
         turret.CloseClaw();
     }

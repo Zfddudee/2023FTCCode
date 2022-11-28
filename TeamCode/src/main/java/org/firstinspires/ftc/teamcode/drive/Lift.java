@@ -21,7 +21,6 @@ public class Lift extends BaseRobot{
 
     public Lift(HardwareMap map, Telemetry tel){
         super(map, tel);
-//        MapHardware();
     }
 
     public void MoveLift(LiftHeight height) {
@@ -64,6 +63,7 @@ public class Lift extends BaseRobot{
      */
     public void MoveLift(int positionOffset) {
         int newPosition = liftMotorR.getCurrentPosition() + positionOffset;
+        //TODO fix for negative values
         /*
         if(newPosition > Constants.LiftHigh)
             newPosition = Constants.LiftHigh;
@@ -91,7 +91,4 @@ public class Lift extends BaseRobot{
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
-
-
 }
