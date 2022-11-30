@@ -76,6 +76,11 @@ public class Lift extends BaseRobot{
         MoveLift(newPosition, velocity);
     }
 
+    public void WaitTillCompleteMoveLift() {
+        this.WaitTillComplete(liftMotorR, Constants.TimeOutTime);
+        this.WaitTillComplete(liftMotorL, Constants.TimeOutTime);
+    }
+
     @Override
     protected void MapHardware() {
         liftMotorL = hardwareMap.get(DcMotor.class, "LiftMotorL");

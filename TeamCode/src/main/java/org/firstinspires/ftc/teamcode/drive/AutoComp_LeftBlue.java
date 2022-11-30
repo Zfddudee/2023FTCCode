@@ -20,12 +20,6 @@ public class AutoComp_LeftBlue {
     @Autonomous(name = "AutoComp_LeftBlue", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
     public class AutoCOmp_LeftBlue extends LinearOpMode {
 
-        private DcMotor Lift;
-        private DcMotor Intake;
-        private Servo Bucket;
-        private Servo TapeUpDown;
-        private Servo TapeLeftRight;
-
         OpenCvCamera webcam;
         //VariableTunerTest pipeline;
         ImageDetectorPipeline pipeline;
@@ -33,12 +27,6 @@ public class AutoComp_LeftBlue {
         @Override
         public void runOpMode() throws InterruptedException {
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-            Lift = hardwareMap.get(DcMotor.class, "LiftMotor");
-            Intake = hardwareMap.get(DcMotor.class, "IntakeMotor");
-            Bucket = hardwareMap.get(Servo.class, "Bucket_Servo");
-            TapeUpDown = hardwareMap.get(Servo.class, "tapeUpDown");
-            TapeLeftRight = hardwareMap.get(Servo.class, "tapeLeftRight");
-
 
             //region Drive Value Constants
 

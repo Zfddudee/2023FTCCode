@@ -76,4 +76,6 @@ public class Constants {
     public static double IntakeWheelStop = 0;
     public static double IntakeWheelSensor = 20;
 
+    public static int TimeOutTime = 3000;
+
 }

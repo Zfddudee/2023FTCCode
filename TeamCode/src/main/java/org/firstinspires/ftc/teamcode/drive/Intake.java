@@ -129,6 +129,10 @@ public class Intake extends BaseRobot {
     }
     ///endregion
 
+    public void WaitTillSlideIsComplete() {
+        this.WaitTillComplete(IntakeSlideMotor, Constants.TimeOutTime);
+    }
+
     ///region Entire Intake Flip
     /**
      * This is the motor that brings the entire intake outwards
@@ -174,6 +178,11 @@ public class Intake extends BaseRobot {
         ((DcMotorEx) IntakeFlipMotor).setVelocity(velocity);
         this.LogTelemetry("Intake Position: ", position);
     }
+
+    public void WaitTillIntakeMotorIsComplete() {
+        this.WaitTillComplete(IntakeFlipMotor, Constants.TimeOutTime);
+    }
+
     ///endregion
 
     ///region Wheel Spin Direction

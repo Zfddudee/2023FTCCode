@@ -359,8 +359,8 @@ public class FalconRoboticsTester {
 //        Vars v = GetVars(Mode.RightBlue);
 //        Vars v = GetVars(Mode.AutoCompLeftBlue);
 //        Vars v = GetVars(Mode.AutoCompLeftRed);
-//        Vars v = GetVars(Mode.AutoCompRightBlue);
-        Vars v = GetVars(Mode.AutoCompRightRed);
+        Vars v = GetVars(Mode.AutoCompRightBlue);
+//        Vars v = GetVars(Mode.AutoCompRightRed);
 
         MeepMeep meepMeep = new MeepMeep(800);
 

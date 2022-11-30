@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -33,5 +36,10 @@ abstract class BaseRobot {
 
     protected abstract void MapHardware();
 
-
+    protected void WaitTillComplete(DcMotor motor, int timeoutMM) {
+        ElapsedTime timer = new ElapsedTime();
+        timer.startTime();
+        while(!motor.isBusy() || timer.milliseconds() < timeoutMM) {
+        }
+    }
 }

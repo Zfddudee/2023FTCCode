@@ -75,7 +75,7 @@ public class Bertha{
                 break;
             case PickAndExchange_Step2:
                 intake.IntakeIn();
-                PauseTimeMilliseconds(500);
+                intake.WaitTillIntakeMotorIsComplete();
                 intake.SlideMotorExchange();
                 if(!intake.IsSlideMotorBusy() ) {
                     turret.MoveVertical(Turret.TurretHeight.Default);
@@ -230,11 +230,11 @@ public class Bertha{
     public void Reset() {
         turret.CloseClaw();
         lift.MoveLift(Lift.LiftHeight.Medium);
-        PauseTimeMilliseconds(500);
+        lift.WaitTillCompleteMoveLift();
         intake.FlipUp();
         PauseTimeMilliseconds(300);
         intake.IntakeIn();
-        PauseTimeMilliseconds(500);
+        intake.WaitTillIntakeMotorIsComplete();
         intake.SlideMotorIn();
         turret.MoveHorizontal(Turret.TurretHorizontal.Center);
         PauseTimeMilliseconds(500);
