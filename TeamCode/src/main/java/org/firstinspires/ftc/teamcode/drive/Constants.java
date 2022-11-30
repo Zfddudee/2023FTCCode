@@ -85,4 +85,7 @@ public class Constants {
     public static double liftGainP0 = 0.0001;
     public static double liftGainPUp = 0.0025;
 
+    public static double liftGainP = 0.002;
+    public static double liftGainP0 = 0.0001;
+    public static double liftGainPUp = 0.0025;
 }
