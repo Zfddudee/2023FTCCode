@@ -271,4 +271,12 @@ public class Bertha{
         MoveToExchangeWithCone();
         state = State.MoveToExchange;
     }
+
+    public void TeleOpCycle() {
+        lift.MoveLift(Lift.LiftHeight.High);
+        turret.SlideOut();
+        turret.MoveVertical(Turret.TurretHeight.Cycle);
+        PauseTimeMilliseconds(300);
+        turret.MoveHorizontal(Turret.TurretHorizontal.Left);
+    }
 }

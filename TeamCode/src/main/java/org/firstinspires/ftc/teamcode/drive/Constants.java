@@ -42,6 +42,9 @@ public class Constants {
     public static double ExtakeFlipOut2 = 0;
     public static double ExtakeFlipLow = 0.4;
     public static double ExtakeFlipLow2 = 0.6;
+    public static double ExtakeFlipCycle = 0.7;
+    public static double ExtakeFlipCycle2 = 0.3;
+
 
     //Extake servo slide values
     public static double SlideOut = 0;
@@ -64,8 +67,8 @@ public class Constants {
     public static int IntakeFlipsIn = 0;
 
     //Lift motor values
-    public static int LiftHigh = -1050;
-    public static int LiftMid = -400;
+    public static int LiftHigh = -1000;
+    public static int LiftMid = -500;
     public static int LiftLow = -200;
     public static int LiftDefault = 0;
 
@@ -77,5 +80,9 @@ public class Constants {
     public static double IntakeWheelSensor = 20;
 
     public static int TimeOutTime = 3000;
+
+    public static double liftGainP = 0.002;
+    public static double liftGainP0 = 0.0001;
+    public static double liftGainPUp = 0.0025;
 
 }

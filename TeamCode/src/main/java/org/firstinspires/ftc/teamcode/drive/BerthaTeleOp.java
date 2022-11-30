@@ -95,5 +95,7 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.TurretHorizontal(-.0035);
         else if(gamepad2.touchpad)
             bertha.TurretCenter();
+        else if(gamepad2.left_stick_button)
+            bertha.TeleOpCycle();
     }
 }

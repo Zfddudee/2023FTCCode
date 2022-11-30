@@ -12,7 +12,8 @@ public class Turret extends BaseRobot{
     public enum TurretHeight{
         Default,
         Low,
-        Flipped
+        Flipped,
+        Cycle
     }
 
     public enum TurretHorizontal{
@@ -71,8 +72,10 @@ public class Turret extends BaseRobot{
             MoveVertical(Constants.ExtakeFlipOut, Constants.ExtakeFlipOut2);
         else if(height == TurretHeight.Low)
             MoveVertical(Constants.ExtakeFlipLow, Constants.ExtakeFlipLow2);
-        else
+        else if(height == TurretHeight.Default)
             MoveVertical(Constants.ExtakeFlipIn, Constants.ExtakeFlipIn2);
+        else
+            MoveVertical(Constants.ExtakeFlipCycle, Constants.ExtakeFlipCycle2);
     }
 
     public void MoveHorizontalOffset(double offset) {
