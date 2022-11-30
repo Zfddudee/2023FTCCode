@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Const;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Config
@@ -66,7 +68,7 @@ public class Testing extends LinearOpMode {
         SlideExtension2 = hardwareMap.get(Servo.class, "SlideExtension2");
         Claw = hardwareMap.get(Servo.class, "Claw");
 
-        IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
+//        IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
 
         liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
 //        Claw.scaleRange(0, 0.5);
@@ -81,8 +83,14 @@ public class Testing extends LinearOpMode {
         IntakeFlipMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         IntakeSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         IntakeFlipMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double turretPose = 0.5;
-
+        double liftError1 = 0;
+        double liftError2 = 0;
+        double liftPower1 = 0;
+        double liftPower2 = 0;
+        int liftTarget = 0;
 
 
 
@@ -90,6 +98,18 @@ public class Testing extends LinearOpMode {
 
         while (!isStopRequested()) {
             drive.Turret1.setPosition(turretPose);
+            liftError1 = liftTarget - liftMotorR.getCurrentPosition();
+            liftError2 = liftTarget - liftMotorL.getCurrentPosition();
+            liftPower1 = liftError1 * Constants.liftGainP;
+            liftPower2 = liftError2 * Constants.liftGainP;
+            liftMotorR.setPower(liftPower1);
+            liftMotorL.setPower(liftPower2);
+            if (liftTarget == 0){
+                Constants.liftGainP = Constants.liftGainP0;
+            }else{
+                Constants.liftGainP = Constants.liftGainPUp;
+            }
+
             if(gamepad1.options){
                 IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 IntakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -98,12 +118,14 @@ public class Testing extends LinearOpMode {
             }
             if(gamepad1.a){
 
-                liftMotorR.setTargetPosition(Constants.LiftHigh);//-790
-                liftMotorL.setTargetPosition(Constants.LiftHigh);//-790
-                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) liftMotorL).setVelocity(Constants.HighVelocity);
-                ((DcMotorEx) liftMotorR).setVelocity(Constants.HighVelocity);
+                liftTarget = Constants.LiftHigh;
+//    lift            liftMotorR.setTargetPosition(Constants.LiftHigh);//-790
+//                liftMotorL.setTargetPosition(Constants.LiftHigh);//-790
+//                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                ((DcMotorEx) liftMotorL).setVelocity(Constants.HighVelocity);
+//                ((DcMotorEx) liftMotorR).setVelocity(Constants.HighVelocity);
+
 //                ExtakeFlip2.setPosition(1);
 
 
@@ -111,6 +133,7 @@ public class Testing extends LinearOpMode {
 //                IntakeFlip.setPosition(0);
             }
             if(gamepad1.x){
+                liftTarget = Constants.LiftMid;
 //                Stomp.setPosition(0.5);
 //                Stomp.setPosition(1);
 //                IntakeFlip.setPosition(0.9);
@@ -120,14 +143,15 @@ public class Testing extends LinearOpMode {
 //                IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //                ((DcMotorEx) IntakeFlipMotor).setVelocity(2700);
 //                Turret2.setPosition(1);
-                liftMotorR.setTargetPosition(Constants.LiftMid);//-790
-                liftMotorL.setTargetPosition(Constants.LiftMid);//-790
-                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) liftMotorL).setVelocity(Constants.HighVelocity);
-                ((DcMotorEx) liftMotorR).setVelocity(Constants.HighVelocity);
+//      lift          liftMotorR.setTargetPosition(Constants.LiftMid);//-790
+//                liftMotorL.setTargetPosition(Constants.LiftMid);//-790
+//                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                ((DcMotorEx) liftMotorL).setVelocity(Constants.HighVelocity);
+//                ((DcMotorEx) liftMotorR).setVelocity(Constants.HighVelocity);
             }
             if (gamepad1.y){
+                liftTarget = Constants.LiftDefault;
 //                ExtakeFlip1.setPosition(1);
 //                ExtakeFlip2.setPosition(0);
 //                IntakeSlideMotor.setTargetPosition(0);
@@ -136,13 +160,14 @@ public class Testing extends LinearOpMode {
 //                ExtakeFlip1.setPosition(0);
 //                ExtakeFlip2.setPosition(1);
 //                Turret1.setPosition(1);
-                liftMotorR.setTargetPosition(Constants.LiftDefault);//-790
-                liftMotorL.setTargetPosition(Constants.LiftDefault);//-790
-                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) liftMotorL).setVelocity(Constants.LowVelocity);
-                ((DcMotorEx) liftMotorR).setVelocity(Constants.LowVelocity);
+//   lift             liftMotorR.setTargetPosition(Constants.LiftDefault);//-790
+//                liftMotorL.setTargetPosition(Constants.LiftDefault);//-790
+//                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                ((DcMotorEx) liftMotorL).setVelocity(Constants.LowVelocity);
+//                ((DcMotorEx) liftMotorR).setVelocity(Constants.LowVelocity);
             }
+
             if(gamepad1.b){
                 drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeOut);//-790
                 drive.IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -225,11 +250,18 @@ public class Testing extends LinearOpMode {
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
-            telemetry.addData("SensorValue", IntakeSensor.getDistance(DistanceUnit.MM));
+//            telemetry.addData("SensorValue", IntakeSensor.getDistance(DistanceUnit.MM));
             telemetry.addData("IntakeMotorPos", IntakeSlideMotor.getCurrentPosition());
+            telemetry.addData("IntakeSlide Amps", ((DcMotorEx) drive.IntakeSlideMotor).getCurrent(CurrentUnit.AMPS));
             telemetry.addData("LiftMotorR", liftMotorR.getCurrentPosition());
             telemetry.addData("LiftMotorL", liftMotorL.getCurrentPosition());
+            telemetry.addData("Target Position", liftTarget);
+            telemetry.addData("Power 1", liftPower1);
+            telemetry.addData("Power 2", liftPower2);
+            telemetry.addData("LiftMotorR Amps", ((DcMotorEx) drive.liftMotorR).getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("LiftMotorL Amps", ((DcMotorEx) drive.liftMotorL).getCurrent(CurrentUnit.AMPS));
             telemetry.addData("IntakeFlipMotor", IntakeFlipMotor.getCurrentPosition());
+            telemetry.addData("IntakeFlip Amps", ((DcMotorEx) drive.IntakeFlipMotor).getCurrent(CurrentUnit.AMPS));
             telemetry.addData("IntakeFlip", IntakeFlip.getPosition());
             telemetry.addData("Stomp", Stomp.getPosition());
             telemetry.addData("OdoRetractRight", OdoRetractRight.getPosition());

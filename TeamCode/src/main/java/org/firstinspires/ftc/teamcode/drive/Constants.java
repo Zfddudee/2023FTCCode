@@ -32,8 +32,8 @@ public class Constants {
     public static double TurretStepOver = -0.0035;
 
     //Claw servo values
-    public static double ClawClosed = 0.44;
-    public static double ClawOpen = 0.55;
+    public static double ClawClosed = 0.26;
+    public static double ClawOpen = 0.375;
 
     //Extake servo flip values
     public static double ExtakeFlipIn = 1;
@@ -62,8 +62,8 @@ public class Constants {
     public static int IntakeFlipsIn = 0;
 
     //Lift motor values
-    public static int LiftHigh = -1050;
-    public static int LiftMid = -400;
+    public static int LiftHigh = -1000;
+    public static int LiftMid = -500;
     public static int LiftLow = -200;
     public static int LiftDefault = 0;
 
@@ -72,4 +72,7 @@ public class Constants {
     public static  double IntakeWheelsOut = -1.0;
     public static  double IntakeWheelStop = 0;
 
+    public static double liftGainP = 0.002;
+    public static double liftGainP0 = 0.0001;
+    public static double liftGainPUp = 0.0025;
 }
