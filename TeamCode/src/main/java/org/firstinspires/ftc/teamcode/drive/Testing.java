@@ -86,10 +86,7 @@ public class Testing extends LinearOpMode {
         liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double turretPose = 0.5;
-        double liftError1 = 0;
-        double liftError2 = 0;
-        double liftPower1 = 0;
-        double liftPower2 = 0;
+
         int liftTarget = 0;
 
 
@@ -98,12 +95,12 @@ public class Testing extends LinearOpMode {
 
         while (!isStopRequested()) {
             drive.Turret1.setPosition(turretPose);
-            liftError1 = liftTarget - liftMotorR.getCurrentPosition();
-            liftError2 = liftTarget - liftMotorL.getCurrentPosition();
-            liftPower1 = liftError1 * Constants.liftGainP;
-            liftPower2 = liftError2 * Constants.liftGainP;
-            liftMotorR.setPower(liftPower1);
-            liftMotorL.setPower(liftPower2);
+            Constants.liftError1 = liftTarget - liftMotorR.getCurrentPosition();
+            Constants.liftError2 = liftTarget - liftMotorL.getCurrentPosition();
+            Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
+            Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
+            liftMotorR.setPower(Constants.liftPower1);
+            liftMotorL.setPower(Constants.liftPower2);
             if (liftTarget == 0){
                 Constants.liftGainP = Constants.liftGainP0;
             }else{
@@ -256,8 +253,8 @@ public class Testing extends LinearOpMode {
             telemetry.addData("LiftMotorR", liftMotorR.getCurrentPosition());
             telemetry.addData("LiftMotorL", liftMotorL.getCurrentPosition());
             telemetry.addData("Target Position", liftTarget);
-            telemetry.addData("Power 1", liftPower1);
-            telemetry.addData("Power 2", liftPower2);
+            telemetry.addData("Power 1", Constants.liftPower1);
+            telemetry.addData("Power 2", Constants.liftPower2);
             telemetry.addData("LiftMotorR Amps", ((DcMotorEx) drive.liftMotorR).getCurrent(CurrentUnit.AMPS));
             telemetry.addData("LiftMotorL Amps", ((DcMotorEx) drive.liftMotorL).getCurrent(CurrentUnit.AMPS));
             telemetry.addData("IntakeFlipMotor", IntakeFlipMotor.getCurrentPosition());

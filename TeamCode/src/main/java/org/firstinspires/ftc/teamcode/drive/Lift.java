@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 //import org.apache.commons.math3.analysis.function.Constant;
 //import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class Lift extends BaseRobot{
     public enum LiftHeight{
@@ -46,17 +47,32 @@ public class Lift extends BaseRobot{
         if(position < Math.abs(Constants.LiftDefault))
             position = Constants.LiftDefault;
 */
+        Constants.liftError1 = position - liftMotorR.getCurrentPosition();
+        Constants.liftError2 = position - liftMotorL.getCurrentPosition();
+        Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
+        Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
+        liftMotorR.setPower(Constants.liftPower1);
+        liftMotorL.setPower(Constants.liftPower2);
 
-        liftMotorR.setTargetPosition(position);
-        liftMotorL.setTargetPosition(position);
-        liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ((DcMotorEx) liftMotorL).setVelocity(velocity);
-        ((DcMotorEx) liftMotorR).setVelocity(velocity);
+        if (position == 0){
+            Constants.liftGainP = Constants.liftGainP0;
+        }else{
+            Constants.liftGainP = Constants.liftGainPUp;
+        }
+
+//        liftMotorR.setTargetPosition(position);
+//        liftMotorL.setTargetPosition(position);
+//        liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        ((DcMotorEx) liftMotorL).setVelocity(velocity);
+//        ((DcMotorEx) liftMotorR).setVelocity(velocity);
 
         this.LogTelemetry("Current Lift Left Position: ", liftMotorL.getCurrentPosition());
         this.LogTelemetry("Current Lift Right Position: ", liftMotorR.getCurrentPosition());
         this.LogTelemetry("Current Velocity: ", velocity);
+        this.LogTelemetry("LiftMotorR Amps", ((DcMotorEx) liftMotorR).getCurrent(CurrentUnit.AMPS));
+        this.LogTelemetry("LiftMotorL Amps", ((DcMotorEx) liftMotorL).getCurrent(CurrentUnit.AMPS));
+
     }
 
     /**
