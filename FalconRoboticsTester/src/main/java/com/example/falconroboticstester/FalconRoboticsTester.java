@@ -216,184 +216,129 @@ public class FalconRoboticsTester {
 
             v.Init(35, 61, 270, 12, 0, 270);
 
-            v.d1 = 0;
-            v.d2 = 180;
-            v.d3 = 90;
-            v.d4 = 270;
+            v.d1 = 270;
 
+            //region ParkLeft
             // This is an x value
             v.c1 = 35;
             // This is a y value
-            v.c2 = 30;
+            v.c2 = 61;
+            // This is an x value
+            v.c3 = 58;
+            // This is an x value
+            v.c4 = 60;
             // This is a y value
-            v.c3 = 16;
-            // This is an x value
-            v.c4 = 40;
+            v.c5 = 59;
             // This is a y value
-            v.c5 = 12;
+            v.c6 = 35;
+            //endregion
+
+            // The constant values for center parking are duplicate values
+
+            //region Park Right
             // This is an x value
-            v.c6 = 47.125;
+            v.c7 = 13;
             // This is an x value
-            v.c7 = 46.375;
-            // This is an x value
-            v.c8 = 45.875;
-            // This is an x value
-            v.c9 = 45.775;
-            // This is an x value
-            v.c10 = 50;
-            // This is an x value
-            v.c11 = 58;
-            // This is an x value
-            v.c12 = 60;
-            // This is a y value
-            v.c13 = 14;
-            // This is a y value
-            v.c14 = 36;
-            // This is an x value
-            v.c15 = 37;
-            // This is an x value
-            v.c16 = 14;
-            // This is an x value
-            v.c17 = 12;
+            v.c8 = 11;
+            //endregion
 
 
         }
         else if(mode == Mode.AutoCompLeftRed) {
             // AUTONOMOUS COMPETITION LEFT RED
-            v.Init(-35, -62, 90, -12, 0, 90);
+            v.Init(-35, -61, 90, -12, 0, 90);
 
-            v.d1 = 180;
-            v.d2 = 0;
-            v.d3 = 270;
-            v.d4 = 90;
+            v.d1 = 90;
 
+            //region ParkLeft
             // This is an x value
+
             v.c1 = -35;
+
             // This is a y value
-            v.c2 = -30;
+            v.c2 = -61;
+            // This is an x value
+            v.c3 = -58;
+            // This is an x value
+            v.c4 = -60;
             // This is a y value
-            v.c3 = -16;
-            // This is an x value
-            v.c4 = -40;
+            v.c5 = -59;
             // This is a y value
-            v.c5 = -12;
+            v.c6 = -35;
+            //endregion
+
+            // The constant values for center parking are duplicate values
+
+            //region Park Right
             // This is an x value
-            v.c6 = -47.125;
+            v.c7 = -13;
             // This is an x value
-            v.c7 = -46.375;
-            // This is an x value
-            v.c8 = -45.875;
-            // This is an x value
-            v.c9 = -45.775;
-            // This is an x value
-            v.c10 = -50;
-            // This is an x value
-            v.c11 = -58;
-            // This is an x value
-            v.c12 = -60;
-            // This is a y value
-            v.c13 = -14;
-            // This is a y value
-            v.c14 = -36;
-            // This is an x value
-            v.c15 = -37;
-            // This is an x value
-            v.c16 = -14;
-            // This is an x value
-            v.c17 = -12;
+            v.c8 = -11;
+            //endregion
+
+
 
         }
         else if(mode == Mode.AutoCompRightBlue) {
             // AUTONOMOUS COMPETITION RIGHT BLUE
             //start bot at pose x = 30, y = 64, heading 90 degrees
-            //static Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(270));
-            //start bot at pose x = 12, y = 0, heading 90 degrees
-            //static Pose2d endPose = new Pose2d(-12, 0, Math.toRadians(270));
-            v.Init(-35, 62, 270, -12, 0, 270);
+            v.Init(-35, 61, 270, -12, 0, 270);
 
-            v.d1 = 180;
-            v.d2 = 0;
-            v.d3 = 90;
-            v.d4 = 270;
+            v.d1 = 270;
 
+            //region ParkLeft
             // This is an x value
             v.c1 = -35;
             // This is a y value
-            v.c2 = 30;
+            v.c2 = 61;
+            // This is an x value
+            v.c3 = -58;
+            // This is an x value
+            v.c4 = -60;
             // This is a y value
-            v.c3 = 16;
-            // This is an x value
-            v.c4 = -40;
+            v.c5 = 59;
             // This is a y value
-            v.c5 = 12;
+            v.c6 = 35;
+            //endregion
+
+            // The constant values for center parking are duplicate values
+
+            //region Park Right
             // This is an x value
-            v.c6 = -47.125;
+            v.c7 = -13;
             // This is an x value
-            v.c7 = -46.375;
-            // This is an x value
-            v.c8 = -45.875;
-            // This is an x value
-            v.c9 = -45.775;
-            // This is an x value
-            v.c10 = -50;
-            // This is an x value
-            v.c11 = -58;
-            // This is an x value
-            v.c12 = -60;
-            // This is a y value
-            v.c13 = 14;
-            // This is a y value
-            v.c14 = 36;
-            // This is an x value
-            v.c15 = -37;
-            // This is an x value
-            v.c16 = -14;
-            // This is an x value
-            v.c17 = -12;
+            v.c8 = -11;
+            //endregion
         }
         else if(mode == Mode.AutoCompRightRed) {
             // AUTONOMOUS COMPETITION RIGHT RED
-            v.Init(35, -62, 90, 12, 0, 90);
+            v.Init(35, -61, 90, 12, 0, 90);
 
-            v.d1 = 0;
-            v.d2 = 180;
-            v.d3 = 270;
-            v.d4 = 90;
+            v.d1 = 90;
 
+            //region ParkLeft
             // This is an x value
             v.c1 = 35;
             // This is a y value
-            v.c2 = -30;
+            v.c2 = -61;
+            // This is an x value
+            v.c3 = 58;
+            // This is an x value
+            v.c4 = 60;
             // This is a y value
-            v.c3 = -16;
-            // This is an x value
-            v.c4 = 40;
+            v.c5 = -59;
             // This is a y value
-            v.c5 = -12;
+            v.c6 = -35;
+            //endregion
+
+            // The constant values for center parking are duplicate values
+
+            //region Park Right
             // This is an x value
-            v.c6 = 47.125;
+            v.c7 = 13;
             // This is an x value
-            v.c7 = 46.375;
-            // This is an x value
-            v.c8 = 45.875;
-            // This is an x value
-            v.c9 = 45.775;
-            // This is an x value
-            v.c10 = 50;
-            // This is an x value
-            v.c11 = 58;
-            // This is an x value
-            v.c12 = 60;
-            // This is a y value
-            v.c13 = -14;
-            // This is a y value
-            v.c14 = -36;
-            // This is an x value
-            v.c15 = 37;
-            // This is an x value
-            v.c16 = 14;
-            // This is an x value
-            v.c17 = 12;
+            v.c8 = 11;
+            //endregion
 
         }
         else
@@ -408,18 +353,18 @@ public class FalconRoboticsTester {
     //trajectory0
     public static void main(String[] args) {
 
-        //Vars v = GetVars(Mode.LeftRed);
-        Vars v = GetVars(Mode.RightRed);
-        //Vars v = GetVars(Mode.LeftBlue);
-        //Vars v = GetVars(Mode.RightBlue);
-        //Vars v = GetVars(Mode.AutoCompLeftBlue);
-        //Vars v = GetVars(Mode.AutoCompLeftRed);
-        //Vars v = GetVars(Mode.AutoCompRightBlue);
-        //Vars v = GetVars(Mode.AutoCompRightRed);
+//        Vars v = GetVars(Mode.LeftRed);
+//        Vars v = GetVars(Mode.RightRed);
+//        Vars v = GetVars(Mode.LeftBlue);
+//        Vars v = GetVars(Mode.RightBlue);
+//        Vars v = GetVars(Mode.AutoCompLeftBlue);
+//        Vars v = GetVars(Mode.AutoCompLeftRed);
+//        Vars v = GetVars(Mode.AutoCompRightBlue);
+        Vars v = GetVars(Mode.AutoCompRightRed);
 
         MeepMeep meepMeep = new MeepMeep(800);
 
-// /*
+ /*
         // THIS CODE IS FOR LEFT BLUE - RIGHT BLUE - LEFT RED - RIGHT RED
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -512,10 +457,9 @@ public class FalconRoboticsTester {
     }
 }
 
+*/
 
-
-
-  /*
+  ///*
 
     // THIS IS FOR AUTOCOMP_LEFTBLUE - AUTOCOMP_LEFTRED - AUTOCOMP_RIGHTBLUE - AUTOCOMP_RIGHTRED
     RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -524,21 +468,20 @@ public class FalconRoboticsTester {
             .followTrajectorySequence(drive ->
                     drive.trajectorySequenceBuilder(v.startPose)
 
-
                             // TrajectoryX
-                            .lineToSplineHeading(new Pose2d(36, 61, Math.toRadians(270)))
-                            .lineToSplineHeading(new Pose2d(58, 61, Math.toRadians(270)))
-                            .splineToConstantHeading(new Vector2d(60, 59), Math.toRadians(270))
-                            .lineToSplineHeading(new Pose2d(60, 35, Math.toRadians(270)))
+                            .lineToSplineHeading(new Pose2d(v.c3, v.c2, Math.toRadians(v.d1)))
+                            .splineToConstantHeading(new Vector2d(v.c4, v.c5), Math.toRadians(v.d1))
+                            .lineToSplineHeading(new Pose2d(v.c4, v.c6, Math.toRadians(v.d1)))
+
 
 //                            // TrajectoryY
-//                          .lineToSplineHeading(new Pose2d(-35,-35, Math.toRadians(90)))
+//                          .lineToSplineHeading(new Pose2d(v.c1,v.c6, Math.toRadians(v.d1)))
 //
 //                            // TrajectoryZ
-//                            .lineToSplineHeading(new Pose2d(-13,-61, Math.toRadians(90)))
-//                            .splineToConstantHeading(new Vector2d(-11, -59), Math.toRadians(90))
-//                            .lineToSplineHeading(new Pose2d(-11, -35, Math.toRadians(90)))
-//
+//                            .lineToSplineHeading(new Pose2d(v.c7,v.c2, Math.toRadians(v.d1)))
+//                            .splineToConstantHeading(new Vector2d(v.c8, v.c5), Math.toRadians(v.d1))
+//                            .lineToSplineHeading(new Pose2d(v.c8, v.c6, Math.toRadians(v.d1)))
+
                             .build()
             );
         myBot.pause();

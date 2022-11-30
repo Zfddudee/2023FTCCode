@@ -20,7 +20,7 @@ abstract class BaseRobot {
     protected void LogTelemetry(String caption, Object value){
         if(telemetry != null) {
             telemetry.addData(caption, value);
-            telemetry.update();
+            //telemetry.update();
         }
     }
 

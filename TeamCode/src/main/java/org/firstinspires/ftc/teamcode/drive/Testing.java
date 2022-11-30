@@ -166,9 +166,9 @@ public class Testing extends LinearOpMode {
                 ((DcMotorEx) drive.IntakeFlipMotor).setVelocity(Constants.HighVelocity);
             }
             if(gamepad1.right_stick_x < -0.5){
-                drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeIn);//-790
-                drive.IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) drive.IntakeSlideMotor).setVelocity(Constants.HighVelocity);
+//                drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeIn);//-790
+//                drive.IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                ((DcMotorEx) drive.IntakeSlideMotor).setVelocity(Constants.HighVelocity);
                 drive.IntakeFlip.setPosition(Constants.ServoIntakeFlipExchanging);
                 drive.Claw.setPosition(Constants.ClawOpen);
             }

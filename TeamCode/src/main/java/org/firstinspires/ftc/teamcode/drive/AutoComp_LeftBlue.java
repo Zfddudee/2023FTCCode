@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 public class AutoComp_LeftBlue {
 
     @Autonomous(name = "AutoComp_LeftBlue", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
-    public class LeftBlue extends LinearOpMode {
+    public class AutoCOmp_LeftBlue extends LinearOpMode {
 
         private DcMotor Lift;
         private DcMotor Intake;
@@ -39,9 +39,41 @@ public class AutoComp_LeftBlue {
             TapeUpDown = hardwareMap.get(Servo.class, "tapeUpDown");
             TapeLeftRight = hardwareMap.get(Servo.class, "tapeLeftRight");
 
+
+            //region Drive Value Constants
+
             //start bot at pose x = 30, y = 64, heading 90 degrees
             Pose2d startPose = new Pose2d(35, 62, Math.toRadians(270));
 
+            double d1 = 270;
+
+            //region Park Left
+
+            // This is an x value
+            double c1 = 35;
+            // This is a y value
+            double c2 = 61;
+            // This is an x value
+            double c3 = 58;
+            // This is an x value
+            double c4 = 60;
+            // This is a y value
+            double c5 = 59;
+            // This is a y value
+            double c6 = 35;
+
+            //endregion
+
+            // The constant values for center parking ard duplicate values
+
+            //region Park Right
+
+            // This is an x value
+            double c7 = 13;
+            // This is an x value
+            double c8 = 11;
+
+            //endregion
 
             drive.setPoseEstimate(startPose);
 
@@ -70,27 +102,28 @@ public class AutoComp_LeftBlue {
             );
             waitForStart();
 
+
+
             //drive.trajectoryBuilder(new Pose2d()).addTemporalMarker(3, () -> {Bucket.setPosition(intaking);}).build();
 //.UNSTABLE_addTemporalMarkerOffset(0, () -> )
             //trajectory0
 
             TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(startPose)
-                    .lineToSplineHeading(new Pose2d(36, 61, Math.toRadians(270)))
-                    .lineToSplineHeading(new Pose2d(58, 61, Math.toRadians(270)))
-                    .splineToConstantHeading(new Vector2d(60, 59), Math.toRadians(270))
-                    .lineToSplineHeading(new Pose2d(60, 35, Math.toRadians(270)))
+                    .lineToSplineHeading(new Pose2d(c3, c2, Math.toRadians(d1)))
+                    .splineToConstantHeading(new Vector2d(c4, c5), Math.toRadians(d1))
+                    .lineToSplineHeading(new Pose2d(c4, c6, Math.toRadians(d1)))
 
                     .build();
 
             TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(startPose)
-                    .lineToSplineHeading(new Pose2d(35, 35, Math.toRadians(270)))
+                    .lineToSplineHeading(new Pose2d(c1, c6, Math.toRadians(d1)))
 
                     .build();
 
             TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(startPose)
-                    .lineToSplineHeading(new Pose2d(13, 61, Math.toRadians(270)))
-                    .splineToConstantHeading(new Vector2d(11, 59), Math.toRadians(270))
-                    .lineToSplineHeading(new Pose2d(11, 35, Math.toRadians(270)))
+                    .lineToSplineHeading(new Pose2d(c7, c2, Math.toRadians(d1)))
+                    .splineToConstantHeading(new Vector2d(c8, c5), Math.toRadians(d1))
+                    .lineToSplineHeading(new Pose2d(c8, c6, Math.toRadians(d1)))
 
                     .build();
 

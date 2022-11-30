@@ -53,12 +53,13 @@ public class Intake extends BaseRobot {
     }
 
     public boolean SlowIntakeWheels () {
-        if(GetSensorDistanceMM() <= Constants.IntakeWheelSensor) {
-            IntakeWheels.setPower(Constants.IntakeWheelsSlow);
-            return true;
-        }
-        else
-            return false;
+//        if(GetSensorDistanceMM() <= Constants.IntakeWheelSensor) {
+//            IntakeWheels.setPower(Constants.IntakeWheelsSlow);
+//            return true;
+//        }
+//        else
+//            return false;
+        return false;
     }
 
     ///region Slide Motor
@@ -83,6 +84,10 @@ public class Intake extends BaseRobot {
         SetSlidePosition(Constants.IntakeExchanging);
     }
 
+    public boolean IsSlideMotorBusy() {
+        return IntakeSlideMotor.isBusy();
+    }
+
     /**
      * Gets the current position of the slide motor
      * @return
@@ -101,6 +106,10 @@ public class Intake extends BaseRobot {
         ((DcMotorEx) IntakeSlideMotor).setVelocity(Constants.HighVelocity);
         this.LogTelemetry("Slide position: ", position);
     }
+    private void SetFlip(double position) {
+        IntakeFlip.setPosition(position);
+        LogTelemetry("Intake Flip Position: ", position);
+    }
     ///endregion
 
 
@@ -109,14 +118,14 @@ public class Intake extends BaseRobot {
      * This is the servo that flips the intake wheels downwards
       */
     public void FlipDown() {
-        IntakeFlip.setPosition(Constants.ServoIntakeFlipIntaking);
+        SetFlip(Constants.ServoIntakeFlipIntaking);
     }
 
     /**
      * This is the servo that flips the intake wheels upwards
      */
     public void FlipUp() {
-        IntakeFlip.setPosition(Constants.ServoIntakeFlipExchanging);
+        SetFlip(Constants.ServoIntakeFlipExchanging);
     }
     ///endregion
 
@@ -147,10 +156,8 @@ public class Intake extends BaseRobot {
     }
 
     public boolean IsIntakeAtPosition(int position, int buffer) {
-        if(GetIntakePosition() <= (position - buffer) && GetIntakePosition() >= (position + buffer))
-            return true;
-        else
-            return false;
+        LogTelemetry("Intake Position: ", GetIntakePosition());
+        return this.IsAtPosition(position, GetIntakePosition(), buffer);
     }
 
     public void SetIntakePosition(int positionOffset) {
@@ -175,6 +182,7 @@ public class Intake extends BaseRobot {
      */
     public void IntakeSpinIn() {
         IntakeWheels.setPower(Constants.IntakeWheelsIn);
+        LogTelemetry("Intake Spin In: ", IntakeWheels.getPower());
     }
 
     /**
@@ -182,6 +190,7 @@ public class Intake extends BaseRobot {
      */
     public void IntakeSpinOut() {
         IntakeWheels.setPower(Constants.IntakeWheelsOut);
+        LogTelemetry("Intake Spin Out: ", IntakeWheels.getPower());
     }
 
     /**
@@ -189,6 +198,7 @@ public class Intake extends BaseRobot {
      */
     public void IntakeSpinStop() {
         IntakeWheels.setPower(Constants.IntakeWheelStop);
+        LogTelemetry("Intake Spin Stop: ", IntakeWheels.getPower());
     }
     ///endregion
 }

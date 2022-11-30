@@ -16,7 +16,8 @@ public class Bertha{
         PickAndExchange_Step3,
         PickUpOverRide,
         ExchangeToExtake,
-        IntakeReturn
+        IntakeReturn,
+        MoveToExchange
     };
 
     ///region Robot objects
@@ -28,6 +29,7 @@ public class Bertha{
 
     private ElapsedTime timer;
     private State state;
+    private Telemetry telemetry;
 
     public Bertha(HardwareMap map, Telemetry tel){
         lift = new Lift(map, tel);
@@ -37,6 +39,7 @@ public class Bertha{
 
         timer = new ElapsedTime();
         state = State.None;
+        telemetry = tel;
     }
 
     private void ResetStartTimer() {
@@ -55,6 +58,7 @@ public class Bertha{
     }
 
     public void RunOpMode() {
+        telemetry.addData("Current State: ", state);
         switch (state)
         {
             case PreConePickUp:
@@ -65,17 +69,15 @@ public class Bertha{
                 }
                 break;
             case PickAndExchange:
-                if(intake.SlowIntakeWheels()) {
-                    intake.IntakeLow();
-                    if(intake.GetIntakePosition() >= Constants.IntakeFlipsLow) {
-                        intake.FlipUp();
-                        state = State.PickAndExchange_Step2;
-                    }
+                if(intake.SlowIntakeWheels()){
+                    MoveToExchangeWithCone();
                 }
                 break;
             case PickAndExchange_Step2:
+                intake.IntakeIn();
+                PauseTimeMilliseconds(500);
                 intake.SlideMotorExchange();
-                if(intake.IsIntakeAtPosition(Constants.IntakeExchanging, 10) ) {
+                if(!intake.IsSlideMotorBusy() ) {
                     turret.MoveVertical(Turret.TurretHeight.Default);
                     state = State.PickAndExchange_Step3;
                 }
@@ -85,16 +87,28 @@ public class Bertha{
                     turret.CloseClaw();
                     if(turret.IsClawClosed()) {
                         intake.IntakeSpinOut();
-                        PauseTimeMilliseconds(200);
+                        PauseTimeMilliseconds(1000);
                         lift.MoveLift(Lift.LiftHeight.Medium);
+                        intake.IntakeSpinStop();
                         state = State.None;
                     }
                 }
+                break;
+            case MoveToExchange:
+                this.MoveToExchangeWithCone();
                 break;
             default:
                 break;
         }
 
+    }
+
+    private void MoveToExchangeWithCone() {
+        intake.IntakeLow();
+        if(intake.GetIntakePosition() >= Constants.IntakeFlipsLow) {
+            intake.FlipUp();
+            state = State.PickAndExchange_Step2;
+        }
     }
 
     public void Move(Pose2d drivePower) {
@@ -173,6 +187,9 @@ public class Bertha{
             if(!turret.IsAtVerticalPosition(Constants.ExtakeFlipIn, 2.0)) {
                 turret.MoveVertical(Turret.TurretHeight.Default);
             }
+            turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+            PauseTimeMilliseconds(250);
+            turret.MoveVertical(Turret.TurretHeight.Default);
             lift.MoveLift(Lift.LiftHeight.Default);
             state = State.None;
         }
@@ -211,6 +228,7 @@ public class Bertha{
     }
 
     public void Reset() {
+        turret.CloseClaw();
         lift.MoveLift(Lift.LiftHeight.Medium);
         PauseTimeMilliseconds(500);
         intake.FlipUp();
@@ -220,8 +238,13 @@ public class Bertha{
         intake.SlideMotorIn();
         turret.MoveHorizontal(Turret.TurretHorizontal.Center);
         PauseTimeMilliseconds(500);
+        turret.SlideIn();
+        PauseTimeMilliseconds(500);
         turret.MoveVertical(Turret.TurretHeight.Default);
+        PauseTimeMilliseconds(250);
+        lift.MoveLift(Lift.LiftHeight.Default);
         turret.OpenClaw();
+        state = State.None;
     }
 
     public void StompDown() {
@@ -232,11 +255,20 @@ public class Bertha{
         driveTrain.StompUp();
     }
 
-    public void TurretVertical(int offset) {
+    public void TurretVertical(double offset) {
         turret.MoveVerticalOffset(offset);
     }
 
-    public void TurretHorizontal(int offset) {
+    public void TurretHorizontal(double offset) {
         turret.MoveHorizontalOffset(offset);
+    }
+
+    public void TurretCenter() {
+        turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+    }
+    
+    public void MoveToExchange(){
+        MoveToExchangeWithCone();
+        state = State.MoveToExchange;
     }
 }

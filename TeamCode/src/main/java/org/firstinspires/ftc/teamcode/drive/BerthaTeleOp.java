@@ -4,7 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "BertaTeleOp")
+@TeleOp(name = "BerthaTeleOp")
 public class BerthaTeleOp extends LinearOpMode {
 
     private Bertha bertha;
@@ -47,19 +47,21 @@ public class BerthaTeleOp extends LinearOpMode {
         else if(gamepad1.y)
             bertha.PickUpOverRide();
         else if(gamepad1.dpad_up)
-            bertha.MoveIntake(1);
+            bertha.MoveIntake(-20);
         else if(gamepad1.dpad_down)
-            bertha.MoveIntake(-1);
+            bertha.MoveIntake(20);
         else if(gamepad1.dpad_right)
-            bertha.MoveSlide(1);
+            bertha.MoveSlide(30);
         else if(gamepad1.dpad_left)
-            bertha.MoveSlide(-1);
+            bertha.MoveSlide(-30);
         else if(gamepad1.share)
             bertha.Reset();
         else if(gamepad1.right_bumper)
             bertha.StompDown();
         else if(gamepad1.left_bumper)
             bertha.StompUp();
+        else if(gamepad1.touchpad)
+            bertha.MoveToExchange();
     }
 
     private void GamePad2Loop() {
@@ -84,12 +86,14 @@ public class BerthaTeleOp extends LinearOpMode {
         else if(gamepad2.share)
             bertha.Reset();
         else if(gamepad2.dpad_up)
-            bertha.TurretVertical(1);
+            bertha.TurretVertical(.0015);
         else if(gamepad2.dpad_down)
-            bertha.TurretVertical(-1);
+            bertha.TurretVertical(-.0015);
         else if(gamepad2.dpad_right)
-            bertha.TurretHorizontal(1);
+            bertha.TurretHorizontal(.0035);
         else if(gamepad2.dpad_left)
-            bertha.TurretHorizontal(-1);
+            bertha.TurretHorizontal(-.0035);
+        else if(gamepad2.touchpad)
+            bertha.TurretCenter();
     }
 }
