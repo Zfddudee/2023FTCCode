@@ -94,6 +94,7 @@ public class Bertha{
                         PauseTimeMilliseconds(150);
                         lift.MoveLift(Lift.LiftHeight.Medium);
                         intake.IntakeSpinStop();
+                        intake.IntakeIn();
                         state = State.None;
                     }
                 }
@@ -149,8 +150,6 @@ public class Bertha{
             ResetStartTimer();
             intake.IntakeSpinIn();
             intake.IntakeOut();
-            PauseTimeMilliseconds(300);
-            intake.IntakeIn();
         }
     }
 
