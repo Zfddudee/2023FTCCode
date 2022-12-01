@@ -214,7 +214,7 @@ public class Intake extends BaseRobot {
     ///endregion
 
     public void IntakeNewExchange() {
-        SetIntakePosition(IntakeNewExchange, IntakeNewExchange);
+        SetIntakePosition(IntakeNewExchange, Constants.LowVelocity);
     }
 
 }

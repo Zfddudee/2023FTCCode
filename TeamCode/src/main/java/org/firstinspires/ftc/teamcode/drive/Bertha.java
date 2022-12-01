@@ -82,7 +82,7 @@ public class Bertha{
                 if(!intake.IsSlideMotorBusy() ) {
                     turret.SlideIn();
                     PauseTimeMilliseconds(500);
-                    intake.IntakeIn();
+                    intake.IntakeNewExchange();
                     turret.MoveVertical(Turret.TurretHeight.Default);
                     state = State.PickAndExchange_Step3;
                 }
@@ -95,7 +95,7 @@ public class Bertha{
                         PauseTimeMilliseconds(150);
                         lift.MoveLift(Lift.LiftHeight.Medium);
                         intake.IntakeSpinStop();
-                        intake.IntakeNewExchange();
+                        intake.IntakeIn();
                         state = State.None;
                     }
                 }
