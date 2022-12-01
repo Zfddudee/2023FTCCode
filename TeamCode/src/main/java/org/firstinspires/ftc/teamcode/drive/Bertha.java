@@ -299,6 +299,7 @@ public class Bertha{
         PauseTimeMilliseconds(100);
         intake.IntakeSpinStop();
         turret.CloseClaw();
+        PauseTimeMilliseconds(150);
         lift.MoveLift(Lift.LiftHeight.Medium);
         intake.IntakeIn();
 
@@ -307,7 +308,8 @@ public class Bertha{
     public void TeleOpCycle() {
         lift.MoveLift(Lift.LiftHeight.High);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-        PauseTimeMilliseconds(500);
+        turret.SlideMid();
+        PauseTimeMilliseconds(750);
         turret.MoveHorizontal(Turret.TurretHorizontal.CycleHorizontal);
     }
 }

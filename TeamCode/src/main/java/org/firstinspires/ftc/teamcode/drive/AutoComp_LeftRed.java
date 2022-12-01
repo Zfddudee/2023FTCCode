@@ -45,17 +45,17 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
             //region Park Left
 
             // This is an x value
-            double c1 = 35;
+            double c1 = -35;
             // This is a y value
-            double c2 = 61;
+            double c2 = -61;
             // This is an x value
-            double c3 = 58;
+            double c3 = -58;
             // This is an x value
-            double c4 = 60;
+            double c4 = -60;
             // This is a y value
-            double c5 = 59;
+            double c5 = -59;
             // This is a y value
-            double c6 = 35;
+            double c6 = -35;
 
             //endregion
 
@@ -64,9 +64,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
             //region Park Right
 
             // This is an x value
-            double c7 = 13;
+            double c7 = -13;
             // This is an x value
-            double c8 = 11;
+            double c8 = -11;
 
             //endregion
 
