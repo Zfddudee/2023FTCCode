@@ -137,7 +137,7 @@ public class Bertha{
             ResetStartTimer();
             turret.MoveVertical(Turret.TurretHeight.Low);
             turret.OpenClaw();
-            intake.SlideMotorOut();
+            intake.SlideMotorExchange();
         }
     }
 
@@ -289,7 +289,10 @@ public class Bertha{
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(500);
         turret.SlideIn();
-        PauseTimeMilliseconds(300);
+        PauseTimeMilliseconds(750);
+        intake.IntakeSpinOut();
+        PauseTimeMilliseconds(100);
+        intake.IntakeSpinStop();
         turret.CloseClaw();
         lift.MoveLift(Lift.LiftHeight.Medium);
 
