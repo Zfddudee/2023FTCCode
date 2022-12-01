@@ -26,13 +26,13 @@ public class Lift extends BaseRobot{
 
     public void MoveLift(LiftHeight height) {
          if(height == LiftHeight.Default)
-            MoveLift(Constants.LiftDefault, Constants.LowVelocity);
+            MoveLift(Constants.LiftDefault);
         else if(height == LiftHeight.High)
-            MoveLift(Constants.LiftHigh, Constants.HighVelocity);
+            MoveLift(Constants.LiftHigh);
         else {
             // to determine when to move fast going up, and slow moving down
             int velocity = (liftMotorL.getCurrentPosition() > Constants.LiftMid)? Constants.LowVelocity : Constants.HighVelocity;
-            MoveLift(Constants.LiftMid, velocity);
+            MoveLift(Constants.LiftMid);
         }
     }
 
@@ -109,9 +109,15 @@ public class Lift extends BaseRobot{
 
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void Reset() {
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }

@@ -13,13 +13,14 @@ public class Turret extends BaseRobot{
         Default,
         Low,
         Flipped,
-        Cycle
+        CycleVertical
     }
 
     public enum TurretHorizontal{
         Left,
         Right,
-        Center
+        Center,
+        CycleHorizontal
     }
 
     private double currentTurretHeight;
@@ -95,8 +96,10 @@ public class Turret extends BaseRobot{
             MoveHorizontal(Constants.TurretLeft);
         else if(horizontal == TurretHorizontal.Right)
             MoveHorizontal(Constants.TurretRight);
-        else
+        else if(horizontal == TurretHorizontal.Center)
             MoveHorizontal(Constants.TurretDefault);
+            else
+            MoveHorizontal(Constants.TurretHorizontalCycle);
     }
 
     public void OpenClaw() {
@@ -137,6 +140,8 @@ public class Turret extends BaseRobot{
     public void SlideOut(){
         SetSlidePosition(Constants.SlideOut, Constants.SlideOut2);
     }
+
+    public void SlideMid() { SetSlidePosition(Constants.SlideMid, Constants.SlideMid2); }
 
     public boolean IsSlideOut() {
         return this.IsAtPosition(Math.abs(Constants.SlideOut),

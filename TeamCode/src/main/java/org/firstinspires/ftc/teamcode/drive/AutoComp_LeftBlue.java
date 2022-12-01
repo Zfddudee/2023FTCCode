@@ -15,10 +15,9 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-public class AutoComp_LeftBlue {
 
     @Autonomous(name = "AutoComp_LeftBlue", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
-    public class AutoCOmp_LeftBlue extends LinearOpMode {
+    public class AutoComp_LeftBlue extends LinearOpMode {
 
         OpenCvCamera webcam;
         //VariableTunerTest pipeline;
@@ -31,9 +30,10 @@ public class AutoComp_LeftBlue {
             //region Drive Value Constants
 
             //start bot at pose x = 30, y = 64, heading 90 degrees
-            Pose2d startPose = new Pose2d(35, 62, Math.toRadians(270));
+            Pose2d startPose = new Pose2d(35, 62, Math.toRadians(90));
 
-            double d1 = 270;
+            double d1 = 90;
+            double d2 = 90;
 
             //region Park Left
 
@@ -145,6 +145,5 @@ public class AutoComp_LeftBlue {
             }
         }
     }
-}
 
 

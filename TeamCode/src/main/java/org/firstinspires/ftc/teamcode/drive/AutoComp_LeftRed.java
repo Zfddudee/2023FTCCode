@@ -14,10 +14,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-public class AutoComp_LeftRed {
-
     @Autonomous(name = "AutoComp_LeftRed", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
-    public class LeftBlue extends LinearOpMode {
+    public class AutoComp_LeftRed extends LinearOpMode {
 
         private DcMotor Lift;
         private DcMotor Intake;
@@ -137,8 +135,5 @@ public class AutoComp_LeftRed {
             }
         }
     }
-
-
-}
 
 

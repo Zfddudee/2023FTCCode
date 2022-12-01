@@ -61,7 +61,7 @@ public class BerthaTeleOp extends LinearOpMode {
         else if(gamepad1.left_bumper)
             bertha.StompUp();
         else if(gamepad1.touchpad)
-            bertha.MoveToExchange();
+            bertha.MoveToExchange2();
     }
 
     private void GamePad2Loop() {

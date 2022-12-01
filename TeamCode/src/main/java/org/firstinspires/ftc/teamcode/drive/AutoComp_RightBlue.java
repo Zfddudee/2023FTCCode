@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
@@ -14,121 +14,109 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-public class AutoComp_RightBlue {
+@Autonomous(name = "AutoComp_RightBlue")
+public class AutoComp_RightBlue extends LinearOpMode{
 
-    @Autonomous(name = "AutoComp_RightBlue", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
-    public class LeftBlue extends LinearOpMode {
+    OpenCvCamera webcam;
+    ImageDetectorPipeline pipeline;
 
-        private DcMotor Lift;
-        private DcMotor Intake;
-        private Servo Bucket;
-        private Servo TapeUpDown;
-        private Servo TapeLeftRight;
+    @Override
+    public void runOpMode() throws InterruptedException {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
+        //start bot at pose x = 30, y = 64, heading 90 degrees
+        Pose2d startPose = new Pose2d(-35, 61, Math.toRadians(270));
 
-        OpenCvCamera webcam;
-        ImageDetectorPipeline pipeline;
+        double d1 = 270;
+        double d2 = 270;
 
-        @Override
-        public void runOpMode() throws InterruptedException {
-            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-            Lift = hardwareMap.get(DcMotor.class, "LiftMotor");
-            Intake = hardwareMap.get(DcMotor.class, "IntakeMotor");
-            Bucket = hardwareMap.get(Servo.class, "Bucket_Servo");
-            TapeUpDown = hardwareMap.get(Servo.class, "tapeUpDown");
-            TapeLeftRight = hardwareMap.get(Servo.class, "tapeLeftRight");
+        //region Park Left
 
+        // This is an x value
+        double c1 = -35;
+        // This is a y value
+        double c2 = 61;
+        // This is an x value
+        double c3 = -58;
+        // This is an x value
+        double c4 = -60;
+        // This is a y value
+        double c5 = 59;
+        // This is a y value
+        double c6 = 35;
 
-            //start bot at pose x = 30, y = 64, heading 90 degrees
-            Pose2d startPose = new Pose2d(-35, 61, Math.toRadians(270));
+        //endregion
 
-            double d1 = 270;
+        // The constant values for center parking ard duplicate values
 
-            //region Park Left
+        //region Park Right
 
-            // This is an x value
-            double c1 = -35;
-            // This is a y value
-            double c2 = 61;
-            // This is an x value
-            double c3 = -58;
-            // This is an x value
-            double c4 = -60;
-            // This is a y value
-            double c5 = 59;
-            // This is a y value
-            double c6 = 35;
+        // This is an x value
+        double c7 = -13;
+        // This is an x value
+        double c8 = -11;
 
-            //endregion
+        drive.setPoseEstimate(startPose);
 
-            // The constant values for center parking ard duplicate values
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
 
-            //region Park Right
+        // OR...  Do Not Activate the Camera Monitor View
+        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-            // This is an x value
-            double c7 = -13;
-            // This is an x value
-            double c8 = -11;
+        pipeline = new ImageDetectorPipeline(telemetry);
+        webcam.setPipeline(pipeline);
 
-            drive.setPoseEstimate(startPose);
-
-            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
-
-            // OR...  Do Not Activate the Camera Monitor View
-            //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-
-            pipeline = new ImageDetectorPipeline(telemetry);
-            webcam.setPipeline(pipeline);
-
-            webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-                                             @Override
-                                             public void onOpened() {
-                                                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-                                             }
-
-
-                                             public void onError(int errorCode) {
-
-                                             }
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                                         @Override
+                                         public void onOpened() {
+                                             webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
                                          }
 
-            );
 
-            TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(startPose)
-                    .lineToSplineHeading(new Pose2d(c3, c2, Math.toRadians(d1)))
-                    .splineToConstantHeading(new Vector2d(c4, c5), Math.toRadians(d1))
-                    .lineToSplineHeading(new Pose2d(c4, c6, Math.toRadians(d1)))
+                                         public void onError(int errorCode) {
 
-                    .build();
+                                         }
+                                     }
 
-            TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(startPose)
-                    .lineToSplineHeading(new Pose2d(c1, c6, Math.toRadians(d1)))
+        );
 
-                    .build();
+        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(startPose)
+                .lineToSplineHeading(new Pose2d(c3, c2, Math.toRadians(d1)))
+                .splineToConstantHeading(new Vector2d(c4, c5), Math.toRadians(d2))
+                .lineToSplineHeading(new Pose2d(c4, c6, Math.toRadians(d1)))
 
-            TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(startPose)
-                    .lineToSplineHeading(new Pose2d(c7, c2, Math.toRadians(d1)))
-                    .splineToConstantHeading(new Vector2d(c8, c5), Math.toRadians(d1))
-                    .lineToSplineHeading(new Pose2d(c8, c6, Math.toRadians(d1)))
+                .build();
 
-                    .build();
+        TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(startPose)
+                .lineToSplineHeading(new Pose2d(c1, c6, Math.toRadians(d1)))
 
-            if (pipeline.ColorSeen == "Green") {
-                drive.followTrajectorySequence(TrajectoryX);
+                .build();
 
-            } else if (pipeline.ColorSeen == "Orange") {
-                drive.followTrajectorySequence(TrajectoryY);
+        TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(startPose)
+                .lineToSplineHeading(new Pose2d(c7, c2, Math.toRadians(d1)))
+                .splineToConstantHeading(new Vector2d(c8, c5), Math.toRadians(d1))
+                .lineToSplineHeading(new Pose2d(c8, c6, Math.toRadians(d1)))
 
-            } else if (pipeline.ColorSeen == "Purple") {
-                drive.followTrajectorySequence(TrajectoryZ);
-            }
-            while (opModeIsActive()) {
-                // telemetry.addData("placement]", Pipeline.Last);
-                // telemetry.update();
-                //sleep(50);
+                .build();
 
-            }
+        waitForStart();
+
+        if (pipeline.ColorSeen == "Green") {
+            drive.followTrajectorySequence(TrajectoryX);
+
+        } else if (pipeline.ColorSeen == "Orange") {
+            drive.followTrajectorySequence(TrajectoryY);
+
+        } else if (pipeline.ColorSeen == "Purple") {
+            drive.followTrajectorySequence(TrajectoryZ);
+        }
+        while (opModeIsActive()) {
+
+//                telemetry.addData("placement]", pipeline.ColorSeen);
+//                telemetry.update();
+            //sleep(50);
+
         }
     }
 }

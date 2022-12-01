@@ -214,32 +214,33 @@ public class FalconRoboticsTester {
         else if(mode == Mode.AutoCompLeftBlue) {
             // AUTONOMOUS COMPETITION LEFT BLUE
 
-            v.Init(35, 61, 270, 12, 0, 270);
+            v.Init(-35, -61, 90, 12, 0, 270);
 
-            v.d1 = 270;
+            v.d1 = 90;
+            v.d2 = 90;
 
             //region ParkLeft
             // This is an x value
-            v.c1 = 35;
+            v.c1 = -35;
             // This is a y value
-            v.c2 = 61;
+            v.c2 = -61;
             // This is an x value
-            v.c3 = 58;
+            v.c3 = -58;
             // This is an x value
-            v.c4 = 60;
+            v.c4 = -60;
             // This is a y value
-            v.c5 = 59;
+            v.c5 = -59;
             // This is a y value
-            v.c6 = 35;
+            v.c6 = -35;
             //endregion
 
             // The constant values for center parking are duplicate values
 
             //region Park Right
             // This is an x value
-            v.c7 = 13;
+            v.c7 = -13;
             // This is an x value
-            v.c8 = 11;
+            v.c8 = -11;
             //endregion
 
 
@@ -285,6 +286,7 @@ public class FalconRoboticsTester {
             v.Init(-35, 61, 270, -12, 0, 270);
 
             v.d1 = 270;
+            v.d2 = 270;
 
             //region ParkLeft
             // This is an x value
@@ -357,9 +359,9 @@ public class FalconRoboticsTester {
 //        Vars v = GetVars(Mode.RightRed);
 //        Vars v = GetVars(Mode.LeftBlue);
 //        Vars v = GetVars(Mode.RightBlue);
-//        Vars v = GetVars(Mode.AutoCompLeftBlue);
+        Vars v = GetVars(Mode.AutoCompLeftBlue);
 //        Vars v = GetVars(Mode.AutoCompLeftRed);
-        Vars v = GetVars(Mode.AutoCompRightBlue);
+//        Vars v = GetVars(Mode.AutoCompRightBlue);
 //        Vars v = GetVars(Mode.AutoCompRightRed);
 
         MeepMeep meepMeep = new MeepMeep(800);
@@ -470,7 +472,7 @@ public class FalconRoboticsTester {
 
                             // TrajectoryX
                             .lineToSplineHeading(new Pose2d(v.c3, v.c2, Math.toRadians(v.d1)))
-                            .splineToConstantHeading(new Vector2d(v.c4, v.c5), Math.toRadians(v.d1))
+                            .splineToConstantHeading(new Vector2d(v.c4, v.c5), Math.toRadians(v.d2))
                             .lineToSplineHeading(new Pose2d(v.c4, v.c6, Math.toRadians(v.d1)))
 
 

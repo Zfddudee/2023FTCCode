@@ -50,12 +50,24 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) {
         for(ColorRange cr : colors){
-            if(this.isColor(input, cr.Lower, cr.Upper)) {
-                this.ColorSeen = cr.Color;
-                telemetry.addData("Color Seen: ", cr.Color);
-                telemetry.update();
+//            if(this.isColor(input, cr.Lower, cr.Upper)) {
+//                this.ColorSeen = cr.Color;
+//                telemetry.addData("Color Seen: ", cr.Color);
+//                telemetry.update();
+//            }
+            cr.AreaSeen = this.GetColorArea(input, cr.Lower, cr.Upper);
+        }
+
+        double highestValue = 0.0;
+        String colorSeen = "";
+        for(ColorRange cr: colors){
+            if(cr.AreaSeen > highestValue) {
+                highestValue = cr.AreaSeen;
+                colorSeen = cr.Color;
             }
         }
+
+        ColorSeen = colorSeen;
 
         telemetry.update();
         /*
@@ -71,7 +83,7 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
         return input;
     }
 
-    private boolean isColor(Mat input, Scalar lowerScalar, Scalar upperScalar){
+    private double GetColorArea(Mat input, Scalar lowerScalar, Scalar upperScalar){
         Mat hsvMat = new Mat();
         Imgproc.cvtColor(input, hsvMat, Imgproc.COLOR_BGR2HSV);
 
@@ -115,7 +127,7 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
         mask.release();
         hierarchyMat.release();
 
-        return area > AREA_THRESHOLD;
+        return area;
     }
 
     private double getArea(MatOfPoint contour)

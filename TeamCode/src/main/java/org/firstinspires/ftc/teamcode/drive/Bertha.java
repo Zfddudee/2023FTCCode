@@ -17,7 +17,8 @@ public class Bertha{
         PickUpOverRide,
         ExchangeToExtake,
         IntakeReturn,
-        MoveToExchange
+        MoveToExchange,
+        MoveToExchange2
     };
 
     ///region Robot objects
@@ -75,10 +76,12 @@ public class Bertha{
                 break;
             case PickAndExchange_Step2:
                 intake.IntakeIn();
-                intake.WaitTillIntakeMotorIsComplete();
+                PauseTimeMilliseconds(300);
+                //intake.WaitTillIntakeMotorIsComplete();
                 intake.SlideMotorExchange();
                 if(!intake.IsSlideMotorBusy() ) {
                     turret.MoveVertical(Turret.TurretHeight.Default);
+                    turret.SlideMid();
                     state = State.PickAndExchange_Step3;
                 }
                 break;
@@ -87,7 +90,7 @@ public class Bertha{
                     turret.CloseClaw();
                     if(turret.IsClawClosed()) {
                         intake.IntakeSpinOut();
-                        PauseTimeMilliseconds(1000);
+                        PauseTimeMilliseconds(150);
                         lift.MoveLift(Lift.LiftHeight.Medium);
                         intake.IntakeSpinStop();
                         state = State.None;
@@ -230,11 +233,13 @@ public class Bertha{
     public void Reset() {
         turret.CloseClaw();
         lift.MoveLift(Lift.LiftHeight.Medium);
-        lift.WaitTillCompleteMoveLift();
+//        PauseTimeMilliseconds();
+//        lift.WaitTillCompleteMoveLift();
         intake.FlipUp();
         PauseTimeMilliseconds(300);
         intake.IntakeIn();
-        intake.WaitTillIntakeMotorIsComplete();
+       PauseTimeMilliseconds(300);
+//        intake.WaitTillIntakeMotorIsComplete();
         intake.SlideMotorIn();
         turret.MoveHorizontal(Turret.TurretHorizontal.Center);
         PauseTimeMilliseconds(500);
@@ -272,11 +277,28 @@ public class Bertha{
         state = State.MoveToExchange;
     }
 
+    public void MoveToExchange2() {
+        turret.SlideOut();
+        turret.CloseClaw();
+        turret.MoveVertical(Turret.TurretHeight.Default);
+        PauseTimeMilliseconds(150);
+        turret.OpenClaw();
+        intake.FlipUp();
+        PauseTimeMilliseconds(400);
+        intake.IntakeIn();
+        intake.SlideMotorExchange();
+        PauseTimeMilliseconds(500);
+        turret.SlideIn();
+        PauseTimeMilliseconds(300);
+        turret.CloseClaw();
+        lift.MoveLift(Lift.LiftHeight.Medium);
+
+    }
+
     public void TeleOpCycle() {
         lift.MoveLift(Lift.LiftHeight.High);
-        turret.SlideOut();
-        turret.MoveVertical(Turret.TurretHeight.Cycle);
-        PauseTimeMilliseconds(300);
-        turret.MoveHorizontal(Turret.TurretHorizontal.Left);
+        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
+        PauseTimeMilliseconds(500);
+        turret.MoveHorizontal(Turret.TurretHorizontal.CycleHorizontal);
     }
 }
