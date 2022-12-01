@@ -69,6 +69,7 @@ public class Constants {
     public static int IntakeFlips = 550;
     public static int IntakeFlipsLow = 400;
     public static int IntakeFlipsIn = 0;
+    public static int IntakeNewExchange = 15;
 
     //Lift motor values
     public static int LiftHigh = -1000;

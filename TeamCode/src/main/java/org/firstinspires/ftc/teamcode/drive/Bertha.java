@@ -75,7 +75,7 @@ public class Bertha{
                 }
                 break;
             case PickAndExchange_Step2:
-                intake.IntakeIn();
+                intake.IntakeNewExchange();
                 PauseTimeMilliseconds(300);
                 //intake.WaitTillIntakeMotorIsComplete();
                 intake.SlideMotorExchange();
@@ -148,6 +148,8 @@ public class Bertha{
             ResetStartTimer();
             intake.IntakeSpinIn();
             intake.IntakeOut();
+            PauseTimeMilliseconds(200);
+            intake.IntakeIn();
         }
     }
 

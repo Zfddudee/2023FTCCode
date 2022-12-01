@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import static org.firstinspires.ftc.teamcode.drive.Constants.IntakeNewExchange;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -210,4 +212,9 @@ public class Intake extends BaseRobot {
         LogTelemetry("Intake Spin Stop: ", IntakeWheels.getPower());
     }
     ///endregion
+
+    public void IntakeNewExchange() {
+        SetIntakePosition(IntakeNewExchange, IntakeNewExchange);
+    }
+
 }
