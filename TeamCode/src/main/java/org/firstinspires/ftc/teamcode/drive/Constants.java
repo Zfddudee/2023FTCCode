@@ -111,4 +111,7 @@ public class Constants {
     public final static double ColorAreaThreshHold = 300;
 
     public final static double DrivePower = 1.0;
+
+    public final static double ExFlipThreshold = .5;
+    public final static int ExFlipTimerThreshold_Milliseconds = 500;
 }
