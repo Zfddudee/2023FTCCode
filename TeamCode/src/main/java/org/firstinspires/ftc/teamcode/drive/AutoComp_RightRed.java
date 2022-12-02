@@ -46,7 +46,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
             // This is a y value
             double c5 = -59;
             // This is a y value
-            double c6 = -35;
+            double c6 = -23;
 
             //endregion
 

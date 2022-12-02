@@ -231,7 +231,7 @@ public class FalconRoboticsTester {
             // This is a y value
             v.c5 = -59;
             // This is a y value
-            v.c6 = -35;
+            v.c6 = -23;
             //endregion
 
             // The constant values for center parking are duplicate values
@@ -384,11 +384,11 @@ public class FalconRoboticsTester {
 //          Vars v = GetVars(Mode.RightRed);
 //          Vars v = GetVars(Mode.LeftBlue);
 //          Vars v = GetVars(Mode.RightBlue);
-//          Vars v = GetVars(Mode.AutoCompLeftBlue);
+          Vars v = GetVars(Mode.AutoCompLeftBlue);
 //          Vars v = GetVars(Mode.AutoCompLeftRed);
 //          Vars v = GetVars(Mode.AutoCompRightBlue);
 //          Vars v = GetVars(Mode.AutoCompRightRed);
-          Vars v = GetVars(Mode.AutoOneCycle_LeftBlue);
+//          Vars v = GetVars(Mode.AutoOneCycle_LeftBlue);
 //          Vars v = GetVars(Mode.AutoOneCycle_LeftRed);
 //          Vars v = GetVars(Mode.AutoOneCycle_RightBlue);
 //          Vars v = GetVars(Mode.AutoOneCycle_RightRed);
@@ -490,7 +490,7 @@ public class FalconRoboticsTester {
 
 */
 
-  /*
+ // /*
 
     // THIS IS FOR AUTOCOMP_LEFTBLUE - AUTOCOMP_LEFTRED - AUTOCOMP_RIGHTBLUE - AUTOCOMP_RIGHTRED
     RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -524,9 +524,9 @@ public class FalconRoboticsTester {
                 .start();
                 }
                 }
- */
+// */
 
- ///*
+ /*
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(100, 100, Math.toRadians(180), Math.toRadians(180), 12)
@@ -549,4 +549,4 @@ public class FalconRoboticsTester {
     }
 }
 
-//*/
+*/
