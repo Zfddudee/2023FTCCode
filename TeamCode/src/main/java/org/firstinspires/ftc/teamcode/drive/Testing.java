@@ -119,15 +119,15 @@ public class Testing extends LinearOpMode {
             Constants.ArmError2 = Constants.SetArmTarget2 - Constants.ArmTarget2;
 
             if (Constants.ArmError1 >= 0.01){
-                Constants.ArmTarget1 = Constants.ArmTarget1 + 0.03;
+                Constants.ArmTarget1 = Constants.ArmTarget1 + Constants.ArmStepOver;
             } else if (Constants.ArmError1 <= -0.01){
-                Constants.ArmTarget1 = Constants.ArmTarget1 - 0.03;
+                Constants.ArmTarget1 = Constants.ArmTarget1 - Constants.ArmStepOver;
             }
 
             if (Constants.ArmError2 >= 0.01){
-                Constants.ArmTarget2 = Constants.ArmTarget2 + 0.03;
+                Constants.ArmTarget2 = Constants.ArmTarget2 + Constants.ArmStepOver;
             } else if (Constants.ArmError2 <= -0.01){
-                Constants.ArmTarget2 = Constants.ArmTarget2 - 0.03;
+                Constants.ArmTarget2 = Constants.ArmTarget2 - Constants.ArmStepOver;
             }
 
 
@@ -272,6 +272,8 @@ public class Testing extends LinearOpMode {
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("ArmPos1", Constants.ArmTarget1);
+            telemetry.addData("ArmPos2", Constants.ArmTarget2);
 //            telemetry.addData("SensorValue", IntakeSensor.getDistance(DistanceUnit.MM));
             telemetry.addData("IntakeMotorPos", IntakeSlideMotor.getCurrentPosition());
             telemetry.addData("IntakeSlide Amps", ((DcMotorEx) drive.IntakeSlideMotor).getCurrent(CurrentUnit.AMPS));

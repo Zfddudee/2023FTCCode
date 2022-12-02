@@ -52,6 +52,7 @@ public class Constants {
     public static double SetArmTarget2 = 0;
     public static double ArmError1 = 0;
     public static double ArmError2 = 0;
+    public static double ArmStepOver = 0.025;
 
 
     //Extake servo slide values
