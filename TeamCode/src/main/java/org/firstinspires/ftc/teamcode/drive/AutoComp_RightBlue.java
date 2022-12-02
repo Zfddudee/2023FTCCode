@@ -25,7 +25,7 @@ public class AutoComp_RightBlue extends LinearOpMode{
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         //start bot at pose x = 30, y = 64, heading 90 degrees
-        Pose2d startPose = new Pose2d(-35, 61, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
 
         double d1 = 270;
         double d2 = 270;
@@ -35,15 +35,15 @@ public class AutoComp_RightBlue extends LinearOpMode{
         // This is an x value
         double c1 = -35;
         // This is a y value
-        double c2 = 61;
+        double c2 = -61;
         // This is an x value
         double c3 = -58;
         // This is an x value
         double c4 = -60;
         // This is a y value
-        double c5 = 59;
+        double c5 = -59;
         // This is a y value
-        double c6 = 35;
+        double c6 = -35;
 
         //endregion
 
