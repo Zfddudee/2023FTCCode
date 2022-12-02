@@ -38,17 +38,17 @@ public class Constants {
     public static double ClawOpen = 0.375;
 
     //Extake servo flip values
-    public static double ExtakeFlipIn = 0;
-    public static double ExtakeFlipIn2 = 1;
-    public static double ExtakeFlipOut = 1;
-    public static double ExtakeFlipOut2 = 0;
+    public static double ExtakeFlipIn = 1;
+    public static double ExtakeFlipIn2 = 0;
+    public static double ExtakeFlipOut = 0;
+    public static double ExtakeFlipOut2 = 1;
     public static double ExtakeFlipLow = 0.4;
     public static double ExtakeFlipLow2 = 0.6;
-    public static double ExtakeFlipCycle = 0.9;
-    public static double ExtakeFlipCycle2 = 0.1;
+    public static double ExtakeFlipCycle = 0.8;
+    public static double ExtakeFlipCycle2 = 0.2;
 
-    public static double ArmTarget1 = 1;
-    public static double ArmTarget2 = 0;
+    public static double ArmTarget1 = 0;
+    public static double ArmTarget2 = 1;
     public static double SetArmTarget1 = 1;
     public static double SetArmTarget2 = 0;
     public static double ArmError1 = 0;

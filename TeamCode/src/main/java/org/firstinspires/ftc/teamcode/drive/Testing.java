@@ -86,9 +86,8 @@ public class Testing extends LinearOpMode {
         IntakeFlipMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         double turretPose = 0.5;
-
-
 
         int liftTarget = 0;
 

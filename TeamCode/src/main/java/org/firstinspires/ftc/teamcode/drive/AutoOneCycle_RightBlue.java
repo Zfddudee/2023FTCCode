@@ -83,34 +83,34 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
 
 
         //region TrajectoryX
-        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
-
-                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
-                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
-
-                .build();
-
-
-        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(startPose)
+//        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
+//
+//                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
+//                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
+//                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
+//
+//                .build();
 
 
-                .build();
+//        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(startPose)
+
+
+//                .build();
 
         //endregion
 
         //region TrajectoryY
-        TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(startPose)
+//        TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(startPose)
 
 
-                .build();
+//                .build();
 
         //endregion
 
         //region TrajectoryZ
-        TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(startPose)
+//        TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(startPose)
 
-                .build();
+//                .build();
 
         //endregion
 
@@ -120,34 +120,34 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
 
         if (pipeline.ColorSeen == "Green") {
             bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
+//            drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtake();
             bertha.AutoIntake();
             bertha.AutoExtake();
             bertha.AutoIntake1();
             bertha.AutoExtake();
-            drive.followTrajectorySequence(TrajectoryX);
+//            drive.followTrajectorySequence(TrajectoryX);
 
-        } else if (pipeline.ColorSeen == "Orange") {
-            bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtake();
-            bertha.AutoIntake();
-            bertha.AutoExtake();
-            bertha.AutoIntake1();
-            bertha.AutoExtake();
-            drive.followTrajectorySequence(TrajectoryY);
+//        } else if (pipeline.ColorSeen == "Orange") {
+//            bertha.AutoCheck();
+//            drive.followTrajectorySequence(TrajectoryOut);
+//            bertha.AutoExtake();
+//            bertha.AutoIntake();
+//            bertha.AutoExtake();
+//            bertha.AutoIntake1();
+//            bertha.AutoExtake();
+//            drive.followTrajectorySequence(TrajectoryY);
 
 
-        } else if (pipeline.ColorSeen == "Purple") {
-            bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtake();
-            bertha.AutoIntake();
-            bertha.AutoExtake();
-            bertha.AutoIntake1();
-            bertha.AutoExtake();
-            drive.followTrajectorySequence(TrajectoryZ);
+//        } else if (pipeline.ColorSeen == "Purple") {
+//            bertha.AutoCheck();
+//            drive.followTrajectorySequence(TrajectoryOut);
+//            bertha.AutoExtake();
+//            bertha.AutoIntake();
+//            bertha.AutoExtake();
+//            bertha.AutoIntake1();
+//            bertha.AutoExtake();
+//            drive.followTrajectorySequence(TrajectoryZ);
 
         }
         while (opModeIsActive()) {
