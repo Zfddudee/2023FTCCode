@@ -28,14 +28,22 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
 
         double d1 = 270;
-
+        double d2 = 180;
+        double d3 = 0;
 
         //region Park Left
 
         // This is an x value
         double c1 = -35;
         // This is a y value
-        double c2 = 13;
+        double c2 = 14;
+        // This is an x value
+        double c3 = -37;
+        // This is a y value
+        double c4 = 12;
+        // This is an x value
+        double c5 = -45;
+
 
         //endregion
 
@@ -78,6 +86,8 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
 
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
+                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
+                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
 
                 .build();
 
@@ -113,15 +123,32 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtake();
             bertha.AutoIntake();
+            bertha.AutoExtake();
             bertha.AutoIntake1();
             bertha.AutoExtake();
             drive.followTrajectorySequence(TrajectoryX);
 
         } else if (pipeline.ColorSeen == "Orange") {
+            bertha.AutoCheck();
+            drive.followTrajectorySequence(TrajectoryOut);
+            bertha.AutoExtake();
+            bertha.AutoIntake();
+            bertha.AutoExtake();
+            bertha.AutoIntake1();
+            bertha.AutoExtake();
             drive.followTrajectorySequence(TrajectoryY);
 
+
         } else if (pipeline.ColorSeen == "Purple") {
+            bertha.AutoCheck();
+            drive.followTrajectorySequence(TrajectoryOut);
+            bertha.AutoExtake();
+            bertha.AutoIntake();
+            bertha.AutoExtake();
+            bertha.AutoIntake1();
+            bertha.AutoExtake();
             drive.followTrajectorySequence(TrajectoryZ);
+
         }
         while (opModeIsActive()) {
 
