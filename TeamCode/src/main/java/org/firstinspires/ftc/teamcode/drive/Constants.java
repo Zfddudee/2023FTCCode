@@ -46,6 +46,13 @@ public class Constants {
     public static double ExtakeFlipCycle = 0.9;
     public static double ExtakeFlipCycle2 = 0.1;
 
+    public static double ArmTarget1 = 1;
+    public static double ArmTarget2 = 0;
+    public static double SetArmTarget1 = 1;
+    public static double SetArmTarget2 = 0;
+    public static double ArmError1 = 0;
+    public static double ArmError2 = 0;
+
 
     //Extake servo slide values
     public static double SlideOut = 0;

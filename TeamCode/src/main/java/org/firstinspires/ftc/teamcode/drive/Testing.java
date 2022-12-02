@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.internal.hardware.usb.ArmableUsbDevice;
 
 @Config
 @TeleOp(name="Testing")
@@ -87,7 +88,10 @@ public class Testing extends LinearOpMode {
         liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double turretPose = 0.5;
 
+
+
         int liftTarget = 0;
+
 
 
 
@@ -95,17 +99,38 @@ public class Testing extends LinearOpMode {
 
         while (!isStopRequested()) {
             drive.Turret1.setPosition(turretPose);
+            drive.ExtakeFlip1.setPosition(Constants.ArmTarget1);
+            drive.ExtakeFlip2.setPosition(Constants.ArmTarget2);
+
             Constants.liftError1 = liftTarget - liftMotorR.getCurrentPosition();
             Constants.liftError2 = liftTarget - liftMotorL.getCurrentPosition();
             Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
             Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
             liftMotorR.setPower(Constants.liftPower1);
             liftMotorL.setPower(Constants.liftPower2);
+
             if (liftTarget == 0){
                 Constants.liftGainP = Constants.liftGainP0;
             }else{
                 Constants.liftGainP = Constants.liftGainPUp;
             }
+
+            Constants.ArmError1 = Constants.SetArmTarget1 - Constants.ArmTarget1;
+            Constants.ArmError2 = Constants.SetArmTarget2 - Constants.ArmTarget2;
+
+            if (Constants.ArmError1 >= 0.01){
+                Constants.ArmTarget1 = Constants.ArmTarget1 + 0.03;
+            } else if (Constants.ArmError1 <= -0.01){
+                Constants.ArmTarget1 = Constants.ArmTarget1 - 0.03;
+            }
+
+            if (Constants.ArmError2 >= 0.01){
+                Constants.ArmTarget2 = Constants.ArmTarget2 + 0.03;
+            } else if (Constants.ArmError2 <= -0.01){
+                Constants.ArmTarget2 = Constants.ArmTarget2 - 0.03;
+            }
+
+
 
             if(gamepad1.options){
                 IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -202,12 +227,12 @@ public class Testing extends LinearOpMode {
                 Claw.setPosition(Constants.ClawOpen);
             }
             if (gamepad1.left_trigger > 0.5){
-                drive.ExtakeFlip1.setPosition(Constants.ExtakeFlipIn);
-                drive.ExtakeFlip2.setPosition(Constants.ExtakeFlipIn2);
+                Constants.SetArmTarget1 = Constants.ExtakeFlipIn;
+                Constants.SetArmTarget2 = Constants.ExtakeFlipIn2;
             }
             if (gamepad1.right_trigger > 0.5){
-                drive.ExtakeFlip1.setPosition(Constants.ExtakeFlipOut);
-                drive.ExtakeFlip2.setPosition(Constants.ExtakeFlipOut2);
+                Constants.SetArmTarget1 = Constants.ExtakeFlipOut;
+                Constants.SetArmTarget2 = Constants.ExtakeFlipOut2;
             }
             if(gamepad1.dpad_right){
                 turretPose = Constants.TurretRight;
