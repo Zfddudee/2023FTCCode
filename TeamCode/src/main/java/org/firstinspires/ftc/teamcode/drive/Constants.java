@@ -107,5 +107,8 @@ public class Constants {
     public static double liftPower1 = 0;
     public static double liftPower2 = 0;
 
-    //
+    //Color Threshold
+    public final static double ColorAreaThreshHold = 300;
+
+    public final static double DrivePower = 1.0;
 }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.opmode.Vision;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.drive.Constants;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -14,8 +15,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 public class ImageDetectorPipeline extends OpenCvPipeline {
-    public Scalar lScalar = new Scalar(110,50,50);
-    public Scalar uScalar = new Scalar(130,255,255);
+//    public Scalar lScalar = new Scalar(110,50,50);
+//    public Scalar uScalar = new Scalar(130,255,255);
 
     public boolean showGreen = true;
     public boolean showPurlple = true;
@@ -31,37 +32,33 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
     public ImageDetectorPipeline(Telemetry tela){
         telemetry = tela;
         if(showGreen){
-            lScalar = new Scalar(40,50,50);
-            uScalar = new Scalar(80,255,255);
+//            lScalar = new Scalar(40,50,50);
+//            uScalar = new Scalar(80,255,255);
             colors.add(new ColorRange("Green", new Scalar(40,50,50), new Scalar(80, 255, 255)));
         }
         if(showOrange){
-            lScalar = new Scalar(110,125,185);
-            uScalar = new Scalar(150,255,255);
+//            lScalar = new Scalar(110,125,185);
+//            uScalar = new Scalar(150,255,255);
             colors.add(new ColorRange("Orange", new Scalar(110,125,185), new Scalar(150,255,255)));
         }
 
         if(showPurlple){
-            lScalar = new Scalar(130,50,50);
-            uScalar = new Scalar(170,255,255);
+//            lScalar = new Scalar(130,50,50);
+//            uScalar = new Scalar(170,255,255);
             colors.add(new ColorRange("Purple", new Scalar(130,50,50), new Scalar(170,255,255)));
         }
     }
     @Override
     public Mat processFrame(Mat input) {
         for(ColorRange cr : colors){
-//            if(this.isColor(input, cr.Lower, cr.Upper)) {
-//                this.ColorSeen = cr.Color;
-//                telemetry.addData("Color Seen: ", cr.Color);
-//                telemetry.update();
-//            }
             cr.AreaSeen = this.GetColorArea(input, cr.Lower, cr.Upper);
         }
 
+        String colorSeen = "Orange";
+
         double highestValue = 0.0;
-        String colorSeen = "";
-        for(ColorRange cr: colors){
-            if(cr.AreaSeen > highestValue) {
+        for (ColorRange cr : colors) {
+            if (cr.AreaSeen > Constants.ColorAreaThreshHold && cr.AreaSeen > highestValue) {
                 highestValue = cr.AreaSeen;
                 colorSeen = cr.Color;
             }

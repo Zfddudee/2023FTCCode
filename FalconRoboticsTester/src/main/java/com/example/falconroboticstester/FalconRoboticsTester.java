@@ -388,7 +388,7 @@ public class FalconRoboticsTester {
 //          Vars v = GetVars(Mode.AutoCompLeftRed);
 //          Vars v = GetVars(Mode.AutoCompRightBlue);
 //          Vars v = GetVars(Mode.AutoCompRightRed);
-        Vars v = GetVars(Mode.AutoOneCycle_LeftBlue);
+          Vars v = GetVars(Mode.AutoOneCycle_LeftBlue);
 //          Vars v = GetVars(Mode.AutoOneCycle_LeftRed);
 //          Vars v = GetVars(Mode.AutoOneCycle_RightBlue);
 //          Vars v = GetVars(Mode.AutoOneCycle_RightRed);
@@ -533,9 +533,9 @@ public class FalconRoboticsTester {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(v.startPose)
 
-                                .lineToSplineHeading(new Pose2d(-35, 13, Math.toRadians(270)))
-                                // Create action here
-                                .lineToSplineHeading(new Pose2d(-35, 40, Math.toRadians(270)))
+                                .lineToSplineHeading(new Pose2d(-35, 14, Math.toRadians(270)))
+                                .splineToConstantHeading(new Vector2d(-37, 12), Math.toRadians(180))
+                                .lineToSplineHeading(new Pose2d(-45, 12, Math.toRadians(0)))
 
                                 .build());
 
