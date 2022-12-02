@@ -25,7 +25,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
             //start bot at pose x = 30, y = 64, heading 90 degrees
-            Pose2d startPose = new Pose2d(-35, -62, Math.toRadians(90));
+            Pose2d startPose = new Pose2d(-35, -62, Math.toRadians(270));
 
             double d1 = 270;
 

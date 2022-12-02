@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
-    @Autonomous(name = "AutoComp_RightRed", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
+    @Autonomous(name = "AutoComp_RightRed")
     public class AutoComp_RightRed extends LinearOpMode {
 
 
@@ -31,7 +31,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
             //start bot at pose x = 30, y = 64, heading 90 degrees
             Pose2d startPose = new Pose2d(35, -61, Math.toRadians(270));
 
-            double d1 = 90;
+            double d1 = 270;
 
             //region Park Left
 
