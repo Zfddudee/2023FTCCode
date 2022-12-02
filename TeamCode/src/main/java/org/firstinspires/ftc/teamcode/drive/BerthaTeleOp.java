@@ -33,9 +33,9 @@ public class BerthaTeleOp extends LinearOpMode {
         //This moves the robot forwards, backwards, and strafes left and right
         //Left Joystick
         bertha.Move(new Pose2d(
-                -gamepad1.left_stick_y * -1,
-                -gamepad1.left_stick_x * -1,
-                -gamepad1.right_stick_x
+                -gamepad1.left_stick_y * -1 * Constants.DrivePower,
+                -gamepad1.left_stick_x * -1 * Constants.DrivePower,
+                -gamepad1.right_stick_x * Constants.DrivePower
         ));
 
         if(gamepad1.x)
@@ -62,6 +62,10 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.StompUp();
         else if(gamepad1.touchpad)
             bertha.MoveToExchange2();
+        else if(gamepad1.right_stick_button)
+            bertha.AutoExtake();
+        else if(gamepad1.left_stick_button)
+            bertha.AutoIntake();
     }
 
     private void GamePad2Loop() {
