@@ -31,6 +31,7 @@ public class Constants {
     public static double TurretDefault = 0.45;
     public static double TurretHorizontalCycle = 0.75;
     public static double TurretStepOver = -0.0035;
+    public static double AutoRight = 0.8;
 
     //Claw servo values
     public static double ClawClosed = 0.26;
@@ -74,6 +75,9 @@ public class Constants {
 
     //Intake flip motor values
     public static int IntakeFlips = 550;
+    //TODO make sure that all of these are tuned for the auto intake
+    public static int IntakeFlips1 = 500;
+
     public static int IntakeFlipsLow = 400;
     public static int IntakeFlipsIn = 0;
     public static int IntakeNewExchange = 20;
