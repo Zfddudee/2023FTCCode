@@ -8,5 +8,9 @@ public enum Mode{
     AutoCompLeftBlue,
     AutoCompLeftRed,
     AutoCompRightBlue,
-    AutoCompRightRed
+    AutoCompRightRed,
+    AutoOneCycle_LeftBlue,
+    AutoOneCycle_LeftRed,
+    AutoOneCycle_RightBlue,
+    AutoOneCycle_RightRed
 }

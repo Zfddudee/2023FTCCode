@@ -20,7 +20,8 @@ public class Turret extends BaseRobot{
         Left,
         Right,
         Center,
-        CycleHorizontal
+        CycleHorizontal,
+        AutoRight
     }
 
     private double currentTurretHeight;
@@ -75,8 +76,8 @@ public class Turret extends BaseRobot{
             MoveVertical(Constants.ExtakeFlipLow, Constants.ExtakeFlipLow2);
         else if(height == TurretHeight.Default)
             MoveVertical(Constants.ExtakeFlipIn, Constants.ExtakeFlipIn2);
-        else
-            MoveVertical(Constants.ExtakeFlipCycle, Constants.ExtakeFlipCycle2);
+             else
+        MoveVertical(Constants.ExtakeFlipCycle, Constants.ExtakeFlipCycle2);
     }
 
     public void MoveHorizontalOffset(double offset) {
@@ -98,8 +99,11 @@ public class Turret extends BaseRobot{
             MoveHorizontal(Constants.TurretRight);
         else if(horizontal == TurretHorizontal.Center)
             MoveHorizontal(Constants.TurretDefault);
-            else
+        else if(horizontal == TurretHorizontal.CycleHorizontal)
             MoveHorizontal(Constants.TurretHorizontalCycle);
+        else if(horizontal == TurretHorizontal.AutoRight)
+            MoveHorizontal(Constants.AutoRight);
+
     }
 
     public void OpenClaw() {
@@ -159,4 +163,5 @@ public class Turret extends BaseRobot{
                 Math.abs(Turret1.getPosition()),
                 buffer);
     }
+
 }

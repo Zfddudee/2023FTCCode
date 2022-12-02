@@ -150,6 +150,9 @@ public class Intake extends BaseRobot {
         SetIntakePosition(Constants.IntakeFlipsLow, Constants.HighVelocity);
     }
 
+    public void IntakeOut1() {
+        SetIntakePosition(Constants.IntakeFlips1, Constants.HighVelocity);
+    }
     /**
      * This is the motor that brings the entire intake inwards to its default position
      */

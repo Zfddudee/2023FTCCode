@@ -58,6 +58,7 @@ public class Bertha{
         }
     }
 
+    //region TeleOp
     public void RunOpMode() {
         telemetry.addData("Current State: ", state);
         switch (state)
@@ -312,4 +313,91 @@ public class Bertha{
         PauseTimeMilliseconds(750);
         turret.MoveHorizontal(Turret.TurretHorizontal.CycleHorizontal);
     }
+
+    //endregion
+
+    //region Autonomous
+
+    public void AutoCheck() {
+        turret.CloseClaw();
+    }
+
+    public void AutoExtake() {
+        lift.MoveLift(Lift.LiftHeight.High);
+        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
+        PauseTimeMilliseconds(3000);
+        turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
+        PauseTimeMilliseconds(200);
+        turret.OpenClaw();
+        PauseTimeMilliseconds(100);
+        turret.CloseClaw();
+        turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+        PauseTimeMilliseconds(3000);
+        turret.MoveVertical(Turret.TurretHeight.Default);
+        PauseTimeMilliseconds(500);
+        lift.MoveLift(Lift.LiftHeight.Default);
+        PauseTimeMilliseconds(500);
+        turret.SlideOut();
+        turret.OpenClaw();
+    }
+
+    public void AutoIntake() {
+        intake.SlideMotorExchange();
+        PauseTimeMilliseconds(300);
+        intake.IntakeLow();
+        PauseTimeMilliseconds(200);
+        intake.FlipDown();
+        PauseTimeMilliseconds(200);
+        //TODO the intake out value will need to change everytime a cone is grabbed
+        intake.IntakeOut();
+        intake.IntakeSpinIn();
+        PauseTimeMilliseconds(200);
+        intake.IntakeLow();
+        PauseTimeMilliseconds(100);
+        intake.FlipUp();
+        PauseTimeMilliseconds(200);
+        intake.IntakeSpinStop();
+        intake.IntakeNewExchange();
+        PauseTimeMilliseconds(500);
+        intake.SlideMotorExchange();
+        PauseTimeMilliseconds(500);
+        turret.SlideIn();
+        PauseTimeMilliseconds(750);
+        intake.IntakeSpinOut();
+        PauseTimeMilliseconds(100);
+        turret.CloseClaw();
+        intake.IntakeSpinStop();
+
+    }
+
+    public void AutoIntake1() {
+        intake.SlideMotorExchange();
+        PauseTimeMilliseconds(300);
+        intake.IntakeLow();
+        PauseTimeMilliseconds(200);
+        intake.FlipDown();
+        PauseTimeMilliseconds(200);
+        //TODO the intake out value will need to change everytime a cone is grabbed
+        intake.IntakeOut1();
+        intake.IntakeSpinIn();
+        PauseTimeMilliseconds(200);
+        intake.IntakeLow();
+        PauseTimeMilliseconds(100);
+        intake.FlipUp();
+        PauseTimeMilliseconds(200);
+        intake.IntakeSpinStop();
+        intake.IntakeNewExchange();
+        PauseTimeMilliseconds(500);
+        intake.SlideMotorExchange();
+        PauseTimeMilliseconds(500);
+        turret.SlideIn();
+        PauseTimeMilliseconds(750);
+        intake.IntakeSpinOut();
+        PauseTimeMilliseconds(100);
+        turret.CloseClaw();
+        intake.IntakeSpinStop();
+
+    }
+
+    //endregion
 }
