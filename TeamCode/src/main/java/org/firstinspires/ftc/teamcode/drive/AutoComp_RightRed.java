@@ -18,11 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
     @Autonomous(name = "AutoComp_RightRed", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
     public class AutoComp_RightRed extends LinearOpMode {
 
-        private DcMotor Lift;
-        private DcMotor Intake;
-        private Servo Bucket;
-        private Servo TapeUpDown;
-        private Servo TapeLeftRight;
+
 
 
         OpenCvCamera webcam;
@@ -31,12 +27,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
         @Override
         public void runOpMode() throws InterruptedException {
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-            Lift = hardwareMap.get(DcMotor.class, "LiftMotor");
-            Intake = hardwareMap.get(DcMotor.class, "IntakeMotor");
-            Bucket = hardwareMap.get(Servo.class, "Bucket_Servo");
-            TapeUpDown = hardwareMap.get(Servo.class, "tapeUpDown");
-            TapeLeftRight = hardwareMap.get(Servo.class, "tapeLeftRight");
-
 
             //start bot at pose x = 30, y = 64, heading 90 degrees
             Pose2d startPose = new Pose2d(35, -61, Math.toRadians(270));
@@ -112,6 +102,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
                     .lineToSplineHeading(new Pose2d(c8, c6, Math.toRadians(d1)))
 
                     .build();
+
+            waitForStart();
 
             if (pipeline.ColorSeen == "Green") {
                 drive.followTrajectorySequence(TrajectoryX);

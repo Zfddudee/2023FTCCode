@@ -15,19 +15,15 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-
-    @Autonomous(name = "AutoComp_LeftBlue", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
+    @Autonomous(name = "AutoComp_LeftBlue")
     public class AutoComp_LeftBlue extends LinearOpMode {
 
         OpenCvCamera webcam;
-        //VariableTunerTest pipeline;
         ImageDetectorPipeline pipeline;
 
         @Override
         public void runOpMode() throws InterruptedException {
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-            //region Drive Value Constants
 
             //start bot at pose x = 30, y = 64, heading 90 degrees
             Pose2d startPose = new Pose2d(35, 62, Math.toRadians(90));
@@ -71,7 +67,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
             // OR...  Do Not Activate the Camera Monitor View
             //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-            //pipeline = new VariableTunerTest(telemetry);
             pipeline = new ImageDetectorPipeline(telemetry);
             webcam.setPipeline(pipeline);
 
@@ -88,13 +83,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
                                          }
 
             );
-            waitForStart();
-
-
-
-            //drive.trajectoryBuilder(new Pose2d()).addTemporalMarker(3, () -> {Bucket.setPosition(intaking);}).build();
-//.UNSTABLE_addTemporalMarkerOffset(0, () -> )
-            //trajectory0
 
             TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(startPose)
                     .lineToSplineHeading(new Pose2d(c3, c2, Math.toRadians(d1)))
@@ -115,21 +103,16 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
                     .build();
 
-
-
-
-            // Green = loc 1 ( left )
+            waitForStart();
 
             if (pipeline.ColorSeen == "Green") {
                 drive.followTrajectorySequence(TrajectoryX);
             }
 
-            // Orange = loc 2 ( middle )
             else if (pipeline.ColorSeen == "Orange") {
                 drive.followTrajectorySequence(TrajectoryY);
             }
-
-            // Purple = loc 3 (right )
+            
             else if (pipeline.ColorSeen == "Purple") {
                 drive.followTrajectorySequence(TrajectoryZ);
             } else {
