@@ -70,7 +70,7 @@ public class BerthaTeleOp extends LinearOpMode {
 
     private void GamePad2Loop() {
         if(gamepad2.a)
-            bertha.ExchangeToExtake();
+            bertha.TeleOpCycle();
         else if(gamepad2.b)
             bertha.IntakeReturn();
         else if(gamepad2.y)
@@ -100,6 +100,6 @@ public class BerthaTeleOp extends LinearOpMode {
         else if(gamepad2.touchpad)
             bertha.TurretCenter();
         else if(gamepad2.left_stick_button)
-            bertha.TeleOpCycle();
+            bertha.ExchangeToExtake();
     }
 }

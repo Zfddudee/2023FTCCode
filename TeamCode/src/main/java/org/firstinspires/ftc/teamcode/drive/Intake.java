@@ -55,13 +55,13 @@ public class Intake extends BaseRobot {
     }
 
     public boolean SlowIntakeWheels () {
-//        if(GetSensorDistanceMM() <= Constants.IntakeWheelSensor) {
-//            IntakeWheels.setPower(Constants.IntakeWheelsSlow);
-//            return true;
-//        }
-//        else
-//            return false;
-        return false;
+        if(GetSensorDistanceMM() <= Constants.IntakeWheelSensor) {
+            IntakeWheels.setPower(Constants.IntakeWheelsSlow);
+            return true;
+        }
+        else
+            return false;
+//        return false;
     }
 
     ///region Slide Motor
