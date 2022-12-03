@@ -64,8 +64,8 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.MoveToExchange2();
         else if(gamepad1.right_stick_button)
             bertha.AutoExtake();
-        else if(gamepad1.left_stick_button)
-            bertha.AutoIntake();
+//        else if(gamepad1.left_stick_button)
+//            bertha.AutoIntake();
     }
 
     private void GamePad2Loop() {
@@ -85,14 +85,14 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.TurretRight();
         else if(gamepad2.left_bumper)
             bertha.TurretLeft();
-        else if(gamepad2.right_stick_y != 0)
-            bertha.MoveLiftOffset(gamepad2.right_stick_y);
+//        else if(gamepad2.right_stick_y != 0)
+//            bertha.MoveLiftOffset(gamepad2.right_stick_y);
         else if(gamepad2.share)
             bertha.Reset();
         else if(gamepad2.dpad_up)
-            bertha.TurretVertical(.0015);
-        else if(gamepad2.dpad_down)
             bertha.TurretVertical(-.0015);
+        else if(gamepad2.dpad_down)
+            bertha.TurretVertical(.0015);
         else if(gamepad2.dpad_right)
             bertha.TurretHorizontal(.0035);
         else if(gamepad2.dpad_left)

@@ -59,12 +59,21 @@ public class Turret extends BaseRobot{
 
     public void MoveVerticalOffset(double offset) {
         //TODO check these values
+
         double exFlip1Position = ExtakeFlip1.getPosition() + offset;
         double exFlip2Position = ExtakeFlip2.getPosition() - offset;
         MoveVertical(exFlip1Position, exFlip2Position);
     }
 
     public void MoveVertical(double extakeFlip1Position, double extakeFlip2Position) {
+        //we are going from extended to retracted and we are going back to retracted so center turret
+        if( ExtakeFlip1.getPosition() < extakeFlip1Position && extakeFlip1Position > Constants.ExFlipThreshold
+                && !this.IsAtPosition(Turret1.getPosition(), Constants.TurretDefault, .05)) {
+            MoveHorizontal(TurretHorizontal.Center);
+            Wait(250);
+        }
+
+        currentTurretHeight = extakeFlip1Position;
         ExtakeFlip1.setPosition(extakeFlip1Position);
         ExtakeFlip2.setPosition(extakeFlip2Position);
         timer.reset();
@@ -80,6 +89,8 @@ public class Turret extends BaseRobot{
             MoveVertical(Constants.ExtakeFlipLow, Constants.ExtakeFlipLow2);
         else if(height == TurretHeight.Default)
             MoveVertical(Constants.ExtakeFlipIn, Constants.ExtakeFlipIn2);
+        else if(height == TurretHeight.CycleVertical)
+            MoveVertical(Constants.ExtakeFlipCycle, Constants.ExtakeFlipCycle2);
         else
             MoveVertical(Constants.ExtakeFlipCycle, Constants.ExtakeFlipCycle2);
     }
@@ -91,7 +102,7 @@ public class Turret extends BaseRobot{
     }
 
     public void MoveHorizontal(double position) {
-        if(currentTurretHeight > .5 || CanMoveHorizontal()) {
+        if(currentTurretHeight > Constants.ExFlipThreshold || CanMoveHorizontal()) {
             Turret1.setPosition(position);
             currentTurretHorizontal = position;
             LogTelemetry("Turret Horizontal: ", Turret1.getPosition());
@@ -101,31 +112,15 @@ public class Turret extends BaseRobot{
     }
 
     public boolean CanMoveHorizontal(){
-        if(ExtakeFlip1.getPosition() <= Constants.ExFlipThreshold){
+        if(ExtakeFlip1.getPosition() >= Constants.ExFlipThreshold){
             return false;
         }
-        else if(Turret1.getPosition() > Constants.ExFlipThreshold && timer.milliseconds() < Constants.ExFlipTimerThreshold_Milliseconds){
+        else if(Turret1.getPosition() <= Constants.ExFlipThreshold && timer.milliseconds() < Constants.ExFlipTimerThreshold_Milliseconds){
             return false;
         }
         else
             return true;
     }
-
-//    private boolean CanMoveHorizontal(double currentPosition, double targetPosition){
-//        double armError1 = currentPosition - targetPosition;
-//
-//        if (armError1 >= 0.01){
-//            Constants.ArmTarget1 = Constants.ArmTarget1 + Constants.ArmStepOver;
-//        } else if (Constants.ArmError1 <= -0.01){
-//            Constants.ArmTarget1 = Constants.ArmTarget1 - Constants.ArmStepOver;
-//        }
-//
-//        if (Constants.ArmError2 >= 0.01){
-//            Constants.ArmTarget2 = Constants.ArmTarget2 + Constants.ArmStepOver;
-//        } else if (Constants.ArmError2 <= -0.01){
-//            Constants.ArmTarget2 = Constants.ArmTarget2 - Constants.ArmStepOver;
-//        }
-//    }
 
     public void MoveHorizontal(TurretHorizontal horizontal) {
         if(horizontal == TurretHorizontal.Left)

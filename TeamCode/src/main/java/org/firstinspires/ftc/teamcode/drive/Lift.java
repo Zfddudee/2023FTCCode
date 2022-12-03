@@ -72,7 +72,6 @@ public class Lift extends BaseRobot{
         this.LogTelemetry("Current Velocity: ", velocity);
         this.LogTelemetry("LiftMotorR Amps", ((DcMotorEx) liftMotorR).getCurrent(CurrentUnit.AMPS));
         this.LogTelemetry("LiftMotorL Amps", ((DcMotorEx) liftMotorL).getCurrent(CurrentUnit.AMPS));
-
     }
 
     /**

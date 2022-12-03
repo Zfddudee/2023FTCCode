@@ -44,8 +44,8 @@ public class Constants {
     public static double ExtakeFlipOut2 = 1;
     public static double ExtakeFlipLow = 0.4;
     public static double ExtakeFlipLow2 = 0.6;
-    public static double ExtakeFlipCycle = 0.8;
-    public static double ExtakeFlipCycle2 = 0.2;
+    public static double ExtakeFlipCycle = 0.075;
+    public static double ExtakeFlipCycle2 = 0.925;
 
     public static double ArmTarget1 = 0;
     public static double ArmTarget2 = 1;
@@ -108,10 +108,12 @@ public class Constants {
     public static double liftPower2 = 0;
 
     //Color Threshold
-    public final static double ColorAreaThreshHold = 300;
+    public static double ColorAreaThreshHold = 300;
 
-    public final static double DrivePower = 1.0;
+    public static double DrivePower = .75;
 
-    public final static double ExFlipThreshold = .5;
-    public final static int ExFlipTimerThreshold_Milliseconds = 500;
+    public static double ExFlipThreshold = .35;
+    public static int ExFlipTimerThreshold_Milliseconds = 500;
+
+    public static int LiftStep = 50;
 }

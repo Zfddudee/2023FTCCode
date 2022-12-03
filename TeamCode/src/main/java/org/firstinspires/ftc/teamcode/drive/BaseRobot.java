@@ -42,4 +42,11 @@ abstract class BaseRobot {
         while(!motor.isBusy() || timer.milliseconds() < timeoutMM) {
         }
     }
+
+    protected void Wait(int timeoutMilliseconds){
+        ElapsedTime timer = new ElapsedTime();
+        timer.startTime();
+        while(timer.milliseconds() < timeoutMilliseconds) {
+        }
+    }
 }

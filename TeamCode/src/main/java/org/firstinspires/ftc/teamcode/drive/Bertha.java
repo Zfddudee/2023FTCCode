@@ -65,6 +65,7 @@ public class Bertha{
         {
             case PreConePickUp:
                 if(turret.IsClawOpen() && intake.GetCurrentSlidePosition() > Constants.IntakeExchanging - 100 ) {
+                    PauseTimeMilliseconds(200);
                     intake.IntakeLow();
                     intake.FlipDown();
                     state = State.None;
@@ -196,6 +197,7 @@ public class Bertha{
                 turret.MoveVertical(Turret.TurretHeight.Default);
             }
             turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+            turret.CloseClaw();
             PauseTimeMilliseconds(250);
             turret.MoveVertical(Turret.TurretHeight.Default);
             lift.MoveLift(Lift.LiftHeight.Default);
@@ -308,6 +310,7 @@ public class Bertha{
 
     public void TeleOpCycle() {
         lift.MoveLift(Lift.LiftHeight.High);
+        PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
         turret.SlideMid();
         PauseTimeMilliseconds(750);
