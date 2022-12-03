@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 // THIS IS A TEST FOR LEFT BLUE
 
-@Autonomous(name = "AutonomousTester", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
+@Autonomous(name = "AutonomousTester", group = "Bertha", preselectTeleOp = "BerthaTeleOp")
 public class AutonomousTester extends LinearOpMode {
 
     private DcMotor Lift;

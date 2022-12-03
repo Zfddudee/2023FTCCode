@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,8 +11,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+@Disabled
 @Config
-@TeleOp(name = "TeleOpMain")
+@TeleOp(name = "TeleOpMain", group="Testing")
 public class TeleopMain2023 extends LinearOpMode {
 
     // An Enum is used to represent lift states.
@@ -27,21 +29,15 @@ public class TeleopMain2023 extends LinearOpMode {
         FullRetract
     }
 
-    ;
-
     public enum StompState {
         Down,
         Up
     }
 
-    ;
-
     public enum OdoState {
         Down,
         Up
     }
-
-    ;
 
     // The liftState variable is declared out here
     // so its value persists between loop() calls

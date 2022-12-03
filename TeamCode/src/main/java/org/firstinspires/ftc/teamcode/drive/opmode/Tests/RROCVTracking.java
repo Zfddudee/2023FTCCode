@@ -13,7 +13,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "RedWarehouseRoadRunner", group = "RoadRunner/OpenCv", preselectTeleOp = "19589_TeleOp 2022-01-01")
+@Autonomous(name = "RedWarehouseRoadRunner", group = "Bertha", preselectTeleOp = "BerthaTeleOp")
 public class RROCVTracking extends LinearOpMode {
 
 

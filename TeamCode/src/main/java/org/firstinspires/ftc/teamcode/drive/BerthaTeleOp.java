@@ -4,7 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "BerthaTeleOp")
+@TeleOp(name = "BerthaTeleOp", group="Bertha")
 public class BerthaTeleOp extends LinearOpMode {
 
     private Bertha bertha;

@@ -12,9 +12,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
 @Disabled
-@Autonomous(name = "RedCarouselTrajectory", preselectTeleOp = "19589_TeleOp")
-
-
+@Autonomous(name = "RedCarouselTrajectory", group="XX")
 public class RightRedSide extends LinearOpMode {
 
 

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
-@TeleOp(name = "TeleOpSubSystemTest")
+@TeleOp(name = "TeleOpSubSystemTest", group ="Testing")
 
 public class TeleOpSubSystemTest  extends LinearOpMode {
 

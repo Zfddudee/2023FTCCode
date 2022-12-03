@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
-    @Autonomous(name = "AutoComp_RightRed")
+    @Autonomous(name = "AutoComp_RightRed", group="Bertha",preselectTeleOp = "BerthaTeleOp")
     public class AutoComp_RightRed extends LinearOpMode {
 
 
