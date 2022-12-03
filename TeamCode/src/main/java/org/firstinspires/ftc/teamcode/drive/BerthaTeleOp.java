@@ -12,7 +12,6 @@ public class BerthaTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         bertha = new Bertha(hardwareMap, telemetry);
-
         waitForStart();
         while (!isStopRequested()) {
             try {

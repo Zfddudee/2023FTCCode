@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+@Config
 public class Bertha{
 
     enum State {
@@ -58,9 +60,15 @@ public class Bertha{
         }
     }
 
+    private void LogAllTelemetry(){
+        telemetry.addData("Current State: ", state);
+        turret.Telemetry();
+        intake.Telemetry();
+        lift.Telemetry();
+    }
+
     //region TeleOp
     public void RunOpMode() {
-        telemetry.addData("Current State: ", state);
         switch (state)
         {
             case PreConePickUp:
@@ -73,7 +81,8 @@ public class Bertha{
                 break;
             case PickAndExchange:
                 if(intake.SlowIntakeWheels()){
-                    MoveToExchangeWithCone();
+                    MoveToExchange2();
+                    state = State.None;
                 }
                 break;
             case PickAndExchange_Step2:
@@ -108,7 +117,7 @@ public class Bertha{
             default:
                 break;
         }
-
+        this.LogAllTelemetry();
     }
 
     private void MoveToExchangeWithCone() {
@@ -305,7 +314,6 @@ public class Bertha{
         PauseTimeMilliseconds(150);
         lift.MoveLift(Lift.LiftHeight.Medium);
         intake.IntakeIn();
-
     }
 
     public void TeleOpCycle() {
@@ -315,6 +323,8 @@ public class Bertha{
         turret.SlideMid();
         PauseTimeMilliseconds(750);
         turret.MoveHorizontal(Turret.TurretHorizontal.CycleHorizontal);
+        PauseTimeMilliseconds(Constants.CycleDropDelay);
+        turret.MoveVertical(Turret.TurretHeight.Flipped);
     }
 
     //endregion

@@ -29,7 +29,7 @@ public class Constants {
     public static double TurretRight = 0.05;
     public static double TurretLeft = 1;
     public static double TurretDefault = 0.45;
-    public static double TurretHorizontalCycle = 0.75;
+    public static double TurretHorizontalCycle = 0.707;
     public static double TurretStepOver = -0.0035;
     public static double AutoRight = 0.8;
 
@@ -38,8 +38,8 @@ public class Constants {
     public static double ClawOpen = 0.375;
 
     //Extake servo flip values
-    public static double ExtakeFlipIn = 1;
-    public static double ExtakeFlipIn2 = 0;
+    public static double ExtakeFlipIn = 0.6;
+    public static double ExtakeFlipIn2 = 0.4;
     public static double ExtakeFlipOut = 0;
     public static double ExtakeFlipOut2 = 1;
     public static double ExtakeFlipLow = 0.4;
@@ -116,4 +116,7 @@ public class Constants {
     public static int ExFlipTimerThreshold_Milliseconds = 500;
 
     public static int LiftStep = 50;
+
+    public static int CycleDropDelay = 600;
+
 }

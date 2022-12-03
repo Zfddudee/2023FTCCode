@@ -47,6 +47,7 @@ public class Turret extends BaseRobot{
         SlideExtension = hardwareMap.get(Servo.class, "SlideExtension");
         SlideExtension2 = hardwareMap.get(Servo.class, "SlideExtension2");
         Turret1.scaleRange(0.1, 1);
+        ExtakeFlip2.scaleRange(0.8, 1);
     }
 
     private double CheckBoundries(double position) {
@@ -55,6 +56,17 @@ public class Turret extends BaseRobot{
         if(position < 0)
             position = 0.0;
         return position;
+    }
+
+    public double GetExTakeVerticalPosition(){
+        return ExtakeFlip1.getPosition();
+    }
+    public double GetExTake2VerticalPosition(){
+        return ExtakeFlip2.getPosition();
+    }
+
+    public double GetTurretPosition(){
+        return Turret1.getPosition();
     }
 
     public void MoveVerticalOffset(double offset) {
@@ -78,8 +90,6 @@ public class Turret extends BaseRobot{
         ExtakeFlip2.setPosition(extakeFlip2Position);
         timer.reset();
         timer.startTime();
-        this.LogTelemetry("Current Turret Position 1: ", extakeFlip1Position);
-        this.LogTelemetry("Current Turret Position 2: ", extakeFlip2Position);
     }
 
     public void MoveVertical(TurretHeight height) {
@@ -105,7 +115,6 @@ public class Turret extends BaseRobot{
         if(currentTurretHeight > Constants.ExFlipThreshold || CanMoveHorizontal()) {
             Turret1.setPosition(position);
             currentTurretHorizontal = position;
-            LogTelemetry("Turret Horizontal: ", Turret1.getPosition());
         }
         else
             LogTelemetry("Can't move turret horizontal", null);
@@ -133,17 +142,14 @@ public class Turret extends BaseRobot{
             MoveHorizontal(Constants.TurretHorizontalCycle);
         else if(horizontal == TurretHorizontal.AutoRight)
             MoveHorizontal(Constants.AutoRight);
-
     }
 
     public void OpenClaw() {
         Claw.setPosition(Constants.ClawOpen);
-        LogTelemetry("Claw Open: ", Claw.getPosition());
     }
 
     public void CloseClaw() {
         Claw.setPosition(Constants.ClawClosed);
-        LogTelemetry("Claw Closed: ", Claw.getPosition());
     }
 
     public boolean IsClawOpen() {
@@ -163,8 +169,6 @@ public class Turret extends BaseRobot{
     private void SetSlidePosition(double slideIn, double slideIn2){
         SlideExtension.setPosition(slideIn);
         SlideExtension2.setPosition(slideIn2);
-        LogTelemetry("Slide Position1: ", slideIn);
-        LogTelemetry("Slide Position2: ", slideIn2);
     }
 
     public void SlideIn(){
@@ -193,5 +197,12 @@ public class Turret extends BaseRobot{
                 Math.abs(Turret1.getPosition()),
                 buffer);
     }
-
+    public void Telemetry(){
+        LogTelemetry("Vertical Turret Position: ", ExtakeFlip1.getPosition());
+        LogTelemetry("Vertical Turret Position2: ", ExtakeFlip2.getPosition());
+        LogTelemetry("Horizontal Turret Position: ", Turret1.getPosition());
+        LogTelemetry("Turret Slide1 Position: ", SlideExtension.getPosition());
+        LogTelemetry("Turret Slide2 Position: ", SlideExtension.getPosition());
+        LogTelemetry("Claw Position: ", Claw.getPosition());
+    }
 }

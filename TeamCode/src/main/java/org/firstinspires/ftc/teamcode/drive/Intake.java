@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import static org.firstinspires.ftc.teamcode.drive.Constants.IntakeNewExchange;
+import static org.firstinspires.ftc.teamcode.drive.Constants.SlideIn;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
@@ -50,7 +51,7 @@ public class Intake extends BaseRobot {
     }
 
     public double GetSensorDistance(DistanceUnit unit) {
-        this.LogTelemetry("Intake Sensor Distance(MM): ", GetSensorDistance(DistanceUnit.MM));
+
         return IntakeSensor.getDistance(unit);
     }
 
@@ -62,6 +63,14 @@ public class Intake extends BaseRobot {
         else
             return false;
 //        return false;
+    }
+
+    public void Telemetry(){
+        this.LogTelemetry("Intake Sensor Distance(MM): ", GetSensorDistance(DistanceUnit.MM));
+        this.LogTelemetry("Slide position: ", IntakeSlideMotor.getCurrentPosition());
+        this.LogTelemetry("Flip Position: ", IntakeFlipMotor.getCurrentPosition());
+        this.LogTelemetry("Flip Wheel Direction: ", IntakeWheels.getDirection());
+        this.LogTelemetry("Flip Wheel Power: ", IntakeWheels.getPower());
     }
 
     ///region Slide Motor
@@ -106,11 +115,10 @@ public class Intake extends BaseRobot {
         IntakeSlideMotor.setTargetPosition(position);
         IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx) IntakeSlideMotor).setVelocity(Constants.HighVelocity);
-        this.LogTelemetry("Slide position: ", position);
+
     }
     private void SetFlip(double position) {
         IntakeFlip.setPosition(position);
-        LogTelemetry("Intake Flip Position: ", position);
     }
     ///endregion
 
@@ -165,7 +173,6 @@ public class Intake extends BaseRobot {
     }
 
     public boolean IsIntakeAtPosition(int position, int buffer) {
-        LogTelemetry("Intake Position: ", GetIntakePosition());
         return this.IsAtPosition(position, GetIntakePosition(), buffer);
     }
 
@@ -181,7 +188,6 @@ public class Intake extends BaseRobot {
         IntakeFlipMotor.setTargetPosition(position);
         IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx) IntakeFlipMotor).setVelocity(velocity);
-        this.LogTelemetry("Intake Position: ", position);
     }
 
     public void WaitTillIntakeMotorIsComplete() {
@@ -196,7 +202,6 @@ public class Intake extends BaseRobot {
      */
     public void IntakeSpinIn() {
         IntakeWheels.setPower(Constants.IntakeWheelsIn);
-        LogTelemetry("Intake Spin In: ", IntakeWheels.getPower());
     }
 
     /**
@@ -204,7 +209,6 @@ public class Intake extends BaseRobot {
      */
     public void IntakeSpinOut() {
         IntakeWheels.setPower(Constants.IntakeWheelsOut);
-        LogTelemetry("Intake Spin Out: ", IntakeWheels.getPower());
     }
 
     /**
@@ -212,7 +216,6 @@ public class Intake extends BaseRobot {
      */
     public void IntakeSpinStop() {
         IntakeWheels.setPower(Constants.IntakeWheelStop);
-        LogTelemetry("Intake Spin Stop: ", IntakeWheels.getPower());
     }
     ///endregion
 

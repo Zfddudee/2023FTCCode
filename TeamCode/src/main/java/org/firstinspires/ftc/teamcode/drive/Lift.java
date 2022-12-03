@@ -67,9 +67,11 @@ public class Lift extends BaseRobot{
 //        ((DcMotorEx) liftMotorL).setVelocity(velocity);
 //        ((DcMotorEx) liftMotorR).setVelocity(velocity);
 
+    }
+
+    public void Telemetry(){
         this.LogTelemetry("Current Lift Left Position: ", liftMotorL.getCurrentPosition());
         this.LogTelemetry("Current Lift Right Position: ", liftMotorR.getCurrentPosition());
-        this.LogTelemetry("Current Velocity: ", velocity);
         this.LogTelemetry("LiftMotorR Amps", ((DcMotorEx) liftMotorR).getCurrent(CurrentUnit.AMPS));
         this.LogTelemetry("LiftMotorL Amps", ((DcMotorEx) liftMotorL).getCurrent(CurrentUnit.AMPS));
     }

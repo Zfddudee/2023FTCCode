@@ -17,7 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.internal.hardware.usb.ArmableUsbDevice;
 
-@Disabled
 @Config
 @TeleOp(name="Testing", group="Testing")
 public class Testing extends LinearOpMode {
