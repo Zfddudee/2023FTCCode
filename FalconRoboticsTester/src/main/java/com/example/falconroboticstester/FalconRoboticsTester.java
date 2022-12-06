@@ -347,8 +347,15 @@ public class FalconRoboticsTester {
             v.Init(-35, 62, 270, -12, 0, 270);
 
             v.d1 = 270;
+            v.d2 = 180;
+            v.d3 = 0;
 
-            v.c1 = -12;
+            v.c1 = -35;
+            v.c2 = -14;
+            v.c3 = -37;
+            v.c4 = -12;
+            v.c5 = -45;
+
 
         }
         else if(mode == Mode.AutoOneCycle_LeftRed) {
@@ -361,8 +368,18 @@ public class FalconRoboticsTester {
 
             v.Init(-35, -61, 270, 12, 0, 270);
 
+            v.d1 = 270;
+            v.d2 = 180;
+            v.d3 = 0;
+
             v.c1 = -35;
-            v.c2 = -61;
+            v.c2 = -14;
+            v.c3 = -37;
+            v.c4 = -12;
+            v.c5 = -45;
+
+            v.c7 = -13;
+            v.c8 = -11;
 
         }
         else if(mode == Mode.AutoOneCycle_RightRed) {
@@ -384,13 +401,13 @@ public class FalconRoboticsTester {
 //          Vars v = GetVars(Mode.RightRed);
 //          Vars v = GetVars(Mode.LeftBlue);
 //          Vars v = GetVars(Mode.RightBlue);
-          Vars v = GetVars(Mode.AutoCompLeftBlue);
+//          Vars v = GetVars(Mode.AutoCompLeftBlue);
 //          Vars v = GetVars(Mode.AutoCompLeftRed);
 //          Vars v = GetVars(Mode.AutoCompRightBlue);
 //          Vars v = GetVars(Mode.AutoCompRightRed);
 //          Vars v = GetVars(Mode.AutoOneCycle_LeftBlue);
 //          Vars v = GetVars(Mode.AutoOneCycle_LeftRed);
-//          Vars v = GetVars(Mode.AutoOneCycle_RightBlue);
+          Vars v = GetVars(Mode.AutoOneCycle_RightBlue);
 //          Vars v = GetVars(Mode.AutoOneCycle_RightRed);
 
         MeepMeep meepMeep = new MeepMeep(800);
@@ -490,7 +507,7 @@ public class FalconRoboticsTester {
 
 */
 
- // /*
+  /*
 
     // THIS IS FOR AUTOCOMP_LEFTBLUE - AUTOCOMP_LEFTRED - AUTOCOMP_RIGHTBLUE - AUTOCOMP_RIGHTRED
     RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -524,20 +541,23 @@ public class FalconRoboticsTester {
                 .start();
                 }
                 }
-// */
+ */
 
- /*
+// /*
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(100, 100, Math.toRadians(180), Math.toRadians(180), 12)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(v.startPose)
 
-                                .lineToSplineHeading(new Pose2d(-35, 14, Math.toRadians(270)))
-                                .splineToConstantHeading(new Vector2d(-37, 12), Math.toRadians(180))
-                                .lineToSplineHeading(new Pose2d(-45, 12, Math.toRadians(0)))
+//                                .lineToSplineHeading(new Pose2d(v.c1,v.c2, Math.toRadians(180)))
 
-                                .build());
+                                .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(v.d1)))
+                                .splineToConstantHeading(new Vector2d(v.c3, v.c4), Math.toRadians(v.d2))
+                                .lineToSplineHeading(new Pose2d(v.c5, v.c4, Math.toRadians(v.d3)))
+
+                                .build()
+                );
 
         myBot.pause();
         myBot.setDimensions(12, 18);
@@ -549,4 +569,4 @@ public class FalconRoboticsTester {
     }
 }
 
-*/
+//*/

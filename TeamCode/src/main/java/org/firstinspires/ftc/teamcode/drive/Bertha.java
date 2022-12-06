@@ -336,51 +336,53 @@ public class Bertha{
     }
 
     public void AutoExtake() {
-        turret.MoveVertical(Turret.TurretHeight.Flipped);
-        PauseTimeMilliseconds(5000);
         lift.MoveLift(Lift.LiftHeight.High);
+        PauseTimeMilliseconds(300);
+        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
+        PauseTimeMilliseconds(600);
+        turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
+        PauseTimeMilliseconds(600);
         turret.MoveVertical(Turret.TurretHeight.Flipped);
-        PauseTimeMilliseconds(5000);
-       // turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
-       // PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(600);
         turret.OpenClaw();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(400);
         turret.CloseClaw();
         turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(500);
         turret.MoveVertical(Turret.TurretHeight.Default);
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(400);
         lift.MoveLift(Lift.LiftHeight.Default);
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(700);
         turret.SlideOut();
         turret.OpenClaw();
     }
 
     public void AutoIntake() {
         intake.SlideMotorExchange();
-        PauseTimeMilliseconds(5000);
+        turret.SlideOut();
+        PauseTimeMilliseconds(700);
         intake.IntakeLow();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(500);
         intake.FlipDown();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(500);
         //TODO the intake out value will need to change everytime a cone is grabbed
         intake.IntakeOut();
         intake.IntakeSpinIn();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(600);
         intake.IntakeLow();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(200);
         intake.FlipUp();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(100);
         intake.IntakeSpinStop();
         intake.IntakeNewExchange();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(500);
         intake.SlideMotorExchange();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(700);
         turret.SlideIn();
-        PauseTimeMilliseconds(5000);
-        intake.IntakeSpinOut();
-        PauseTimeMilliseconds(5000);
+        PauseTimeMilliseconds(400);
         turret.CloseClaw();
+        intake.IntakeSpinOut();
+        PauseTimeMilliseconds(500);
         intake.IntakeSpinStop();
 
     }

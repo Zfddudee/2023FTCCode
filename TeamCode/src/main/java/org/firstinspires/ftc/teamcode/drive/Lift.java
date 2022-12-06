@@ -15,7 +15,8 @@ public class Lift extends BaseRobot{
     public enum LiftHeight{
         High,
         Medium,
-        Default
+        Default,
+        Low
     }
 
     private DcMotor liftMotorR, liftMotorL;
@@ -29,6 +30,8 @@ public class Lift extends BaseRobot{
             MoveLift(Constants.LiftDefault);
         else if(height == LiftHeight.High)
             MoveLift(Constants.LiftHigh);
+        else if(height == LiftHeight.Low)
+            MoveLift(Constants.LiftLow);
         else {
             // to determine when to move fast going up, and slow moving down
             int velocity = (liftMotorL.getCurrentPosition() > Constants.LiftMid)? Constants.LowVelocity : Constants.HighVelocity;

@@ -15,7 +15,6 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Disabled
 @Autonomous(name = "AutoOneCycle_RightBlue", group="Bertha")
 public class AutoOneCycle_RightBlue extends LinearOpMode{
 
@@ -38,13 +37,13 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         // This is an x value
         double c1 = -35;
         // This is a y value
-        double c2 = 14;
+        double c2 = -14;
         // This is an x value
         double c3 = -37;
         // This is a y value
-        double c4 = 12;
+        double c4 = -11;
         // This is an x value
-        double c5 = -45;
+        double c5 = -25;
 
 
         //endregion
@@ -85,13 +84,13 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
 
 
         //region TrajectoryX
-//        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
-//
-//                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-//                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
-//                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
-//
-//                .build();
+        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
+
+                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
+                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
+                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
+
+                .build();
 
 
 //        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(startPose)
@@ -122,12 +121,12 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
 
         if (pipeline.ColorSeen == "Green") {
             bertha.AutoCheck();
-//            drive.followTrajectorySequence(TrajectoryOut);
+            drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtake();
             bertha.AutoIntake();
             bertha.AutoExtake();
-            bertha.AutoIntake1();
-            bertha.AutoExtake();
+//            bertha.AutoIntake();
+//            bertha.AutoExtake();
 //            drive.followTrajectorySequence(TrajectoryX);
 
 //        } else if (pipeline.ColorSeen == "Orange") {
