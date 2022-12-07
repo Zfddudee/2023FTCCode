@@ -31,12 +31,15 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
 
         double d1 = 270;
+        double d2 = 180;
         double d3 = 0;
+
+        //region Park Left
 
         // This is an x value
         double c1 = -35;
         // This is a y value
-        double c2 = -14;
+        double c2 = -11;
         // This is an x value
         double c3 = -37;
         // This is a y value
@@ -74,11 +77,10 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
 
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-                .turn(Math.toRadians(-d1))
-                .lineToSplineHeading(new Pose2d(c3, c2, Math.toRadians(d3)))
+                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
+                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
 
                 .build();
-
 
         TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
 
