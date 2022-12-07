@@ -61,8 +61,8 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.StompUp();
         else if(gamepad1.touchpad)
             bertha.MoveToExchange2();
-        else if(gamepad1.right_stick_button)
-            bertha.AutoExtake();
+//        else if(gamepad1.right_stick_button)
+//            bertha.AutoExtakeLeft();
 //        else if(gamepad1.left_stick_button)
 //            bertha.AutoIntake();
     }

@@ -335,8 +335,9 @@ public class Bertha{
         turret.CloseClaw();
     }
 
-    public void AutoExtake() {
+    public void AutoExtakeLeft() {
         lift.MoveLift(Lift.LiftHeight.High);
+        turret.SlideMid();
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
         PauseTimeMilliseconds(600);
@@ -364,25 +365,27 @@ public class Bertha{
         intake.IntakeLow();
         PauseTimeMilliseconds(500);
         intake.FlipDown();
-        PauseTimeMilliseconds(500);
+        PauseTimeMilliseconds(800);
         //TODO the intake out value will need to change everytime a cone is grabbed
         intake.IntakeOut();
         intake.IntakeSpinIn();
-        PauseTimeMilliseconds(600);
+        PauseTimeMilliseconds(900);
         intake.IntakeLow();
-        PauseTimeMilliseconds(200);
+        PauseTimeMilliseconds(500);
+        intake.IntakeSpinIn();
         intake.FlipUp();
-        PauseTimeMilliseconds(100);
-        intake.IntakeSpinStop();
+        PauseTimeMilliseconds(400);
+        intake.IntakeSpinIn();
         intake.IntakeNewExchange();
         PauseTimeMilliseconds(500);
+        intake.IntakeSpinStop();
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(700);
         turret.SlideIn();
-        PauseTimeMilliseconds(400);
+        PauseTimeMilliseconds(800);
         turret.CloseClaw();
         intake.IntakeSpinOut();
-        PauseTimeMilliseconds(500);
+        PauseTimeMilliseconds(800);
         intake.IntakeSpinStop();
 
     }
@@ -414,6 +417,37 @@ public class Bertha{
         turret.CloseClaw();
         intake.IntakeSpinStop();
 
+    }
+
+    public void AutoReturn() {
+        turret.CloseClaw();
+        turret.SlideIn();
+        intake.FlipUp();
+        intake.SlideMotorIn();
+        PauseTimeMilliseconds(500);
+    }
+
+    public void AutoExtakeRight() {
+        lift.MoveLift(Lift.LiftHeight.High);
+        turret.SlideMid();
+        PauseTimeMilliseconds(300);
+        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
+        PauseTimeMilliseconds(600);
+        turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
+        PauseTimeMilliseconds(600);
+        turret.MoveVertical(Turret.TurretHeight.Flipped);
+        PauseTimeMilliseconds(600);
+        turret.OpenClaw();
+        PauseTimeMilliseconds(400);
+        turret.CloseClaw();
+        turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+        PauseTimeMilliseconds(500);
+        turret.MoveVertical(Turret.TurretHeight.Default);
+        PauseTimeMilliseconds(400);
+        lift.MoveLift(Lift.LiftHeight.Default);
+        PauseTimeMilliseconds(700);
+        turret.SlideOut();
+        turret.OpenClaw();
     }
 
     //endregion

@@ -30,6 +30,7 @@ public class Constants {
     public static double TurretLeft = 1;
     public static double TurretDefault = 0.43;
     public static double TurretHorizontalCycle = 0.707;
+    public static double AutoLeft = 0.8;
     public static double TurretStepOver = -0.01;
     public static double AutoRight = 0.125;
 
@@ -63,6 +64,8 @@ public class Constants {
     public static double SlideIn2 = 0;
     public static double SlideMid = 0.35;
     public static double SlideMid2 = 0.65;
+    public static double SlideAuto = 0.7;
+    public static double SlideAuto2 = 0.3;
 
 
     //Intake servo flip values
@@ -121,4 +124,5 @@ public class Constants {
 
     public static double TurretVerticalStepOver = 0.005;
 
+    public static int TestConst = 43;
 }

@@ -15,8 +15,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "AutoOneCycle_RightBlue", group="Bertha")
-public class AutoOneCycle_RightBlue extends LinearOpMode{
+@Autonomous(name = "AutoOneCycle_RightRed", group="Bertha")
+public class AutoOneCycle_RightRed extends LinearOpMode{
 
     OpenCvCamera webcam;
     ImageDetectorPipeline pipeline;
@@ -25,13 +25,14 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        //region Variables
-
         //start bot at pose x = 30, y = 64, heading 90 degrees
         Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
 
         double d1 = 270;
+        double d2 = 180;
         double d3 = 0;
+
+        //region Park Left
 
         // This is an x value
         double c1 = -35;
@@ -68,14 +69,16 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
 
                                          }
                                      }
+
         );
+
 
         //region TrajectoryX
         TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
 
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-                .turn(Math.toRadians(-d1))
-                .lineToSplineHeading(new Pose2d(c3, c2, Math.toRadians(d3)))
+                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
+                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
 
                 .build();
 
@@ -128,7 +131,7 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
             drive.followTrajectorySequence(TrajectoryX);
 
         } else if (pipeline.ColorSeen == "Orange") {
-           bertha.AutoCheck();
+            bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeLeft();
             bertha.AutoIntake();

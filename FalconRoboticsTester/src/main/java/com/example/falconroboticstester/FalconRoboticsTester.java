@@ -344,17 +344,20 @@ public class FalconRoboticsTester {
 
         }
         else if(mode == Mode.AutoOneCycle_LeftBlue) {
-            v.Init(-35, 62, 270, -12, 0, 270);
+            v.Init(35, 62, 90, -12, 0, 270);
 
-            v.d1 = 270;
-            v.d2 = 180;
-            v.d3 = 0;
+            v.d1 = 90;
+            v.d2 = 0;
+            v.d3 = 180;
 
-            v.c1 = -35;
-            v.c2 = -14;
-            v.c3 = -37;
-            v.c4 = -12;
-            v.c5 = -45;
+            v.c1 = 35;
+            v.c2 = 14;
+            v.c3 = 37;
+            v.c4 = 12;
+            v.c5 = 45;
+
+            v.c6 = 59;
+            v.c7 = 22;
 
 
         }
@@ -405,9 +408,9 @@ public class FalconRoboticsTester {
 //          Vars v = GetVars(Mode.AutoCompLeftRed);
 //          Vars v = GetVars(Mode.AutoCompRightBlue);
 //          Vars v = GetVars(Mode.AutoCompRightRed);
-//          Vars v = GetVars(Mode.AutoOneCycle_LeftBlue);
+          Vars v = GetVars(Mode.AutoOneCycle_LeftBlue);
 //          Vars v = GetVars(Mode.AutoOneCycle_LeftRed);
-          Vars v = GetVars(Mode.AutoOneCycle_RightBlue);
+//          Vars v = GetVars(Mode.AutoOneCycle_RightBlue);
 //          Vars v = GetVars(Mode.AutoOneCycle_RightRed);
 
         MeepMeep meepMeep = new MeepMeep(800);
@@ -555,6 +558,10 @@ public class FalconRoboticsTester {
                                 .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(v.d1)))
                                 .splineToConstantHeading(new Vector2d(v.c3, v.c4), Math.toRadians(v.d2))
                                 .lineToSplineHeading(new Pose2d(v.c5, v.c4, Math.toRadians(v.d3)))
+
+                                .lineToSplineHeading(new Pose2d(v.c6,v.c4, Math.toRadians(v.d3)))
+                                .turn(Math.toRadians(-v.d1))
+                                .lineToSplineHeading(new Pose2d(v.c6, v.c7, Math.toRadians(v.d1)))
 
                                 .build()
                 );
