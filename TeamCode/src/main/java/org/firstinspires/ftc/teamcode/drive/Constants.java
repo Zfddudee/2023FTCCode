@@ -95,6 +95,11 @@ public class Constants {
     public static double IntakeWheelsOut = -1.0;
     public static double IntakeWheelStop = 0;
     public static double IntakeWheelSensor = 20;
+    public static double IntakeSensorBlue = 100;
+    public static double IntakeSensorRed = 100;
+
+    public static double IntakeClawOpen = 1;
+    public static double IntakeClawClosed = 0;
 
     public static int TimeOutTime = 3000;
 

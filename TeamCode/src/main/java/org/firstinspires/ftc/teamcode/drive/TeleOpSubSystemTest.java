@@ -43,14 +43,11 @@ public class TeleOpSubSystemTest  extends LinearOpMode {
                 intake.IntakeLow();
                 sleep(5000);
                 intake.FlipDown();
-                intake.IntakeSpinIn();
+                intake.AutoCloseClaw();
                 sleep(5000);
                 intake.IntakeOut();
                 sleep(5000);
-                intake.SlowIntakeWheels();
-                sleep(5000);
                 intake.IntakeLow();
-                intake.IntakeSpinStop();
                 sleep(5000);
                 intake.FlipUp();
                 intake.IntakeIn();
@@ -62,9 +59,8 @@ public class TeleOpSubSystemTest  extends LinearOpMode {
                 ///region Exchange to Extake Test
                 turret.MoveVertical(Turret.TurretHeight.Default);
                 turret.CloseClaw();
-                intake.IntakeSpinOut();
+                intake.OpenClaw();
                 lift.MoveLift(Lift.LiftHeight.Medium);
-                intake.IntakeSpinStop();
                 lift.MoveLift(Lift.LiftHeight.High);
                 ///endregion
             }

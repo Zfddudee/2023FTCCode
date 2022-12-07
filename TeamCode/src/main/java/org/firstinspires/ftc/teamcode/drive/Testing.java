@@ -73,6 +73,8 @@ public class Testing extends LinearOpMode {
 
 //        IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
 
+        // extake flip servo 1 is normal toque 2 is 5 turn
+
         liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
 //        Claw.scaleRange(0, 0.5);
 //        SlideExtension.scaleRange(0, 0.5);
