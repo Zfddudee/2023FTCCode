@@ -39,11 +39,11 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         // This is an x value
         double c1 = -35;
         // This is a y value
-        double c2 = -11;
+        double c2 = -14;
         // This is an x value
-        double c3 = -37;
+        double c3 = -36;
         // This is a y value
-        double c4 = -11;
+        double c4 = -12;
         // This is an x value
         double c5 = -25;
 
