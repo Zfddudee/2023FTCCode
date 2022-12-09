@@ -15,8 +15,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "AutoOneCycle_RightBlue", group="Bertha")
-public class AutoOneCycle_RightBlue extends LinearOpMode{
+@Autonomous(name = "AutoOneCycle_RightRed", group="Bertha")
+public class AutoOneCycle_RightRed extends LinearOpMode{
 
     OpenCvCamera webcam;
     ImageDetectorPipeline pipeline;
@@ -24,8 +24,6 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        //region Variables
 
         //start bot at pose x = 30, y = 64, heading 90 degrees
         Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
@@ -41,9 +39,9 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         // This is a y value
         double c2 = -14;
         // This is an x value
-        double c3 = -36;
+        double c3 = -37;
         // This is a y value
-        double c4 = -12;
+        double c4 = -11;
         // This is an x value
         double c5 = -25;
 
@@ -71,7 +69,9 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
 
                                          }
                                      }
+
         );
+
 
         //region TrajectoryX
         TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
@@ -81,6 +81,7 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
                 .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
 
                 .build();
+
 
         TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
 
@@ -130,7 +131,7 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
             drive.followTrajectorySequence(TrajectoryX);
 
         } else if (pipeline.ColorSeen == "Orange") {
-           bertha.AutoCheck();
+            bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeLeft();
             bertha.AutoIntake();

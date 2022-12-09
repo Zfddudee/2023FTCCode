@@ -29,7 +29,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
             Pose2d startPose = new Pose2d(35, 62, Math.toRadians(90));
 
             double d1 = 90;
-            double d2 = 90;
+
 
             //region Park Left
 

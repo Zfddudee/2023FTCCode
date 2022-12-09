@@ -15,8 +15,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "AutoOneCycle_RightBlue", group="Bertha")
-public class AutoOneCycle_RightBlue extends LinearOpMode{
+@Autonomous(name = "AutoOneCycle_LeftRed", group="Bertha")
+public class AutoOneCycle_LeftRed extends LinearOpMode{
 
     OpenCvCamera webcam;
     ImageDetectorPipeline pipeline;
@@ -25,27 +25,26 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        //region Variables
-
         //start bot at pose x = 30, y = 64, heading 90 degrees
-        Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(35, 61, Math.toRadians(90));
 
-        double d1 = 270;
-        double d2 = 180;
+        double d1 = 90;
+
         double d3 = 0;
 
         //region Park Left
 
         // This is an x value
-        double c1 = -35;
+        double c1 = 35;
         // This is a y value
-        double c2 = -14;
+        double c2 = 14;
         // This is an x value
-        double c3 = -36;
+        double c3 = 37;
         // This is a y value
-        double c4 = -12;
+        double c4 = 11;
         // This is an x value
-        double c5 = -25;
+        double c5 = 25;
+
 
         //endregion
 
@@ -71,44 +70,47 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
 
                                          }
                                      }
+
         );
+
 
         //region TrajectoryX
         TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
 
-                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
-                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
+                .lineToSplineHeading(new Pose2d(35, 11, Math.toRadians(d1)))
+                .turn(Math.toRadians(-d1))
+                .lineToSplineHeading(new Pose2d(41, 11, Math.toRadians(d3)))
 
                 .build();
+
 
         TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
 
-                .lineToLinearHeading(new Pose2d(-59, c4, Math.toRadians(d3)))
-                .turn(Math.toRadians(-90))
-                .lineToLinearHeading(new Pose2d(-59, -22, Math.toRadians(d1)))
+                .lineToLinearHeading(new Pose2d(58, 11, Math.toRadians(d3)))
+                .turn(Math.toRadians(d1))
+                .lineToLinearHeading(new Pose2d(58, 22, Math.toRadians(d1)))
 
                 .build();
 
         //endregion
 
-        //region TrajectoryY
+//        //region TrajectoryY
         TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(TrajectoryOut.end())
 
-                .lineToLinearHeading(new Pose2d(-35, -11, Math.toRadians(d3)))
-                .turn(Math.toRadians(-90))
-                .lineToLinearHeading(new Pose2d(-35, -22, Math.toRadians(d1)))
+                .lineToLinearHeading(new Pose2d(35, 11, Math.toRadians(d3)))
+                .turn(Math.toRadians(d1))
+                .lineToLinearHeading(new Pose2d(35, 22, Math.toRadians(d1)))
 
                 .build();
 
         //endregion
 
-        //region TrajectoryZ
+//        //region TrajectoryZ
         TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(TrajectoryOut.end())
 
-                .lineToLinearHeading(new Pose2d(-11.5, c4, Math.toRadians(d3)))
-                .turn(Math.toRadians(-90))
-                .lineToLinearHeading(new Pose2d(-11.5, -22, Math.toRadians(d1)))
+                .lineToLinearHeading(new Pose2d(12, 11, Math.toRadians(d3)))
+                .turn(Math.toRadians(d1))
+                .lineToLinearHeading(new Pose2d(12, 22, Math.toRadians(d1)))
 
                 .build();
 
@@ -121,20 +123,20 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         if (pipeline.ColorSeen == "Green") {
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake();
-            bertha.AutoExtakeLeft();
+            bertha.AutoExtakeRight();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();
+////            bertha.AutoIntake();
+////            bertha.AutoExtake();
             bertha.AutoReturn();
             drive.followTrajectorySequence(TrajectoryX);
 
         } else if (pipeline.ColorSeen == "Orange") {
-           bertha.AutoCheck();
+            bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake();
-            bertha.AutoExtakeLeft();
+            bertha.AutoExtakeRight();
+//            bertha.AutoIntake();
+//            bertha.AutoExtake();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();
             bertha.AutoReturn();
@@ -144,11 +146,11 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
         } else if (pipeline.ColorSeen == "Purple") {
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake();
-            bertha.AutoExtakeLeft();
+            bertha.AutoExtakeRight();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();
+////            bertha.AutoIntake();
+////            bertha.AutoExtake();
             bertha.AutoReturn();
             drive.followTrajectorySequence(TrajectoryZ);
 
@@ -161,4 +163,5 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
 
         }
     }
+
 }

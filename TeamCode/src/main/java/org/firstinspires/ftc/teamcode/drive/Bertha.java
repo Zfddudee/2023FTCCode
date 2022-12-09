@@ -334,8 +334,9 @@ public class Bertha{
         turret.CloseClaw();
     }
 
-    public void AutoExtake() {
+    public void AutoExtakeLeft() {
         lift.MoveLift(Lift.LiftHeight.High);
+        turret.SlideMid();
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
         PauseTimeMilliseconds(600);
@@ -374,10 +375,11 @@ public class Bertha{
         PauseTimeMilliseconds(100);
         intake.IntakeNewExchange();
         PauseTimeMilliseconds(500);
+        intake.IntakeSpinStop();
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(700);
         turret.SlideIn();
-        PauseTimeMilliseconds(400);
+        PauseTimeMilliseconds(800);
         turret.CloseClaw();
         PauseTimeMilliseconds(100);
         intake.OpenClaw();
@@ -409,6 +411,37 @@ public class Bertha{
         PauseTimeMilliseconds(100);
         turret.CloseClaw();
 
+    }
+
+    public void AutoReturn() {
+        turret.CloseClaw();
+        turret.SlideIn();
+        intake.FlipUp();
+        intake.SlideMotorIn();
+        PauseTimeMilliseconds(500);
+    }
+
+    public void AutoExtakeRight() {
+        lift.MoveLift(Lift.LiftHeight.High);
+        turret.SlideMid();
+        PauseTimeMilliseconds(300);
+        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
+        PauseTimeMilliseconds(600);
+        turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
+        PauseTimeMilliseconds(600);
+        turret.MoveVertical(Turret.TurretHeight.Flipped);
+        PauseTimeMilliseconds(600);
+        turret.OpenClaw();
+        PauseTimeMilliseconds(400);
+        turret.CloseClaw();
+        turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+        PauseTimeMilliseconds(500);
+        turret.MoveVertical(Turret.TurretHeight.Default);
+        PauseTimeMilliseconds(400);
+        lift.MoveLift(Lift.LiftHeight.Default);
+        PauseTimeMilliseconds(700);
+        turret.SlideOut();
+        turret.OpenClaw();
     }
 
     //endregion
