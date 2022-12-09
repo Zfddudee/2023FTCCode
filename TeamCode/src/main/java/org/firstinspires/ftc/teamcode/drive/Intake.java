@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import static org.firstinspires.ftc.teamcode.drive.Constants.IntakeNewExchange;
-import static org.firstinspires.ftc.teamcode.drive.Constants.SlideIn;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -16,8 +14,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Intake extends BaseRobot {
 
+    enum ClawState
+    {
+        Open,
+        Close
+    }
+
     private DcMotor IntakeSlideMotor, IntakeFlipMotor;
-    private CRServo IntakeWheels;
+    private Servo IntakeClaw;
     private Servo IntakeFlip;
     private ColorRangeSensor IntakeSensor;
 
@@ -30,7 +34,7 @@ public class Intake extends BaseRobot {
         IntakeFlipMotor = hardwareMap.get(DcMotor.class, "IntakeFlipMotor");
         IntakeSlideMotor = hardwareMap.get(DcMotor.class, "IntakeSlideMotor");
 
-        IntakeWheels = hardwareMap.get(CRServo.class, "IntakeWheels");
+        IntakeClaw = hardwareMap.get(Servo.class, "IntakeClaw");
         IntakeFlip = hardwareMap.get(Servo.class, "IntakeFlip");
 
         IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
@@ -50,27 +54,22 @@ public class Intake extends BaseRobot {
         return GetSensorDistance(DistanceUnit.MM);
     }
 
+
     public double GetSensorDistance(DistanceUnit unit) {
 
         return IntakeSensor.getDistance(unit);
     }
+    public double GetSensorColor() {
 
-    public boolean SlowIntakeWheels () {
-        if(GetSensorDistanceMM() <= Constants.IntakeWheelSensor) {
-            IntakeWheels.setPower(Constants.IntakeWheelsSlow);
-            return true;
-        }
-        else
-            return false;
-//        return false;
+        return IntakeSensor.getLightDetected();
     }
 
     public void Telemetry(){
         this.LogTelemetry("Intake Sensor Distance(MM): ", GetSensorDistance(DistanceUnit.MM));
+        this.LogTelemetry("Intake Sensor Color: ", GetSensorColor());
         this.LogTelemetry("Slide position: ", IntakeSlideMotor.getCurrentPosition());
         this.LogTelemetry("Flip Position: ", IntakeFlipMotor.getCurrentPosition());
-        this.LogTelemetry("Flip Wheel Direction: ", IntakeWheels.getDirection());
-        this.LogTelemetry("Flip Wheel Power: ", IntakeWheels.getPower());
+        this.LogTelemetry("IntakeClawPosition", IntakeClaw.getPosition());
     }
 
     ///region Slide Motor
@@ -122,8 +121,15 @@ public class Intake extends BaseRobot {
     }
     ///endregion
 
-
     ///region Wheels Intake Flip
+
+    public void ToggleFlip() {
+        if(IntakeFlip.getPosition() == Constants.ServoIntakeFlipIntaking)
+            FlipUp();
+        else
+            FlipDown();
+    }
+
     /**
      * This is the servo that flips the intake wheels downwards
       */
@@ -198,26 +204,39 @@ public class Intake extends BaseRobot {
 
     ///region Wheel Spin Direction
     /**
-     *  This is the servo that spins the intake wheels inwards
+     *  This is the servo that closes the intake claw
      */
-    public void IntakeSpinIn() {
-        IntakeWheels.setPower(Constants.IntakeWheelsIn);
+    public boolean AutoCloseClaw() {
+        //todo find and add in color to if statement.
+        if(GetSensorDistanceMM() <= Constants.IntakeWheelSensor){
+            CloseClaw();
+            return true;
+        }
+        else
+            return false;
     }
 
+    public void CloseClaw(){
+        IntakeClaw.setPosition(Constants.IntakeClawClosed);
+    }
     /**
-     *  This is the servo that spins the intake wheels outwards
+     *  This is the servo that opens the intake claw
      */
-    public void IntakeSpinOut() {
-        IntakeWheels.setPower(Constants.IntakeWheelsOut);
+    public void OpenClaw() {
+        if (IntakeFlipMotor.getCurrentPosition() > Constants.IntakeFlipsLow) {
+            IntakeClaw.setPosition(Constants.IntakeClawOpen);
+        }
+        else
+            IntakeClaw.setPosition(Constants.IntakeClawPartial);
+
     }
 
-    /**
-     * This stops the servo that spins the intake wheels
-     */
-    public void IntakeSpinStop() {
-        IntakeWheels.setPower(Constants.IntakeWheelStop);
+    public void OpenCloseClaw() {
+        if(IntakeClaw.getPosition() == Constants.IntakeClawOpen)
+            CloseClaw();
+        else
+            OpenClaw();
     }
-    ///endregion
 
     public void IntakeNewExchange() {
         SetIntakePosition(IntakeNewExchange, Constants.LowVelocity);

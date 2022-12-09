@@ -58,7 +58,7 @@ public class Testing extends LinearOpMode {
         liftMotorL = hardwareMap.get(DcMotor.class, "LiftMotorL");
         liftMotorR = hardwareMap.get(DcMotor.class, "LiftMotorR");
 
-        IntakeWheels = hardwareMap.get(CRServo.class, "IntakeWheels");
+
         IntakeFlip = hardwareMap.get(Servo.class, "IntakeFlip");
         Stomp = hardwareMap.get(Servo.class, "Stomp");
         OdoRetractRight = hardwareMap.get(Servo.class, "OdoRetractRight");
@@ -72,6 +72,8 @@ public class Testing extends LinearOpMode {
         Claw = hardwareMap.get(Servo.class, "Claw");
 
 //        IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
+
+        // extake flip servo 1 is normal toque 2 is 5 turn
 
         liftMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
 //        Claw.scaleRange(0, 0.5);
@@ -192,11 +194,10 @@ public class Testing extends LinearOpMode {
             }
 
             if(gamepad1.b){
-                drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeOut);//-790
-                drive.IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                ((DcMotorEx) drive.IntakeSlideMotor).setVelocity(Constants.HighVelocity);
+//                drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeOut);//-790
+//                drive.IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                ((DcMotorEx) drive.IntakeSlideMotor).setVelocity(Constants.HighVelocity);
                 drive.IntakeFlip.setPosition(Constants.ServoIntakeFlipIntaking);
-                drive.Claw.setPosition(Constants.ClawOpen);
             }
             if(gamepad1.right_stick_y > 0.5){
                 drive.IntakeFlipMotor.setTargetPosition(Constants.IntakeFlipsLow);

@@ -77,8 +77,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     private List<DcMotorEx> motors;
 
     public DcMotor IntakeSlideMotor, IntakeFlipMotor, liftMotorR, liftMotorL;
-    public CRServo IntakeWheels;
-    public Servo IntakeFlip, Stomp, OdoRetractRight, OdoRetractLeft, OdoRetractRear, ExtakeFlip1, ExtakeFlip2, Turret1, SlideExtension, SlideExtension2, Claw;
+    public Servo IntakeFlip, Stomp, OdoRetractRight, OdoRetractLeft, OdoRetractRear, ExtakeFlip1, ExtakeFlip2, Turret1, SlideExtension, SlideExtension2, Claw, IntakeWheels;
     public ColorRangeSensor IntakeSensor;
 
     private BNO055IMU imu;
@@ -135,7 +134,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         liftMotorL = hardwareMap.get(DcMotorEx.class, "LiftMotorL");
         liftMotorR = hardwareMap.get(DcMotorEx.class, "LiftMotorR");
 
-        IntakeWheels = hardwareMap.get(CRServo.class, "IntakeWheels");
+        IntakeWheels = hardwareMap.get(Servo.class, "IntakeClaw");
         IntakeFlip = hardwareMap.get(Servo.class, "IntakeFlip");
         Stomp = hardwareMap.get(Servo.class, "Stomp");
         OdoRetractRight = hardwareMap.get(Servo.class, "OdoRetractRight");
@@ -181,6 +180,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         IntakeFlipMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         ExtakeFlip2.scaleRange(0.8, 1);
 

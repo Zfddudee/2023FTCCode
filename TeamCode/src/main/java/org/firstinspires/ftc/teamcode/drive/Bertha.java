@@ -74,13 +74,13 @@ public class Bertha{
             case PreConePickUp:
                 if(turret.IsClawOpen() && intake.GetCurrentSlidePosition() > Constants.IntakeExchanging - 100 ) {
                     PauseTimeMilliseconds(200);
-                    intake.IntakeLow();
+                    intake.IntakeOut();
                     intake.FlipDown();
                     state = State.None;
                 }
                 break;
             case PickAndExchange:
-                if(intake.SlowIntakeWheels()){
+                if(intake.AutoCloseClaw()){
                     MoveToExchange2();
                     state = State.None;
                 }
@@ -102,17 +102,13 @@ public class Bertha{
                 if(turret.IsAtVerticalPosition(Constants.TurretDefault, 10)) {
                     turret.CloseClaw();
                     if(turret.IsClawClosed()) {
-                        intake.IntakeSpinOut();
+                        intake.OpenClaw();
                         PauseTimeMilliseconds(150);
                         lift.MoveLift(Lift.LiftHeight.Medium);
-                        intake.IntakeSpinStop();
                         intake.IntakeIn();
                         state = State.None;
                     }
                 }
-                break;
-            case MoveToExchange:
-                this.MoveToExchangeWithCone();
                 break;
             default:
                 break;
@@ -140,8 +136,8 @@ public class Bertha{
         lift.MoveLift(offSet);
     }
 
-    public void WheelsSpinOut() {
-        intake.IntakeSpinOut();
+    public void IntakeOpenClaw() {
+        intake.OpenClaw();
     }
 
     //This moves the intake into a position to grab a cone in its low position
@@ -161,7 +157,7 @@ public class Bertha{
         if(state != State.PickAndExchange || state != State.PickAndExchange_Step2 || state != State.PickAndExchange_Step3) {
             state = State.PickAndExchange;
             ResetStartTimer();
-            intake.IntakeSpinIn();
+            intake.AutoCloseClaw();
             intake.IntakeOut();
         }
     }
@@ -169,8 +165,8 @@ public class Bertha{
     public void PickUpOverRide() {
         if(state != State.PickUpOverRide) {
             state = State.PickUpOverRide;
-            intake.IntakeSpinStop();
-            intake.IntakeLow();
+            intake.SlideMotorExchange();
+            intake.OpenClaw();
             state = State.None;
         }
     }
@@ -183,6 +179,10 @@ public class Bertha{
             turret.MoveVertical(Turret.TurretHeight.Flipped);
             state = State.None;
         }
+    }
+
+    public void OpenCloseIntakeClaw() {
+        intake.OpenCloseClaw();
     }
 
     public void OpenClaw() {
@@ -288,10 +288,10 @@ public class Bertha{
         turret.MoveHorizontal(Turret.TurretHorizontal.Center);
     }
     
-    public void MoveToExchange(){
-        MoveToExchangeWithCone();
-        state = State.MoveToExchange;
-    }
+//    public void MoveToExchange(){
+//        MoveToExchangeWithCone();
+//        state = State.MoveToExchange;
+//    }
 
     public void MoveToExchange2() {
         turret.SlideOut();
@@ -307,11 +307,10 @@ public class Bertha{
         PauseTimeMilliseconds(500);
         turret.SlideIn();
         PauseTimeMilliseconds(750);
-        intake.IntakeSpinOut();
-        PauseTimeMilliseconds(100);
-        intake.IntakeSpinStop();
         turret.CloseClaw();
-        PauseTimeMilliseconds(150);
+        PauseTimeMilliseconds(50);
+        intake.OpenClaw();
+        PauseTimeMilliseconds(100);
         lift.MoveLift(Lift.LiftHeight.Medium);
         intake.IntakeIn();
     }
@@ -362,20 +361,18 @@ public class Bertha{
         intake.SlideMotorExchange();
         turret.SlideOut();
         PauseTimeMilliseconds(700);
-        intake.IntakeLow();
+        intake.SlideMotorExchange();
         PauseTimeMilliseconds(500);
         intake.FlipDown();
-        PauseTimeMilliseconds(800);
-        //TODO the intake out value will need to change everytime a cone is grabbed
-        intake.IntakeOut();
-        intake.IntakeSpinIn();
-        PauseTimeMilliseconds(900);
-        intake.IntakeLow();
         PauseTimeMilliseconds(500);
-        intake.IntakeSpinIn();
+        intake.IntakeOut();
+        PauseTimeMilliseconds(500);
+        intake.SlideMotorOut();
+        PauseTimeMilliseconds(200);
+        intake.AutoCloseClaw();
+        PauseTimeMilliseconds(600);
         intake.FlipUp();
-        PauseTimeMilliseconds(400);
-        intake.IntakeSpinIn();
+        PauseTimeMilliseconds(100);
         intake.IntakeNewExchange();
         PauseTimeMilliseconds(500);
         intake.IntakeSpinStop();
@@ -384,38 +381,35 @@ public class Bertha{
         turret.SlideIn();
         PauseTimeMilliseconds(800);
         turret.CloseClaw();
-        intake.IntakeSpinOut();
-        PauseTimeMilliseconds(800);
-        intake.IntakeSpinStop();
+        PauseTimeMilliseconds(100);
+        intake.OpenClaw();
+        PauseTimeMilliseconds(500);
 
     }
 
     public void AutoIntake1() {
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(300);
-        intake.IntakeLow();
-        PauseTimeMilliseconds(200);
         intake.FlipDown();
         PauseTimeMilliseconds(200);
-        //TODO the intake out value will need to change everytime a cone is grabbed
-        intake.IntakeOut1();
-        intake.IntakeSpinIn();
+        intake.IntakeOut();
+        PauseTimeMilliseconds(400);
+        intake.AutoCloseClaw();
         PauseTimeMilliseconds(200);
+        //TODO make this intake process change each time to grab each cone from a stack uniquely
         intake.IntakeLow();
         PauseTimeMilliseconds(100);
         intake.FlipUp();
         PauseTimeMilliseconds(200);
-        intake.IntakeSpinStop();
         intake.IntakeNewExchange();
         PauseTimeMilliseconds(500);
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(500);
         turret.SlideIn();
         PauseTimeMilliseconds(750);
-        intake.IntakeSpinOut();
+        intake.OpenClaw();
         PauseTimeMilliseconds(100);
         turret.CloseClaw();
-        intake.IntakeSpinStop();
 
     }
 
@@ -451,4 +445,14 @@ public class Bertha{
     }
 
     //endregion
+
+    public void ToggleClawFlip() {
+        intake.ToggleFlip();
+    }
+    public void IntakeFlipDown(){
+        intake.FlipDown();
+    }
+    public void IntakeFlipUp(){
+        intake.FlipUp();
+    }
 }
