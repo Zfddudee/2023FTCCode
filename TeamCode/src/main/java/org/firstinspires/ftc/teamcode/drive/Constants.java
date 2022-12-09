@@ -28,14 +28,14 @@ public class Constants {
     //Turret servo values
     public static double TurretRight = 0.05;
     public static double TurretLeft = 1;
-    public static double TurretDefault = 0.43;
+    public static double TurretDefault = 0.39;
     public static double TurretHorizontalCycle = 0.707;
     public static double TurretStepOver = -0.01;
     public static double AutoRight = 0.125;
 
     //Claw servo values
-    public static double ClawClosed = 0.26;
-    public static double ClawOpen = 0.375;
+    public static double ClawClosed = 0.8;
+    public static double ClawOpen = 0.9;
 
     //Extake servo flip values
     public static double ExtakeFlipIn = 0.6;
@@ -59,19 +59,19 @@ public class Constants {
     //Extake servo slide values
     public static double SlideOut = 0;
     public static double SlideOut2 = 1;
-    public static double SlideIn = 1;
-    public static double SlideIn2 = 0;
+    public static double SlideIn = 0.4;
+    public static double SlideIn2 = 0.6;
     public static double SlideMid = 0.35;
     public static double SlideMid2 = 0.65;
 
 
     //Intake servo flip values
-    public static double ServoIntakeFlipIntaking = 1.0;
-    public static double ServoIntakeFlipExchanging = 0.27;
+    public static double ServoIntakeFlipIntaking = 0.15;
+    public static double ServoIntakeFlipExchanging = 0.9;
 
     //Intake slide motor values
     public static int IntakeOut = -670;
-    public static int IntakeExchanging = -500;
+    public static int IntakeExchanging = -600;
     public static int IntakeIn = 0;
 
     //Intake flip motor values

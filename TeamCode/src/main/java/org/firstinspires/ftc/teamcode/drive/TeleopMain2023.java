@@ -80,10 +80,10 @@ public class TeleopMain2023 extends LinearOpMode {
                 drive.liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
             if (drive.IntakeFlipMotor.getCurrentPosition() <= 50) {
-                drive.IntakeWheels.setPower(0);
+
             }
             if (drive.IntakeFlipMotor.getCurrentPosition() >= 500) {
-                drive.IntakeWheels.setPower(1);
+
             }
 
             switch (cycleState) {
@@ -122,7 +122,7 @@ public class TeleopMain2023 extends LinearOpMode {
                 case IntakeIn:
                     if (drive.IntakeSensor.getDistance(DistanceUnit.MM) <= 20) {
                         drive.IntakeFlip.setPosition(Constants.ServoIntakeFlipExchanging);
-                        drive.IntakeWheels.setPower(0.5);
+
                         timer.reset();
                         timer.startTime();
                         cycleState = CycleState.ExtakeTransfer;
@@ -138,7 +138,7 @@ public class TeleopMain2023 extends LinearOpMode {
                         drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeExchanging);
                         if (timer.time() >= 0.15) {
                             drive.Claw.setPosition(Constants.ClawClosed);
-                            drive.IntakeWheels.setPower(-1);
+
                             if (timer.time() > 2) {
                                 timer.reset();
                                 timer.startTime();
@@ -212,7 +212,7 @@ public class TeleopMain2023 extends LinearOpMode {
                 //
                 case FullRetract:
                     drive.Turret1.setPosition(Constants.TurretDefault);
-                    drive.IntakeWheels.setPower(0);
+
                     drive.Stomp.setPosition(Constants.StompUp);
                     drive.IntakeFlip.setPosition(Constants.ServoIntakeFlipExchanging);
                     drive.IntakeSlideMotor.setTargetPosition(Constants.IntakeIn);
