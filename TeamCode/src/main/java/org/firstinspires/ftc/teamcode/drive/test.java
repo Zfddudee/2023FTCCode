@@ -3,18 +3,31 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@Disabled
-@Autonomous(name = "Test", group="Testing")
+@TeleOp(name = "Test", group="Testing")
 public class test extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        drive.turn(Math.toRadians(180));
 
-        telemetry.addData("Heading", drive.getExternalHeading());
-        telemetry.update();
-        sleep(10000);
+        Bertha bertha = new Bertha(hardwareMap, telemetry);
+        boolean flag = true;
+        waitForStart();
+        while (!isStopRequested()) {
+//            if(flag) {
+//                bertha.IntakeFlipUp();
+//                flag = false;
+//            }
+//            else
+//            {
+//                bertha.IntakeFlipDown();
+//                flag = true;
+//            }
+            bertha.IntakeFlipDown();
+            telemetry.update();
+            sleep(5000);
+        }
     }
 }

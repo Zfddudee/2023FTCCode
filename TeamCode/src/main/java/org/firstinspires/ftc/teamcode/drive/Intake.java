@@ -14,6 +14,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Intake extends BaseRobot {
 
+    enum ClawState
+    {
+        Open,
+        Close
+    }
+
     private DcMotor IntakeSlideMotor, IntakeFlipMotor;
     private Servo IntakeClaw;
     private Servo IntakeFlip;
@@ -115,8 +121,15 @@ public class Intake extends BaseRobot {
     }
     ///endregion
 
-
     ///region Wheels Intake Flip
+
+    public void ToggleFlip() {
+        if(IntakeFlip.getPosition() == Constants.ServoIntakeFlipIntaking)
+            FlipUp();
+        else
+            FlipDown();
+    }
+
     /**
      * This is the servo that flips the intake wheels downwards
       */

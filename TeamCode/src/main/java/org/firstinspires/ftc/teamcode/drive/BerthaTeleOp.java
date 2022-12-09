@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class BerthaTeleOp extends LinearOpMode {
 
     private Bertha bertha;
+    private boolean rightTrigger = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -61,12 +62,18 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.StompUp();
         else if(gamepad1.touchpad)
             bertha.MoveToExchange2();
+//        else if(gamepad1.right_stick_button)
+//            bertha.AutoExtake();
+        else if(gamepad1.right_trigger != 0 && !rightTrigger) {
+            if(!rightTrigger) {
+                bertha.OpenCloseIntakeClaw();
+                rightTrigger = true;
+            }
+        }
+        else if(gamepad1.right_trigger == 0)
+            rightTrigger = false;
         else if(gamepad1.right_stick_button)
-            bertha.AutoExtake();
-        else if(gamepad1.right_trigger != 0)
-            bertha.OpenCloseIntakeClaw();
-//        else if(gamepad1.left_stick_button)
-//            bertha.AutoIntake();
+            bertha.ToggleClawFlip();
     }
 
     private void GamePad2Loop() {

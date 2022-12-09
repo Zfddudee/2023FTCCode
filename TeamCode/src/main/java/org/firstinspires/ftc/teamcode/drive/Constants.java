@@ -96,8 +96,8 @@ public class Constants {
     public static double IntakeSensorBlue = 100;
     public static double IntakeSensorRed = 100;
 
-    public static double IntakeClawOpen = 1;
-    public static double IntakeClawClosed = 0;
+    public static double IntakeClawOpen = 0.2;
+    public static double IntakeClawClosed = 0.4;
     public static double IntakeClawPartial = 0.25;
 
     public static int TimeOutTime = 3000;

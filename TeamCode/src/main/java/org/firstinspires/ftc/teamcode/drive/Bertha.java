@@ -181,7 +181,9 @@ public class Bertha{
         }
     }
 
-    public void OpenCloseIntakeClaw() {intake.OpenCloseClaw();}
+    public void OpenCloseIntakeClaw() {
+        intake.OpenCloseClaw();
+    }
 
     public void OpenClaw() {
         turret.OpenClaw();
@@ -410,4 +412,14 @@ public class Bertha{
     }
 
     //endregion
+
+    public void ToggleClawFlip() {
+        intake.ToggleFlip();
+    }
+    public void IntakeFlipDown(){
+        intake.FlipDown();
+    }
+    public void IntakeFlipUp(){
+        intake.FlipUp();
+    }
 }
