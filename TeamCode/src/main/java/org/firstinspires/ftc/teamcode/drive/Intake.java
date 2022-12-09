@@ -209,7 +209,19 @@ public class Intake extends BaseRobot {
      *  This is the servo that opens the intake claw
      */
     public void OpenClaw() {
-        IntakeClaw.setPosition(Constants.IntakeClawOpen);
+        if (IntakeFlipMotor.getCurrentPosition() > Constants.IntakeFlipsLow) {
+            IntakeClaw.setPosition(Constants.IntakeClawOpen);
+        }
+        else
+            IntakeClaw.setPosition(Constants.IntakeClawOpen * Constants.IntakeClawPartial);
+
+    }
+
+    public void OpenCloseClaw() {
+        if(IntakeClaw.getPosition() == Constants.IntakeClawOpen)
+            CloseClaw();
+        else
+            OpenClaw();
     }
 
     public void IntakeNewExchange() {

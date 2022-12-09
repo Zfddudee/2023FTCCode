@@ -76,9 +76,7 @@ public class Constants {
 
     //Intake flip motor values
     public static int IntakeFlips = 550;
-    //TODO make sure that all of these are tuned for the auto intake
     public static int IntakeFlips1 = 500;
-
     public static int IntakeFlipsLow = 400;
     public static int IntakeFlipsIn = 0;
     public static int IntakeNewExchange = 20;
@@ -100,6 +98,7 @@ public class Constants {
 
     public static double IntakeClawOpen = 1;
     public static double IntakeClawClosed = 0;
+    public static double IntakeClawPartial = 0.25;
 
     public static int TimeOutTime = 3000;
 

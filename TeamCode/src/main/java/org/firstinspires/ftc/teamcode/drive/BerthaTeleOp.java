@@ -38,7 +38,7 @@ public class BerthaTeleOp extends LinearOpMode {
         ));
 
         if(gamepad1.x)
-            bertha.WheelsSpinOut();
+            bertha.IntakeOpenClaw();
         else if(gamepad1.a)
             bertha.PreConePickUp();
         else if(gamepad1.b)
@@ -63,6 +63,8 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.MoveToExchange2();
         else if(gamepad1.right_stick_button)
             bertha.AutoExtake();
+        else if(gamepad1.right_trigger != 0)
+            bertha.OpenCloseIntakeClaw();
 //        else if(gamepad1.left_stick_button)
 //            bertha.AutoIntake();
     }
