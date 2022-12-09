@@ -47,6 +47,9 @@ public class Constants {
     public static double ExtakeFlipCycle = 0.075;
     public static double ExtakeFlipCycle2 = 0.925;
 
+    public static double ExFlipThreshold = .35;
+    public static int ExFlipTimerThreshold_Milliseconds = 500;
+
     public static double ArmTarget1 = 0;
     public static double ArmTarget2 = 1;
     public static double SetArmTarget1 = 1;
@@ -55,6 +58,7 @@ public class Constants {
     public static double ArmError2 = 0;
     public static double ArmStepOver = 0.025;
 
+    public static double TurretVerticalStepOver = 0.005;
 
     //Extake servo slide values
     public static double SlideOut = 0;
@@ -87,21 +91,18 @@ public class Constants {
     public static int LiftLow = -200;
     public static int LiftDefault = 0;
 
-    //Intake wheels
-    public static double IntakeWheelsSlow = 0.25;
-    public static double IntakeWheelsIn = 1;
-    public static double IntakeWheelsOut = -1.0;
-    public static double IntakeWheelStop = 0;
+    //Intake Sensor values
     public static double IntakeWheelSensor = 20;
     public static double IntakeSensorBlue = 100;
     public static double IntakeSensorRed = 100;
 
+    //Intake Claw Values
     public static double IntakeClawOpen = 0.2;
     public static double IntakeClawClosed = 0.4;
-    public static double IntakeClawPartial = 0.25;
+    public static double IntakeClawPartial = 0.3;
 
-    public static int TimeOutTime = 3000;
 
+    //Lift Values
     public static double liftGainP = 0.002;
     public static double liftGainP0 = 0.0001;
     public static double liftGainPUp = 0.0025;
@@ -111,18 +112,21 @@ public class Constants {
     public static double liftPower1 = 0;
     public static double liftPower2 = 0;
 
+    public static int LiftStep = 50;
+
     //Color Threshold
     public static double ColorAreaThreshHold = 300;
 
+    //Drive speed percent
     public static double DrivePower = .75;
 
-    public static double ExFlipThreshold = .35;
-    public static int ExFlipTimerThreshold_Milliseconds = 500;
-
-    public static int LiftStep = 50;
-
+    //Timings
+    public static int TimeOutTime = 3000;
     public static int CycleDropDelay = 600;
 
-    public static double TurretVerticalStepOver = 0.005;
+
+
+
+
 
 }
