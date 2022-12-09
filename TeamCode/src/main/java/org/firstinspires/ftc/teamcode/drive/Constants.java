@@ -25,6 +25,10 @@ public class Constants {
     public static double OdoUp = 0.5;
     public static double OdoDown = 0;
 
+    //Claw servo values
+    public static double ClawClosed = 0.8;
+    public static double ClawOpen = 0.9;
+
     //Turret servo values
     public static double TurretRight = 0.05;
     public static double TurretLeft = 1;
@@ -32,10 +36,6 @@ public class Constants {
     public static double TurretHorizontalCycle = 0.707;
     public static double TurretStepOver = -0.01;
     public static double AutoRight = 0.125;
-
-    //Claw servo values
-    public static double ClawClosed = 0.8;
-    public static double ClawOpen = 0.9;
 
     //Extake servo flip values
     public static double ExtakeFlipIn = 0.6;
@@ -68,39 +68,11 @@ public class Constants {
     public static double SlideMid = 0.35;
     public static double SlideMid2 = 0.65;
 
-
-    //Intake servo flip values
-    public static double ServoIntakeFlipIntaking = 0.15;
-    public static double ServoIntakeFlipExchanging = 0.9;
-
-    //Intake slide motor values
-    public static int IntakeOut = -670;
-    public static int IntakeExchanging = -600;
-    public static int IntakeIn = 0;
-
-    //Intake flip motor values
-    public static int IntakeFlips = 550;
-    public static int IntakeFlips1 = 500;
-    public static int IntakeFlipsLow = 400;
-    public static int IntakeFlipsIn = 0;
-    public static int IntakeNewExchange = 20;
-
     //Lift motor values
     public static int LiftHigh = -1000;
     public static int LiftMid = -500;
     public static int LiftLow = -200;
     public static int LiftDefault = 0;
-
-    //Intake Sensor values
-    public static double IntakeWheelSensor = 20;
-    public static double IntakeSensorBlue = 100;
-    public static double IntakeSensorRed = 100;
-
-    //Intake Claw Values
-    public static double IntakeClawOpen = 0.2;
-    public static double IntakeClawClosed = 0.4;
-    public static double IntakeClawPartial = 0.3;
-
 
     //Lift Values
     public static double liftGainP = 0.002;
@@ -114,6 +86,32 @@ public class Constants {
 
     public static int LiftStep = 50;
 
+    //Intake slide motor values
+    public static int IntakeOut = -670;
+    public static int IntakeExchanging = -600;
+    public static int IntakeIn = 0;
+
+    //Intake flip motor values
+    public static int IntakeFlips = 550;
+    public static int IntakeFlips1 = 500;
+    public static int IntakeFlipsLow = 400;
+    public static int IntakeFlipsIn = 0;
+    public static int IntakeNewExchange = 20;
+
+    //Intake servo flip values
+    public static double ServoIntakeFlipIntaking = 0.15;
+    public static double ServoIntakeFlipExchanging = 0.9;
+
+    //Intake Claw Values
+    public static double IntakeClawOpen = 0.2;
+    public static double IntakeClawClosed = 0.4;
+    public static double IntakeClawPartial = 0.3;
+
+    //Intake Sensor values
+    public static double IntakeWheelSensor = 20;
+    public static double IntakeSensorBlue = 100;
+    public static double IntakeSensorRed = 100;
+
     //Color Threshold
     public static double ColorAreaThreshHold = 300;
 
@@ -123,10 +121,4 @@ public class Constants {
     //Timings
     public static int TimeOutTime = 3000;
     public static int CycleDropDelay = 600;
-
-
-
-
-
-
 }
