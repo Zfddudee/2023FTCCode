@@ -28,7 +28,7 @@ public class Intake extends BaseRobot {
         IntakeFlipMotor = hardwareMap.get(DcMotor.class, "IntakeFlipMotor");
         IntakeSlideMotor = hardwareMap.get(DcMotor.class, "IntakeSlideMotor");
 
-        IntakeClaw = hardwareMap.get(Servo.class, "IntakeWheels");
+        IntakeClaw = hardwareMap.get(Servo.class, "IntakeClaw");
         IntakeFlip = hardwareMap.get(Servo.class, "IntakeFlip");
 
         IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
