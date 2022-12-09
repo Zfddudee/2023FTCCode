@@ -60,9 +60,10 @@ public class Intake extends BaseRobot {
 
     public void Telemetry(){
         this.LogTelemetry("Intake Sensor Distance(MM): ", GetSensorDistance(DistanceUnit.MM));
-        this.LogTelemetry("Intake Sensor Distance(MM): ", GetSensorColor());
+        this.LogTelemetry("Intake Sensor Color: ", GetSensorColor());
         this.LogTelemetry("Slide position: ", IntakeSlideMotor.getCurrentPosition());
         this.LogTelemetry("Flip Position: ", IntakeFlipMotor.getCurrentPosition());
+        this.LogTelemetry("IntakeClawPosition", IntakeClaw.getPosition());
     }
 
     ///region Slide Motor
