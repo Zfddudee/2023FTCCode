@@ -207,7 +207,7 @@ public class Turret extends BaseRobot{
         LogTelemetry("Vertical Turret Position2: ", ExtakeFlip2.getPosition());
         LogTelemetry("Horizontal Turret Position: ", Turret1.getPosition());
         LogTelemetry("Turret Slide1 Position: ", SlideExtension.getPosition());
-        LogTelemetry("Turret Slide2 Position: ", SlideExtension.getPosition());
+        LogTelemetry("Turret Slide2 Position: ", SlideExtension2.getPosition());
         LogTelemetry("Claw Position: ", Claw.getPosition());
     }
 }

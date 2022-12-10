@@ -32,7 +32,7 @@ public class Constants {
     //Turret servo values
     public static double TurretRight = 0.05;
     public static double TurretLeft = 1;
-    public static double TurretDefault = 0.39;
+    public static double TurretDefault = 0.435;
     public static double TurretHorizontalCycle = 0.707;
     public static double AutoLeft = 0.8;
     public static double TurretStepOver = -0.01;
@@ -64,10 +64,10 @@ public class Constants {
     //Extake servo slide values
     public static double SlideOut = 0;
     public static double SlideOut2 = 1;
-    public static double SlideIn = 0.4;
-    public static double SlideIn2 = 0.6;
-    public static double SlideMid = 0.35;
-    public static double SlideMid2 = 0.65;
+    public static double SlideIn = 0.2;
+    public static double SlideIn2 = 0.8;
+    public static double SlideMid = 0.2;
+    public static double SlideMid2 = 0.8;
     public static double SlideAuto = 0.7;
     public static double SlideAuto2 = 0.3;
 
@@ -91,7 +91,7 @@ public class Constants {
 
     //Intake slide motor values
     public static int IntakeOut = -670;
-    public static int IntakeExchanging = -600;
+    public static int IntakeExchanging = -285;
     public static int IntakeIn = 0;
 
     //Intake flip motor values
@@ -106,9 +106,9 @@ public class Constants {
     public static double ServoIntakeFlipExchanging = 0.9;
 
     //Intake Claw Values
-    public static double IntakeClawOpen = 0.2;
-    public static double IntakeClawClosed = 0.4;
-    public static double IntakeClawPartial = 0.3;
+    public static double IntakeClawOpen = 0;
+    public static double IntakeClawClosed = 0.2;
+    public static double IntakeClawPartial = 0.1;
 
     //Intake Sensor values
     public static double IntakeWheelSensor = 20;
@@ -124,9 +124,6 @@ public class Constants {
     //Timings
     public static int TimeOutTime = 3000;
     public static int CycleDropDelay = 600;
-
-
-    public static double TurretVerticalStepOver = 0.005;
 
     public static int TestConst = 43;
 
