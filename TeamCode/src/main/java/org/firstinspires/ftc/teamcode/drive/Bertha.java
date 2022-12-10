@@ -74,12 +74,13 @@ public class Bertha{
             case PreConePickUp:
                 if(turret.IsClawOpen() && intake.GetCurrentSlidePosition() > Constants.IntakeExchanging - 100 ) {
                     turret.SlideMid();
-                    PauseTimeMilliseconds(100);
+                    PauseTimeMilliseconds(250);
                     intake.OpenClaw();
                     intake.IntakeOut();
                     PauseTimeMilliseconds(75);
                     intake.FlipDown();
-                    PauseTimeMilliseconds(200);
+                    PauseTimeMilliseconds(500);
+                    intake.OpenClaw();
                     state = State.None;
                 }
                 break;
@@ -155,6 +156,7 @@ public class Bertha{
             turret.OpenClaw();
             intake.SlideMotorExchange();
             turret.SlideMid();
+            intake.OpenClaw();
         }
     }
 
