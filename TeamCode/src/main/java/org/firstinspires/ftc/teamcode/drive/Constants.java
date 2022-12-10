@@ -64,8 +64,8 @@ public class Constants {
     //Extake servo slide values
     public static double SlideOut = 0;
     public static double SlideOut2 = 1;
-    public static double SlideIn = 0.2;
-    public static double SlideIn2 = 0.8;
+    public static double SlideIn = 0.9;
+    public static double SlideIn2 = 0.1;
     public static double SlideMid = 0.2;
     public static double SlideMid2 = 0.8;
     public static double SlideAuto = 0.7;

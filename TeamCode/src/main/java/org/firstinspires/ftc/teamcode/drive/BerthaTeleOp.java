@@ -9,6 +9,7 @@ public class BerthaTeleOp extends LinearOpMode {
 
     private Bertha bertha;
     private boolean rightTrigger = false;
+    private boolean Gamepad2X = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -84,8 +85,6 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.IntakeReturn();
         else if(gamepad2.y)
             bertha.LiftMedium();
-        else if(gamepad2.x)
-            bertha.ExtakeSlideInOut();
         else if(gamepad2.right_trigger > 0)
             bertha.OpenClaw();
         else if(gamepad2.left_trigger > 0)
@@ -110,5 +109,14 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.TurretCenter();
         else if(gamepad2.left_stick_button)
             bertha.ExchangeToExtake();
+        else if(gamepad2.x) {
+            if (!Gamepad2X) {
+                bertha.ExtakeSlideInOut();
+                Gamepad2X = true;
+            }
+        }
+        else if(!gamepad2.x)
+            Gamepad2X = false;
+
     }
 }
