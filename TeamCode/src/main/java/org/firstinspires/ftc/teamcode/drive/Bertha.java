@@ -97,9 +97,7 @@ public class Bertha{
                 //intake.WaitTillIntakeMotorIsComplete();
                 intake.SlideMotorExchange();
                 if(!intake.IsSlideMotorBusy() ) {
-                    lift.MoveLift(Lift.LiftHeight.Default);
-                    PauseTimeMilliseconds(750);
-                   turret.SlideIn();
+                    turret.SlideIn();
                     PauseTimeMilliseconds(500);
                     intake.IntakeNewExchange();
                     turret.MoveVertical(Turret.TurretHeight.Default);
@@ -150,16 +148,16 @@ public class Bertha{
 
     //This moves the intake into a position to grab a cone in its low position
     public void PreConePickUp() {
-
-        lift.MoveLift(Lift.LiftHeight.Low);
-        PauseTimeMilliseconds(100);
+        //intake.OpenClaw();
+//        lift.MoveLift(Lift.LiftHeight.Medium);
         turret.SlideOut();
+        PauseTimeMilliseconds(500);
         turret.MoveVertical(Turret.TurretHeight.Low);
         PauseTimeMilliseconds(550);
-        intake.OpenClaw();
         intake.IntakeOut();
         intake.FlipDown();
-        PauseTimeMilliseconds(250);
+        PauseTimeMilliseconds(500);
+//        lift.MoveLift(Lift.LiftHeight.Default);
         intake.OpenClaw();
         intake.SlideMotorExchange();
     }
@@ -309,6 +307,7 @@ public class Bertha{
 //    }
 
     public void MoveToExchange2() {
+        intake.CloseClaw();
         intake.AutoCloseClaw();
         turret.SlideOut();
         turret.CloseClaw();
@@ -321,7 +320,7 @@ public class Bertha{
         PauseTimeMilliseconds(500);
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(500);
-        turret.SlideIn();
+        turret.SlideMid();
         PauseTimeMilliseconds(750);
         turret.CloseClaw();
         PauseTimeMilliseconds(50);
