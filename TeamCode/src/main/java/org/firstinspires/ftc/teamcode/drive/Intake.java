@@ -206,6 +206,8 @@ public class Intake extends BaseRobot {
     /**
      *  This is the servo that closes the intake claw
      */
+
+
     public boolean AutoCloseClaw() {
         //todo find and add in color to if statement.
         if(GetSensorDistanceMM() <= Constants.IntakeWheelSensor){
@@ -215,7 +217,6 @@ public class Intake extends BaseRobot {
         else
             return false;
     }
-
     public void CloseClaw(){
         IntakeClaw.setPosition(Constants.IntakeClawClosed);
     }

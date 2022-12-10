@@ -49,6 +49,8 @@ public class Turret extends BaseRobot{
         SlideExtension2 = hardwareMap.get(Servo.class, "SlideExtension2");
         Turret1.scaleRange(0.1, 1);
         ExtakeFlip2.scaleRange(0.8, 1);
+        SlideExtension.setPosition(Constants.SlideIn);
+        SlideExtension2.setPosition(Constants.SlideIn2);
     }
 
     private double CheckBoundries(double position) {

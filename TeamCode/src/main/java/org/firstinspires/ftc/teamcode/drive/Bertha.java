@@ -86,6 +86,7 @@ public class Bertha{
 //                }
 //                break;
             case PickAndExchange:
+                intake.AutoCloseClaw();
                 if(intake.AutoCloseClaw()){
                     MoveToExchange2();
                     state = State.None;
@@ -153,13 +154,18 @@ public class Bertha{
         turret.SlideOut();
         PauseTimeMilliseconds(500);
         turret.MoveVertical(Turret.TurretHeight.Low);
-        PauseTimeMilliseconds(550);
-        intake.IntakeOut();
         intake.FlipDown();
+        PauseTimeMilliseconds(300);
+        intake.IntakeOut();
+//        intake.FlipDown();
         PauseTimeMilliseconds(500);
+        intake.OpenClaw();
+        PauseTimeMilliseconds(100);
 //        lift.MoveLift(Lift.LiftHeight.Default);
         intake.OpenClaw();
-        intake.SlideMotorExchange();
+        state = State.PickAndExchange;
+        intake.SlideMotorOut();
+
     }
 
     //This picks up a cone and moves it past the exchange point to where the cone is in possession of controller 2
@@ -319,9 +325,9 @@ public class Bertha{
         intake.IntakeNewExchange();
         PauseTimeMilliseconds(500);
         intake.SlideMotorExchange();
-        PauseTimeMilliseconds(500);
+        PauseTimeMilliseconds(300);
         turret.SlideMid();
-        PauseTimeMilliseconds(750);
+        PauseTimeMilliseconds(450);
         turret.CloseClaw();
         PauseTimeMilliseconds(50);
         intake.OpenClaw();
