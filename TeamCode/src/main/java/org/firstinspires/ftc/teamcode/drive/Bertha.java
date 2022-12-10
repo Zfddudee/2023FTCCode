@@ -71,19 +71,20 @@ public class Bertha{
     public void RunOpMode() {
         switch (state)
         {
-            case PreConePickUp:
-                if(turret.IsClawOpen() && intake.GetCurrentSlidePosition() > Constants.IntakeExchanging - 100 ) {
-                    turret.SlideMid();
-                    PauseTimeMilliseconds(250);
-                    intake.OpenClaw();
-                    intake.IntakeOut();
-                    PauseTimeMilliseconds(75);
-                    intake.FlipDown();
-                    PauseTimeMilliseconds(500);
-                    intake.OpenClaw();
-                    state = State.None;
-                }
-                break;
+//            case PreConePickUp:
+//                 && intake.GetCurrentSlidePosition() > Constants.IntakeExchanging - 100
+//                if(turret.IsClawOpen()) {
+//                    turret.SlideMid();
+//                    PauseTimeMilliseconds(350);
+//                    intake.OpenClaw();
+//                    intake.IntakeOut();
+//                    PauseTimeMilliseconds(75);
+//                    intake.FlipDown();
+//                    PauseTimeMilliseconds(500);
+//                    intake.OpenClaw();
+//                    state = State.None;
+//                }
+//                break;
             case PickAndExchange:
                 if(intake.AutoCloseClaw()){
                     MoveToExchange2();
@@ -147,17 +148,18 @@ public class Bertha{
 
     //This moves the intake into a position to grab a cone in its low position
     public void PreConePickUp() {
-        if (state != State.PreConePickUp) {
-            state = State.PreConePickUp;
-            ResetStartTimer();
-            turret.SlideOut();
-            turret.MoveVertical(Turret.TurretHeight.Low);
-            PauseTimeMilliseconds(100);
-            turret.OpenClaw();
-            intake.SlideMotorExchange();
-            turret.SlideMid();
-            intake.OpenClaw();
-        }
+        lift.MoveLift(Lift.LiftHeight.Medium);
+        turret.SlideOut();
+        turret.MoveVertical(Turret.TurretHeight.Low);
+        turret.OpenClaw();
+        PauseTimeMilliseconds(250);
+        intake.OpenClaw();
+        intake.IntakeOut();
+        intake.FlipDown();
+        PauseTimeMilliseconds(250);
+        lift.MoveLift(Lift.LiftHeight.Default);
+        intake.OpenClaw();
+        intake.SlideMotorExchange();
     }
 
     //This picks up a cone and moves it past the exchange point to where the cone is in possession of controller 2
