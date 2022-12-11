@@ -106,8 +106,8 @@ public class Constants {
     public static int IntakeNewExchange = 20;
 
     //Intake servo flip values
-    public static double ServoIntakeFlipIntaking = 0.12;
-    public static double ServoIntakeFlipExchanging = 0.85;
+    public static double ServoIntakeFlipIntaking = 0.15;
+    public static double ServoIntakeFlipExchanging = 0.9;
 
     //Intake Claw Values
     public static double IntakeClawOpen = 0;

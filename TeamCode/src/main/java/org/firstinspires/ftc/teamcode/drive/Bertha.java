@@ -318,7 +318,6 @@ public class Bertha{
 
     public void MoveToExchange2() {
         intake.CloseClaw();
-        intake.AutoCloseClaw();
         turret.SlideOut();
         turret.CloseClaw();
         turret.MoveVertical(Turret.TurretHeight.Default);
