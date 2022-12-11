@@ -123,7 +123,7 @@ public class AutoOneCycle_RightRed extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake();
+            bertha.AutoIntake(1);
             bertha.AutoExtakeLeft();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();
@@ -134,7 +134,7 @@ public class AutoOneCycle_RightRed extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake();
+            bertha.AutoIntake(1);
             bertha.AutoExtakeLeft();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();
@@ -146,7 +146,7 @@ public class AutoOneCycle_RightRed extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake();
+            bertha.AutoIntake(1);
             bertha.AutoExtakeLeft();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();

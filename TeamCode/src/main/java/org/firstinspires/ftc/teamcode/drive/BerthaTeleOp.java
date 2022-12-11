@@ -41,31 +41,45 @@ public class BerthaTeleOp extends LinearOpMode {
 
         if(gamepad1.x)
             bertha.IntakeOpenClaw();
+        //opens intake claw
         else if(gamepad1.a)
             bertha.PreConePickUp();
+        //sets to going to pickup cone positions
         else if(gamepad1.b)
             bertha.PickAndExchange();
+        //??
         else if(gamepad1.y)
             bertha.PickUpOverRide();
+        //Brings arm back to overide if goes wrong
         else if(gamepad1.dpad_up)
             bertha.MoveIntake(-20);
+        //manual move intake arm out
         else if(gamepad1.dpad_down)
             bertha.MoveIntake(20);
+        //manual move intake arm in
         else if(gamepad1.dpad_right)
             bertha.MoveSlide(30);
+        //manual move intake slide out
         else if(gamepad1.dpad_left)
             bertha.MoveSlide(-30);
+        //manual move intake slide in
         else if(gamepad1.share)
             bertha.Reset();
+        //resets robot to moving state
         else if(gamepad1.right_bumper)
             bertha.StompDown();
+        //puts stomp down
         else if(gamepad1.left_bumper)
             bertha.StompUp();
+        //puts stomp up
         else if(gamepad1.touchpad)
             bertha.MoveToExchange2();
+        //started exchange proccess
 //        else if(gamepad1.right_stick_button)
 
 //            bertha.AutoExtake();
+
+        //open/close claw toggle button
         else if(gamepad1.right_trigger != 0 && !rightTrigger) {
             if(!rightTrigger) {
                 bertha.OpenCloseIntakeClaw();
@@ -74,6 +88,7 @@ public class BerthaTeleOp extends LinearOpMode {
         }
         else if(gamepad1.right_trigger == 0)
             rightTrigger = false;
+        //flips intake wrist flip
         else if(gamepad1.right_stick_button)
             bertha.ToggleClawFlip();
     }
@@ -85,30 +100,41 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.IntakeReturn();
         else if(gamepad2.y)
             bertha.LiftMedium();
+        //opens extake claw
         else if(gamepad2.right_trigger > 0)
             bertha.OpenClaw();
+        //closes extake claw
         else if(gamepad2.left_trigger > 0)
             bertha.CloseClaw();
+        //moves turret to right position
         else if(gamepad2.right_bumper)
             bertha.TurretRight();
+        //moves turret to left position
         else if(gamepad2.left_bumper)
             bertha.TurretLeft();
 //        else if(gamepad2.right_stick_y != 0)
 //            bertha.MoveLiftOffset(gamepad2.right_stick_y);
+        //resets robot to moving position
         else if(gamepad2.share)
             bertha.Reset();
+        //manually move arm up
         else if(gamepad2.dpad_up)
             bertha.TurretVertical(-Constants.TurretVerticalStepOver);
+        //manually move arm down
         else if(gamepad2.dpad_down)
             bertha.TurretVertical(Constants.TurretVerticalStepOver);
+        //manually move turret right
         else if(gamepad2.dpad_right)
             bertha.TurretHorizontal(Constants.TurretStepOver);
+        //manually move turret left
         else if(gamepad2.dpad_left)
             bertha.TurretHorizontal(-Constants.TurretStepOver);
+        //centers turret
         else if(gamepad2.touchpad)
             bertha.TurretCenter();
         else if(gamepad2.left_stick_button)
             bertha.ExchangeToExtake();
+        //toggle between extake slide positions
         else if(gamepad2.x) {
             if (!Gamepad2X) {
                 bertha.ExtakeSlideInOut();

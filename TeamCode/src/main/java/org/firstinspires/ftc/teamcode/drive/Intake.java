@@ -156,6 +156,9 @@ public class Intake extends BaseRobot {
     public void IntakeOut() {
         SetIntakePosition(Constants.IntakeFlips, Constants.HighVelocity);
     }
+    public void AutoIntakeOut(int Position){
+        SetIntakePosition(Position, Constants.HighVelocity);
+    }
 
     /**
      * This is the motor that brings the intake into a position that prepares to grab cones
