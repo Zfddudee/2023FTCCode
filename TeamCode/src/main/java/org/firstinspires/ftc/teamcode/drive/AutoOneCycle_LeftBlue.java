@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "AutoOneCycle_LeftBlue", group="Bertha")
+@Autonomous(name = "CycleLeft", group="Bertha")
 public class AutoOneCycle_LeftBlue extends LinearOpMode{
 
     OpenCvCamera webcam;
@@ -129,15 +129,15 @@ public class AutoOneCycle_LeftBlue extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips1);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips2);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips3);
+            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips4);
+            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips5);
+            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
             bertha.AutoExtakeRight();
             bertha.AutoReturn();
             drive.followTrajectorySequence(TrajectoryX);
@@ -146,15 +146,15 @@ public class AutoOneCycle_LeftBlue extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips1);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips2);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips3);
+            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips4);
+            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips5);
+            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
             bertha.AutoExtakeRight();
             bertha.AutoReturn();
             drive.followTrajectorySequence(TrajectoryY);
@@ -164,15 +164,15 @@ public class AutoOneCycle_LeftBlue extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips1);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips2);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips3);
+            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips4);
+            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
             bertha.AutoExtakeRight();
-            bertha.AutoIntake(Constants.IntakeFlips5);
+            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
             bertha.AutoExtakeRight();
             bertha.AutoReturn();
             drive.followTrajectorySequence(TrajectoryZ);

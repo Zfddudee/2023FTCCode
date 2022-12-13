@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "AutoOneCycle_RightBlue", group="Bertha")
+@Autonomous(name = "CycleRight", group="Bertha")
 public class AutoOneCycle_RightBlue extends LinearOpMode{
 
     OpenCvCamera webcam;
@@ -122,16 +122,16 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips1);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips2);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips3);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips4);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips5);
-            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+//            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+//            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+//            bertha.AutoExtakeLeft();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();
             bertha.AutoReturn();
@@ -141,16 +141,16 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
            bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips1);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips2);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips3);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips4);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips5);
-            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+//            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+//            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+//            bertha.AutoExtakeLeft();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();
             bertha.AutoReturn();
@@ -161,16 +161,16 @@ public class AutoOneCycle_RightBlue extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips1);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips2);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
             bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips3);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips4);
-            bertha.AutoExtakeLeft();
-            bertha.AutoIntake(Constants.IntakeFlips5);
-            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+//            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+//            bertha.AutoExtakeLeft();
+//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+//            bertha.AutoExtakeLeft();
 //            bertha.AutoIntake();
 //            bertha.AutoExtake();
             bertha.AutoReturn();

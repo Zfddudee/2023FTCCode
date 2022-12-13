@@ -95,7 +95,7 @@ public class Bertha{
                 break;
             case AutoPickAndExchange:
                 intake.AutoCloseClaw();
-                if(intake.AutoCloseClaw()){
+                if(intake.AutoCloseClaw() || timer.milliseconds() >= 750){
                     AutoMoveToExchange2();
                     state = State.None;
                 }
@@ -360,17 +360,21 @@ public class Bertha{
     }
 
     public void AutoExtakeLeft() {
-        lift.MoveLift(Lift.LiftHeight.High);
+        lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
         turret.SlideMid();
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-        PauseTimeMilliseconds(600);
+        PauseTimeMilliseconds(300);
         turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
-        PauseTimeMilliseconds(600);
+        PauseTimeMilliseconds(300);
+        turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
+        PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.Flipped);
         PauseTimeMilliseconds(600);
         turret.OpenClaw();
-        PauseTimeMilliseconds(400);
+        PauseTimeMilliseconds(300);
+        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
+        PauseTimeMilliseconds(100);
         turret.CloseClaw();
         turret.MoveHorizontal(Turret.TurretHorizontal.Center);
         PauseTimeMilliseconds(500);
@@ -382,32 +386,44 @@ public class Bertha{
         turret.OpenClaw();
     }
 
-    public void AutoIntake(int ConePosition) {
+    public void AutoIntake(int ConePosition, int SlidePose) {
         turret.SlideOut();
         PauseTimeMilliseconds(500);
         turret.MoveVertical(Turret.TurretHeight.Low);
         intake.FlipDown();
         PauseTimeMilliseconds(300);
         intake.AutoIntakeOut(ConePosition);
-        PauseTimeMilliseconds(500);
+        PauseTimeMilliseconds(200);
         intake.OpenClaw();
         PauseTimeMilliseconds(100);
         intake.OpenClaw();
-        state = State.AutoPickAndExchange;
-        intake.SlideMotorOut();
+        PauseTimeMilliseconds(200);
+        intake.OpenClaw();
+        intake.SlideMotorAutoOut(SlidePose);
+//        PauseTimeMilliseconds(250);
+//
+//        while(!AutoMoveToExchange2())
+//        intake.AutoCloseClaw();
+//        if(intake.AutoCloseClaw() || timer.milliseconds() >= 750){
+//            AutoMoveToExchange2();
+//            intake.AutoCloseClaw();
+//        }
+//
+//        state = State.AutoPickAndExchange;
+//        timer.reset();
         PauseTimeMilliseconds(750);
         intake.CloseClaw();
-        PauseTimeMilliseconds(50);
+        PauseTimeMilliseconds(250);
         AutoMoveToExchange2();
     }
-    public void AutoMoveToExchange2(){
+    public boolean AutoMoveToExchange2(){
         intake.CloseClaw();
         turret.SlideOut();
         turret.CloseClaw();
         turret.MoveVertical(Turret.TurretHeight.Default);
         PauseTimeMilliseconds(150);
         turret.OpenClaw();
-        intake.FlipUp();
+        intake.AutoFlipUp();
         PauseTimeMilliseconds(400);
         intake.IntakeNewExchange();
         PauseTimeMilliseconds(500);
@@ -419,47 +435,22 @@ public class Bertha{
         PauseTimeMilliseconds(50);
         intake.OpenClaw();
         PauseTimeMilliseconds(100);
-        lift.MoveLift(Lift.LiftHeight.Medium);
+        lift.MoveLift(Constants.LiftMid, Constants.HighVelocity);
         intake.IntakeIn();
         PauseTimeMilliseconds(500);
-    }
-
-    public void AutoIntake1() {
-        intake.SlideMotorExchange();
-        PauseTimeMilliseconds(300);
-        intake.FlipDown();
-        PauseTimeMilliseconds(200);
-        intake.IntakeOut();
-        PauseTimeMilliseconds(400);
-        intake.AutoCloseClaw();
-        PauseTimeMilliseconds(200);
-        //TODO make this intake process change each time to grab each cone from a stack uniquely
-        intake.IntakeLow();
-        PauseTimeMilliseconds(100);
-        intake.FlipUp();
-        PauseTimeMilliseconds(200);
-        intake.IntakeNewExchange();
-        PauseTimeMilliseconds(500);
-        intake.SlideMotorExchange();
-        PauseTimeMilliseconds(500);
-        turret.SlideIn();
-        PauseTimeMilliseconds(750);
-        intake.OpenClaw();
-        PauseTimeMilliseconds(100);
-        turret.CloseClaw();
-
+        return true;
     }
 
     public void AutoReturn() {
         turret.CloseClaw();
         turret.SlideIn();
-        intake.FlipUp();
+        intake.AutoFlipUp();
         intake.SlideMotorIn();
         PauseTimeMilliseconds(500);
     }
 
     public void AutoExtakeRight() {
-        lift.MoveLift(Lift.LiftHeight.High);
+        lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
         turret.SlideMid();
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);

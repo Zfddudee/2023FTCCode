@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
+@Disabled
 @Autonomous(name = "AutoOneCycle_LeftRed", group="Bertha")
 public class AutoOneCycle_LeftRed extends LinearOpMode{
 

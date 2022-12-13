@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 public class Lift extends BaseRobot{
     public enum LiftHeight{
         High,
+        AutoHigh,
         Medium,
         Default,
         Low
@@ -30,6 +31,8 @@ public class Lift extends BaseRobot{
             MoveLift(Constants.LiftDefault);
         else if(height == LiftHeight.High)
             MoveLift(Constants.LiftHigh);
+         else if(height == LiftHeight.AutoHigh)
+             MoveLift(Constants.AutoLiftHigh);
         else if(height == LiftHeight.Low)
             MoveLift(Constants.LiftLow);
         else {

@@ -48,6 +48,7 @@ public class Intake extends BaseRobot {
 
         IntakeFlipMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         IntakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        ((DcMotorEx)IntakeFlipMotor).setPIDCoefficients(DcMotor.RunMode.RUN_TO_POSITION,);
     }
 
     public double GetSensorDistanceMM() {
@@ -78,6 +79,10 @@ public class Intake extends BaseRobot {
      */
     public void SlideMotorOut() {
         SetSlidePosition(Constants.IntakeOut);
+    }
+
+    public void SlideMotorAutoOut(int SlidePose) {
+        SetSlidePosition(Constants.IntakeOutAuto1);
     }
 
     /**
@@ -142,6 +147,9 @@ public class Intake extends BaseRobot {
      */
     public void FlipUp() {
         SetFlip(Constants.ServoIntakeFlipExchanging);
+    }
+    public void AutoFlipUp() {
+        SetFlip(Constants.AutoServoIntakeFlipExchanging);
     }
     ///endregion
 
@@ -227,7 +235,7 @@ public class Intake extends BaseRobot {
      *  This is the servo that opens the intake claw
      */
     public void OpenClaw() {
-        if (IntakeFlipMotor.getCurrentPosition() > Constants.IntakeFlipsLow) {
+        if (IntakeFlipMotor.getCurrentPosition() > Constants.IntakeFlipsLow - 200) {
             IntakeClaw.setPosition(Constants.IntakeClawOpen);
         }
         else
