@@ -36,7 +36,7 @@ public class Constants {
     public static double TurretHorizontalCycle = 0.707;
     public static double AutoLeft = 0.8;
     public static double TurretStepOver = -0.01;
-    public static double AutoRight = 0.165;
+    public static double AutoRight = 0.09;
 
     //Extake servo flip values
     public static double ExtakeFlipIn = 0.6;
@@ -102,9 +102,9 @@ public class Constants {
 
     //Intake flip motor values
     public static int IntakeFlips = 550;
-    public static int IntakeFlips1 = 400;
-    public static int IntakeFlips2 = 430;
-    public static int IntakeFlips3 = 490;
+    public static int IntakeFlips1 = 380;
+    public static int IntakeFlips2 = 400;
+    public static int IntakeFlips3 = 430;
     public static int IntakeFlips4 = 530;
     public static int IntakeFlips5 = 550;
     public static int IntakeFlipsLow = 400;

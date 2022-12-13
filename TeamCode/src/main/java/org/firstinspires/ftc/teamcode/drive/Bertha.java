@@ -359,15 +359,15 @@ public class Bertha{
         turret.SlideIn();
     }
 
-    public void AutoExtakeLeft() {
+    public void AutoExtake(Turret.TurretHorizontal TurretSide) {
         lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
         turret.SlideMid();
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
         PauseTimeMilliseconds(300);
-        turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
+        turret.MoveHorizontal(TurretSide);
         PauseTimeMilliseconds(300);
-        turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
+        turret.MoveHorizontal(TurretSide);
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.Flipped);
         PauseTimeMilliseconds(600);
@@ -449,28 +449,28 @@ public class Bertha{
         PauseTimeMilliseconds(500);
     }
 
-    public void AutoExtakeRight() {
-        lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
-        turret.SlideMid();
-        PauseTimeMilliseconds(300);
-        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-        PauseTimeMilliseconds(600);
-        turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
-        PauseTimeMilliseconds(600);
-        turret.MoveVertical(Turret.TurretHeight.Flipped);
-        PauseTimeMilliseconds(600);
-        turret.OpenClaw();
-        PauseTimeMilliseconds(400);
-        turret.CloseClaw();
-        turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-        PauseTimeMilliseconds(500);
-        turret.MoveVertical(Turret.TurretHeight.Default);
-        PauseTimeMilliseconds(400);
-        lift.MoveLift(Lift.LiftHeight.Default);
-        PauseTimeMilliseconds(700);
-        turret.SlideOut();
-        turret.OpenClaw();
-    }
+//    public void AutoExtakeRight() {
+//        lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
+//        turret.SlideMid();
+//        PauseTimeMilliseconds(300);
+//        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
+//        PauseTimeMilliseconds(600);
+//        turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
+//        PauseTimeMilliseconds(600);
+//        turret.MoveVertical(Turret.TurretHeight.Flipped);
+//        PauseTimeMilliseconds(600);
+//        turret.OpenClaw();
+//        PauseTimeMilliseconds(400);
+//        turret.CloseClaw();
+//        turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+//        PauseTimeMilliseconds(500);
+//        turret.MoveVertical(Turret.TurretHeight.Default);
+//        PauseTimeMilliseconds(400);
+//        lift.MoveLift(Lift.LiftHeight.Default);
+//        PauseTimeMilliseconds(700);
+//        turret.SlideOut();
+//        turret.OpenClaw();
+//    }
 
     //endregion
 
