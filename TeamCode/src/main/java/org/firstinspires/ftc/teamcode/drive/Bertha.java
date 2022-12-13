@@ -359,18 +359,22 @@ public class Bertha{
         turret.SlideIn();
     }
 
-    public void AutoExtakeLeft() {
+    public void AutoExtakeLeft(int ConePose) {
         lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
         turret.SlideMid();
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
         PauseTimeMilliseconds(300);
+        intake.FlipDown();
         turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
         PauseTimeMilliseconds(300);
+        intake.AutoIntakeOut(ConePose);
         turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.Flipped);
+        intake.OpenClaw();
         PauseTimeMilliseconds(600);
+        intake.OpenClaw();
         turret.OpenClaw();
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
@@ -385,8 +389,17 @@ public class Bertha{
         turret.SlideOut();
         turret.OpenClaw();
     }
+    public void AutoIntakeFromLift(int ConePosition, int SlidePose) {
+        intake.AutoIntakeOut(ConePosition);
+        intake.OpenClaw();
+        intake.SlideMotorAutoOut(SlidePose);
+        PauseTimeMilliseconds(750);
+        intake.CloseClaw();
+        PauseTimeMilliseconds(250);
+        AutoMoveToExchange2();
+    }
 
-    public void AutoIntake(int ConePosition, int SlidePose) {
+        public void AutoIntake(int ConePosition, int SlidePose) {
         turret.SlideOut();
         PauseTimeMilliseconds(500);
         turret.MoveVertical(Turret.TurretHeight.Low);
