@@ -12,7 +12,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "CycleRight", group="Bertha")
+@Autonomous(name = "CycleRight", group="Bertha", preselectTeleOp = "BerthaTeleOp")
 public class AutoCycleRight extends LinearOpMode{
 
     OpenCvCamera webcam;

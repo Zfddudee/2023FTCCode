@@ -103,7 +103,7 @@ public class Constants {
     //Intake flip motor values
     public static int IntakeFlips = 550;
     public static int IntakeFlips1 = 380;
-    public static int IntakeFlips2 = 400;
+    public static int IntakeFlips2 = 410;
     public static int IntakeFlips3 = 430;
     public static int IntakeFlips4 = 530;
     public static int IntakeFlips5 = 550;
