@@ -326,7 +326,7 @@ public class Bertha{
         intake.FlipUp();
         PauseTimeMilliseconds(400);
         intake.IntakeNewExchange();
-        PauseTimeMilliseconds(500);
+//        PauseTimeMilliseconds(500);
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(300);
         turret.SlideMid();
