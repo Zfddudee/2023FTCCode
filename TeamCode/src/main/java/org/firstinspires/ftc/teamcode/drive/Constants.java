@@ -39,8 +39,8 @@ public class Constants {
     public static double AutoRight = 0.09;
 
     //Extake servo flip values
-    public static double ExtakeFlipIn = 0.6;
-    public static double ExtakeFlipIn2 = 0.4;
+    public static double ExtakeFlipIn = 0.65;
+    public static double ExtakeFlipIn2 = 0.35;
     public static double ExtakeFlipOut = 0;
     public static double ExtakeFlipOut2 = 1;
     public static double ExtakeFlipLow = 0.4;
