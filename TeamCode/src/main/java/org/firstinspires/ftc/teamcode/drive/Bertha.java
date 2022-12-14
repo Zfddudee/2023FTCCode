@@ -315,7 +315,6 @@ public class Bertha{
 //        MoveToExchangeWithCone();
 //        state = State.MoveToExchange;
 //    }
-
     public void MoveToExchange2() {
         intake.CloseClaw();
         turret.SlideOut();
