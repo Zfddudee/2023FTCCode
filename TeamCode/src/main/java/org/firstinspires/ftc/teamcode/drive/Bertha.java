@@ -157,6 +157,7 @@ public class Bertha{
 
     //This moves the intake into a position to grab a cone in its low position
     public void PreConePickUp() {
+
         turret.SlideOut();
         PauseTimeMilliseconds(500);
         turret.MoveVertical(Turret.TurretHeight.Low);
@@ -183,12 +184,17 @@ public class Bertha{
     }
 
     public void PickUpOverRide() {
-        if(state != State.PickUpOverRide) {
-            state = State.PickUpOverRide;
-            intake.SlideMotorExchange();
-            intake.OpenClaw();
-            state = State.None;
-        }
+        turret.SlideOut();
+        PauseTimeMilliseconds(500);
+        turret.MoveVertical(Turret.TurretHeight.Low);
+        intake.FlipDown();
+        PauseTimeMilliseconds(300);
+        intake.IntakeOut();
+        PauseTimeMilliseconds(500);
+        intake.OpenClaw();
+        PauseTimeMilliseconds(100);
+        intake.OpenClaw();
+        intake.SlideMotorOut();
     }
 
     public void ExchangeToExtake() {
@@ -316,6 +322,7 @@ public class Bertha{
 //        state = State.MoveToExchange;
 //    }
     public void MoveToExchange2() {
+        lift.MoveLift(Lift.LiftHeight.Default);
         intake.CloseClaw();
         turret.SlideOut();
         turret.CloseClaw();
@@ -323,13 +330,14 @@ public class Bertha{
         PauseTimeMilliseconds(150);
         turret.OpenClaw();
         intake.FlipUp();
-        PauseTimeMilliseconds(400);
+        PauseTimeMilliseconds(200);
+        intake.SlideMotorExchange();
+        PauseTimeMilliseconds(200);
         intake.IntakeNewExchange();
 //        PauseTimeMilliseconds(500);
-        intake.SlideMotorExchange();
-        PauseTimeMilliseconds(300);
-        turret.SlideMid();
         PauseTimeMilliseconds(450);
+        turret.SlideMid();
+        PauseTimeMilliseconds(500);
         turret.CloseClaw();
         PauseTimeMilliseconds(50);
         intake.OpenClaw();
@@ -426,7 +434,7 @@ public class Bertha{
         intake.AutoFlipUp();
         PauseTimeMilliseconds(400);
         intake.IntakeNewExchange();
-        PauseTimeMilliseconds(500);
+//        PauseTimeMilliseconds(500);
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(300);
         turret.SlideMid();
