@@ -438,11 +438,11 @@ public class Bertha{
         intake.SlideMotorExchange();
         PauseTimeMilliseconds(300);
         turret.SlideMid();
-        PauseTimeMilliseconds(450);
+        PauseTimeMilliseconds(550);
         turret.CloseClaw();
         PauseTimeMilliseconds(50);
         intake.OpenClaw();
-        PauseTimeMilliseconds(100);
+        PauseTimeMilliseconds(50);
         lift.MoveLift(Constants.LiftMid, Constants.HighVelocity);
         intake.IntakeIn();
         PauseTimeMilliseconds(500);

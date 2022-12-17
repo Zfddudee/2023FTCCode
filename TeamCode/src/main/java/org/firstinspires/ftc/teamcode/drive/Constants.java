@@ -92,7 +92,7 @@ public class Constants {
 
     //Intake slide motor values
     public static int IntakeOut = -670;
-    public static int IntakeOutAuto1 = -500;
+    public static int IntakeOutAuto1 = -575;
     public static int IntakeOutAuto2 = -350;
     public static int IntakeOutAuto3 = -350;
     public static int IntakeOutAuto4 = -350;
@@ -103,7 +103,7 @@ public class Constants {
     //Intake flip motor values
     public static int IntakeFlips = 550;
     public static int IntakeFlips1 = 380;
-    public static int IntakeFlips2 = 410;
+    public static int IntakeFlips2 = 430;
     public static int IntakeFlips3 = 430;
     public static int IntakeFlips4 = 530;
     public static int IntakeFlips5 = 550;
