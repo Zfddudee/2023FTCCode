@@ -215,16 +215,16 @@ public class Bertha{
         intakeScheduler.schedule(() -> {
             intake.FlipDown();
             turret.MoveVertical(Turret.TurretHeight.Low);
-        }, 500);
+        }, TimingConstants.TestTime1);
 
-        intakeScheduler.schedule(() -> intake.IntakeOut(), 300);
-        intakeScheduler.schedule(() -> intake.OpenClaw(), 500);
+        intakeScheduler.schedule(() -> intake.IntakeOut(), TimingConstants.TestTime2);
+        intakeScheduler.schedule(() -> intake.OpenClaw(), TimingConstants.TestTime3);
         intakeScheduler.schedule(() -> {
             intake.OpenClaw();
             state = State.PickAndExchange;
             intake.SlideMotorOut();
             intakeScheduler.stop();
-        }, 100);
+        }, TimingConstants.TestTime4);
     }
 
     //This picks up a cone and moves it past the exchange point to where the cone is in possession of controller 2
