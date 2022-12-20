@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -22,7 +21,8 @@ public class Bertha{
         None,
         PreConePickUp,
         PickAndExchange,
-        AutoPickAndExchange,
+        AutoPickAndExchangeRight,
+        AutoPickAndExchangeLeft,
         PickAndExchange_Step2,
         PickAndExchange_Step3,
         PickUpOverRide,
@@ -128,10 +128,17 @@ public class Bertha{
                     state = State.None;
                 }
                 break;
-            case AutoPickAndExchange:
+            case AutoPickAndExchangeRight:
                 intake.AutoCloseClaw();
                 if(intake.AutoCloseClaw() || timer.milliseconds() >= 750){
                     AutoMoveToExchange2(Turret.TurretHorizontal.AutoRight);
+                    state = State.None;
+                }
+                break;
+            case AutoPickAndExchangeLeft:
+                intake.AutoCloseClaw();
+                if(intake.AutoCloseClaw() || timer.milliseconds() >= 750){
+                    AutoMoveToExchange2(Turret.TurretHorizontal.AutoLeft);
                     state = State.None;
                 }
                 break;
@@ -462,10 +469,16 @@ public class Bertha{
         PauseTimeMilliseconds(200);
         intake.OpenClaw();
         intake.SlideMotorAutoOut(SlidePose);
-//        PauseTimeMilliseconds(250);
-//
-//        state = State.AutoPickAndExchange;
+
+        //todo un comment and test this code
 //        timer.reset();
+//        if(TurretSide == Turret.TurretHorizontal.AutoLeft){
+//            state = State.AutoPickAndExchangeLeft;
+//        }else if(TurretSide == Turret.TurretHorizontal.AutoRight){
+//            state = State.AutoPickAndExchangeRight;
+//        }
+
+
         PauseTimeMilliseconds(750);
         intake.CloseClaw();
         PauseTimeMilliseconds(250);
