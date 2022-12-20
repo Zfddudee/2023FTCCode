@@ -119,10 +119,8 @@ public class AutoCycleRight extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
 //            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
 //            bertha.AutoExtakeLeft();
 //            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
@@ -138,10 +136,8 @@ public class AutoCycleRight extends LinearOpMode{
            bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
 //            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
 //            bertha.AutoExtakeLeft();
 //            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
@@ -158,10 +154,8 @@ public class AutoCycleRight extends LinearOpMode{
             bertha.AutoCheck();
             drive.followTrajectorySequence(TrajectoryOut);
             bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
+            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
+            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
 //            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
 //            bertha.AutoExtakeLeft();
 //            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);

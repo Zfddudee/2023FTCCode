@@ -131,7 +131,7 @@ public class Bertha{
             case AutoPickAndExchange:
                 intake.AutoCloseClaw();
                 if(intake.AutoCloseClaw() || timer.milliseconds() >= 750){
-                    AutoMoveToExchange2();
+                    AutoMoveToExchange2(Turret.TurretHorizontal.AutoRight);
                     state = State.None;
                 }
                 break;
@@ -448,7 +448,7 @@ public class Bertha{
         turret.OpenClaw();
     }
 
-    public void AutoIntake(int ConePosition, int SlidePose) {
+    public void AutoIntake(int ConePosition, int SlidePose, Turret.TurretHorizontal TurretSide) {
         turret.SlideOut();
         PauseTimeMilliseconds(500);
         turret.MoveVertical(Turret.TurretHeight.Low);
@@ -464,21 +464,14 @@ public class Bertha{
         intake.SlideMotorAutoOut(SlidePose);
 //        PauseTimeMilliseconds(250);
 //
-//        while(!AutoMoveToExchange2())
-//        intake.AutoCloseClaw();
-//        if(intake.AutoCloseClaw() || timer.milliseconds() >= 750){
-//            AutoMoveToExchange2();
-//            intake.AutoCloseClaw();
-//        }
-//
 //        state = State.AutoPickAndExchange;
 //        timer.reset();
         PauseTimeMilliseconds(750);
         intake.CloseClaw();
         PauseTimeMilliseconds(250);
-        AutoMoveToExchange2();
+        AutoMoveToExchange2(TurretSide);
     }
-    public boolean AutoMoveToExchange2(){
+    public boolean AutoMoveToExchange2(Turret.TurretHorizontal TurretSide){
         intake.CloseClaw();
         turret.SlideOut();
         turret.CloseClaw();
@@ -500,6 +493,7 @@ public class Bertha{
         lift.MoveLift(Constants.LiftMid, Constants.HighVelocity);
         intake.IntakeIn();
         PauseTimeMilliseconds(500);
+        AutoExtake(TurretSide);
         return true;
     }
 
