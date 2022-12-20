@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.drive.opmode.Vision;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.drive.Constants;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -15,8 +14,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 public class ImageDetectorPipeline extends OpenCvPipeline {
-//    public Scalar lScalar = new Scalar(110,50,50);
-//    public Scalar uScalar = new Scalar(130,255,255);
+    //public Scalar lScalar = new Scalar(110,50,50);
+    //public Scalar uScalar = new Scalar(130,255,255);
 
     public boolean showGreen = true;
     public boolean showPurlple = true;
@@ -45,7 +44,8 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
         if(showPurlple){
 //            lScalar = new Scalar(130,50,50);
 //            uScalar = new Scalar(170,255,255);
-            colors.add(new ColorRange("Purple", new Scalar(130,50,50), new Scalar(170,255,255)));
+            colors.add(new ColorRange("Purple", new Scalar(79,117,140), new Scalar(160,171,187)));
+//            colors.add(new ColorRange("Purple", new Scalar(130,50,50), new Scalar(170,255,255)));
         }
     }
     @Override
@@ -58,7 +58,7 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
 
         double highestValue = 0.0;
         for (ColorRange cr : colors) {
-            if (cr.AreaSeen > Constants.ColorAreaThreshHold && cr.AreaSeen > highestValue) {
+            if (cr.AreaSeen > 300 && cr.AreaSeen > highestValue) {
                 highestValue = cr.AreaSeen;
                 colorSeen = cr.Color;
             }

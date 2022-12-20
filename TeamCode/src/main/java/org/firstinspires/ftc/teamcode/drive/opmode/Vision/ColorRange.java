@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.drive.opmode.Vision;
 
-import com.vuforia.Area;
-
 import org.opencv.core.Scalar;
 
 public class ColorRange {

@@ -34,6 +34,7 @@ public class Bertha{
     private ElapsedTime timer;
     private State state;
     private Telemetry telemetry;
+    private IntakeScheduler intakeScheduler = new IntakeScheduler();
 
     public Bertha(HardwareMap map, Telemetry tel){
         lift = new Lift(map, tel);
@@ -70,6 +71,7 @@ public class Bertha{
 
     //region TeleOp
     public void RunOpMode() {
+        intakeScheduler.start();
         switch (state)
         {
 //            case PreConePickUp:
@@ -171,6 +173,23 @@ public class Bertha{
         state = State.PickAndExchange;
         intake.SlideMotorOut();
 
+    }
+    public void PreConePickUpTest() {
+//        scheduler.schedule(() -> turret.SlideOut(), 0);
+        turret.SlideOut();
+        intakeScheduler.schedule(() -> {
+            intake.FlipDown();
+            turret.MoveVertical(Turret.TurretHeight.Low);
+        }, 500);
+
+        intakeScheduler.schedule(() -> intake.IntakeOut(), 300);
+        intakeScheduler.schedule(() -> intake.OpenClaw(), 500);
+        intakeScheduler.schedule(() -> {
+            intake.OpenClaw();
+            state = State.PickAndExchange;
+            intake.SlideMotorOut();
+            intakeScheduler.stop();
+        }, 100);
     }
 
     //This picks up a cone and moves it past the exchange point to where the cone is in possession of controller 2
