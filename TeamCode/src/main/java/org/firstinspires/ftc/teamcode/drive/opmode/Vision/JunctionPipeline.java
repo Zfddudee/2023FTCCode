@@ -45,6 +45,7 @@ public class JunctionPipeline extends OpenCvPipeline {
 
 
     private Point centroid;
+    private Point Test;
     public static Scalar DISPLAY_COLOR = new Scalar(210, 150, 190);
     public Scalar lower = new Scalar(0, 155, 60);
 
@@ -69,8 +70,12 @@ public class JunctionPipeline extends OpenCvPipeline {
     public Exception debug;
     public double x = -1;
     public double y = -1;
+    public double xTest = 640;
+    public double yTest = 450;
     public double xCenterPos = 640;
     public double xError;
+    public double xErrorServo;
+    public double PointsPerDegree = 0.0059375;
 
     public ColorSpace colorSpace = ColorSpace.HSV;
 
@@ -128,15 +133,20 @@ public class JunctionPipeline extends OpenCvPipeline {
             // Find the centroid of the largest contour
             Moments moments = Imgproc.moments(largestContour);
             centroid = new Point(moments.get_m10() / moments.get_m00(), moments.get_m01() / moments.get_m00());
-
+            Test = new Point(xTest, yTest);
 // Draw the centroid on the original image
             Imgproc.drawContours(input, Arrays.asList(largestContour), -1, new Scalar(255, 0, 0), -1);
             Imgproc.circle(input, centroid, 5, new Scalar(0, 0, 255), -1);
+            Imgproc.circle(input, Test, 5, new Scalar(0, 255, 0), -1);
 
 
             maskedInputMat.release();
 
             xError = xCenterPos - centroid.x;
+            xErrorServo = xError/10 * PointsPerDegree;
+            //Todo with 1280x720 junction should be around 10px wide so turret wants resolution of 128 points.
+            // and turret far right is 0.05 and far left is 1.
+            // About 0.0059375 points per degree on servo if rotating 160 degrees.
 
             Core.bitwise_and(input, input, maskedInputMat, binaryMat);
 
@@ -147,7 +157,7 @@ public class JunctionPipeline extends OpenCvPipeline {
             telemetry.addData("[Position x]", centroid.x);
             telemetry.addData("[Position y]", centroid.y);
             telemetry.addData("[x Error]", xError);
-            telemetry.addData("area", area);
+            telemetry.addData("area", maxArea);
             telemetry.update();
 
 

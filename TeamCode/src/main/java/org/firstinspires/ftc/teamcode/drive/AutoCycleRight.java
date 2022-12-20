@@ -60,7 +60,7 @@ public class AutoCycleRight extends LinearOpMode{
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
                                          @Override
                                          public void onOpened() {
-                                             webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                                             webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
                                          }
 
 

@@ -1,11 +1,19 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Config
 public class Bertha{
@@ -35,6 +43,7 @@ public class Bertha{
     private State state;
     private Telemetry telemetry;
     private IntakeScheduler intakeScheduler = new IntakeScheduler();
+    private ExtakeScheduler extakeScheduler = new ExtakeScheduler();
 
     public Bertha(HardwareMap map, Telemetry tel){
         lift = new Lift(map, tel);
@@ -69,9 +78,33 @@ public class Bertha{
         lift.Telemetry();
     }
 
+    OpenCvCamera webcam;
+    JunctionPipeline pipeline;
     //region TeleOp
     public void RunOpMode() {
+        //Todo may want to move this to bertha teleop if this does not work.
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
+
+
+        pipeline = new JunctionPipeline(telemetry);
+        webcam.setPipeline(pipeline);
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                                         @Override
+                                         public void onOpened() {
+                                             webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPSIDE_DOWN);
+                                         }
+
+
+                                         public void onError(int errorCode) {
+
+                                         }
+                                     }
+
+        );
         intakeScheduler.start();
+        extakeScheduler.start();
         switch (state)
         {
 //            case PreConePickUp:
@@ -176,6 +209,8 @@ public class Bertha{
     }
     public void PreConePickUpTest() {
 //        scheduler.schedule(() -> turret.SlideOut(), 0);
+        intakeScheduler.stop();
+        intakeScheduler.start();
         turret.SlideOut();
         intakeScheduler.schedule(() -> {
             intake.FlipDown();
