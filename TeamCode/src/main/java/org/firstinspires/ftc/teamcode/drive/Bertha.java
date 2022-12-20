@@ -199,9 +199,10 @@ public class Bertha{
 
     //This moves the intake into a position to grab a cone in its low position
     public void PreConePickUp() {
-
-        turret.SlideOut();
-        PauseTimeMilliseconds(500);
+        if(!turret.IsSlideOut()) {
+            turret.SlideOut();
+            PauseTimeMilliseconds(500);
+        }
         turret.MoveVertical(Turret.TurretHeight.Low);
         intake.FlipDown();
         PauseTimeMilliseconds(300);
@@ -286,8 +287,8 @@ public class Bertha{
                 turret.MoveHorizontal(Turret.TurretHorizontal.Center);
                 PauseTimeMilliseconds(750);
             }
-            if(turret.IsSlideOut()) {
-                turret.SlideIn();
+            if(!turret.IsSlideOut()) {
+                turret.SlideOut();
             }
             if(!turret.IsAtVerticalPosition(Constants.ExtakeFlipIn, 2.0)) {
                 turret.MoveVertical(Turret.TurretHeight.Default);
