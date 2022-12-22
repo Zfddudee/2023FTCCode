@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.drive;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -199,20 +199,25 @@ public class Bertha{
 
     //This moves the intake into a position to grab a cone in its low position
     public void PreConePickUp() {
+        //        scheduler.schedule(() -> turret.SlideOut(), 0);
+        intakeScheduler.stop();
+        intakeScheduler.start();
         if(!turret.IsSlideOut()) {
             turret.SlideOut();
             PauseTimeMilliseconds(500);
         }
-        turret.MoveVertical(Turret.TurretHeight.Low);
-        intake.FlipDown();
-        PauseTimeMilliseconds(300);
-        intake.IntakeOut();
-        PauseTimeMilliseconds(500);
-        intake.OpenClaw();
-        PauseTimeMilliseconds(100);
-        intake.OpenClaw();
-        state = State.PickAndExchange;
-        intake.SlideMotorOut();
+        intakeScheduler.schedule(() -> {
+            intake.FlipDown();
+            turret.MoveVertical(Turret.TurretHeight.Low);
+        }, TimingConstants.TestTime1);
+        intakeScheduler.schedule(() -> intake.IntakeOut(), TimingConstants.TestTime2);
+        intakeScheduler.schedule(() -> intake.OpenClaw(), TimingConstants.TestTime3);
+        intakeScheduler.schedule(() -> {
+            intake.OpenClaw();
+            state = State.PickAndExchange;
+            intake.SlideMotorOut();
+            intakeScheduler.stop();
+        }, TimingConstants.TestTime4);
 
     }
     public void PreConePickUpTest() {
