@@ -37,6 +37,7 @@ public class Constants {
     public static double AutoLeft = 0.8;
     public static double TurretStepOver = -0.01;
     public static double AutoRight = 0.09;
+    public static double PointsPerDegree = 0.0059375;
 
     //Extake servo flip values
     public static double ExtakeFlipIn = 0.65;

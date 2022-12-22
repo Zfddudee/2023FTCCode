@@ -24,6 +24,7 @@
 package org.firstinspires.ftc.teamcode.drive.opmode.Vision;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.drive.Constants;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -75,7 +76,6 @@ public class JunctionPipeline extends OpenCvPipeline {
     public double xCenterPos = 640;
     public double xError;
     public double xErrorServo;
-    public double PointsPerDegree = 0.0059375;
 
     public ColorSpace colorSpace = ColorSpace.HSV;
 
@@ -143,7 +143,7 @@ public class JunctionPipeline extends OpenCvPipeline {
             maskedInputMat.release();
 
             xError = xCenterPos - centroid.x;
-            xErrorServo = xError/10 * PointsPerDegree;
+            xErrorServo = xError/10 * Constants.PointsPerDegree;
             //Todo with 1280x720 junction should be around 10px wide so turret wants resolution of 128 points.
             // and turret far right is 0.05 and far left is 1.
             // About 0.0059375 points per degree on servo if rotating 160 degrees.
