@@ -47,8 +47,7 @@ public class BerthaTeleOp extends LinearOpMode {
             bertha.PreConePickUp();
         //sets to going to pickup cone positions
         else if(gamepad1.b)
-            bertha.PickAndExchange();
-        //??
+            //todo Make Do thing
         else if(gamepad1.y)
             bertha.PickUpOverRide();
         //Brings arm back to overide if goes wrong
