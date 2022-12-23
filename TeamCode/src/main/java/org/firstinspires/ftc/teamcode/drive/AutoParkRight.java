@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.drive;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -16,7 +14,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 @Disabled
 @Autonomous(name = "AutoComp_RightBlue", group="Bertha",preselectTeleOp = "BerthaTeleOp")
-public class AutoComp_RightBlue extends LinearOpMode{
+public class AutoParkRight extends LinearOpMode{
 
     OpenCvCamera webcam;
     ImageDetectorPipeline pipeline;

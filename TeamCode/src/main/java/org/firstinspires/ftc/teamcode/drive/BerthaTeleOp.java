@@ -9,6 +9,12 @@ public class BerthaTeleOp extends LinearOpMode {
 
     private Bertha bertha;
     private boolean rightTrigger = false;
+    private boolean touchpad = false;
+    private boolean ButtonA = false;
+    private boolean ButtonY = false;
+    private boolean ButtonX = false;
+    private boolean ButtonB = false;
+    private boolean Share = false;
     private boolean Gamepad2X = false;
 
     @Override
@@ -39,17 +45,21 @@ public class BerthaTeleOp extends LinearOpMode {
                 -gamepad1.right_stick_x * Constants.DrivePower
         ));
 
-        if(gamepad1.x)
+        if(gamepad1.x && !ButtonX) {
             bertha.IntakeOpenClaw();
+            ButtonX = true;
+        }
         //opens intake claw
-        //Todo Change Back
-        else if(gamepad1.a)
-            bertha.PreConePickUp();
+        else if(gamepad1.a && !ButtonA) {
+                bertha.PreConePickUp();
+                ButtonA = true;
+        }
         //sets to going to pickup cone positions
 //        else if(gamepad1.b)
-//            //todo Make Do thing
-        else if(gamepad1.y)
+        else if(gamepad1.y && !ButtonY) {
             bertha.PickUpOverRide();
+            ButtonY = true;
+        }
         //Brings arm back to overide if goes wrong
         else if(gamepad1.dpad_up)
             bertha.MoveIntake(-20);
@@ -63,8 +73,10 @@ public class BerthaTeleOp extends LinearOpMode {
         else if(gamepad1.dpad_left)
             bertha.MoveSlide(-30);
         //manual move intake slide in
-        else if(gamepad1.share)
+        else if(gamepad1.share && !Share) {
             bertha.Reset();
+            Share = true;
+        }
         //resets robot to moving state
         else if(gamepad1.right_bumper)
             bertha.StompDown();
@@ -72,8 +84,10 @@ public class BerthaTeleOp extends LinearOpMode {
         else if(gamepad1.left_bumper)
             bertha.StompUp();
         //puts stomp up
-        else if(gamepad1.touchpad)
-            bertha.MoveToExchange2();
+        else if(gamepad1.touchpad && !touchpad) {
+                bertha.MoveToExchange2();
+                touchpad = true;
+        }
         //started exchange proccess
 //        else if(gamepad1.right_stick_button)
 
@@ -91,6 +105,19 @@ public class BerthaTeleOp extends LinearOpMode {
         //flips intake wrist flip
         else if(gamepad1.right_stick_button)
             bertha.ToggleClawFlip();
+
+        if (!gamepad1.touchpad)
+            touchpad = false;
+        if (!gamepad1.a)
+            ButtonA = false;
+        if (!gamepad1.b)
+            ButtonB = false;
+        if (!gamepad1.x)
+            ButtonX = false;
+        if (!gamepad1.y)
+            ButtonY = false;
+        if (!gamepad1.share)
+            Share = false;
     }
 
     private void GamePad2Loop() {
