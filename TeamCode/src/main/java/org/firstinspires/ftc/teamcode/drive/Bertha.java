@@ -57,33 +57,11 @@ public class Bertha{
         lift.Telemetry();
     }
 
-    HardwareMap hardwareMap;
-    OpenCvCamera webcam;
-    JunctionPipeline pipeline;
+//    HardwareMap hardwareMap;
     //region TeleOp
+    JunctionPipeline pipeline;
     public void RunOpMode() {
-        //Todo may want to move this to bertha teleop if this does not work.
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
-
-
-        pipeline = new JunctionPipeline(telemetry);
-        webcam.setPipeline(pipeline);
-
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-                                         @Override
-                                         public void onOpened() {
-                                             webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPSIDE_DOWN);
-                                         }
-
-
-                                         public void onError(int errorCode) {
-
-                                         }
-                                     }
-
-        );
         intakeScheduler.start();
         extakeScheduler.start();
         switch (state)

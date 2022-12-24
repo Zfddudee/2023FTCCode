@@ -24,13 +24,15 @@
 package org.firstinspires.ftc.teamcode.drive.opmode.Vision;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.drive.Constants;
+
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -47,10 +49,15 @@ public class JunctionPipeline extends OpenCvPipeline {
 
     private Point centroid;
     private Point Test;
+    private Point Top;
+    private int Y;
+    private int X;
+    private double Angle;
     public static Scalar DISPLAY_COLOR = new Scalar(210, 150, 190);
-    public Scalar lower = new Scalar(0, 155, 60);
-
-    public Scalar upper = new Scalar(30, 220, 120);
+//    public Scalar lower = new Scalar(0, 155, 60); //Tests
+public Scalar lower = new Scalar(8, 68, 155); //Actual
+//    public Scalar upper = new Scalar(30, 220, 120); //Tests
+public Scalar upper = new Scalar(45, 255, 255); //Actual
     //public static Point LEFT = new Point(50, 120);
     //public static Point RIGHT = new Point(270, 120);
     public double area;
@@ -71,8 +78,8 @@ public class JunctionPipeline extends OpenCvPipeline {
     public Exception debug;
     public double x = -1;
     public double y = -1;
-    public double xTest = 640;
-    public double yTest = 450;
+    public double xTest = 665;
+    public double yTest = 250;
     public double xCenterPos = 640;
     public double xError;
     public double xErrorServo;
@@ -130,20 +137,33 @@ public class JunctionPipeline extends OpenCvPipeline {
                 }
             }
 
-            // Find the centroid of the largest contour
             Moments moments = Imgproc.moments(largestContour);
+            Rect rect = Imgproc.boundingRect(largestContour);
+            MatOfPoint2f contour2f = new MatOfPoint2f();
+            largestContour.convertTo(contour2f, CvType.CV_32FC2);
+            RotatedRect rc = Imgproc.minAreaRect(contour2f);
+            Angle = rc.angle;
+
+
             centroid = new Point(moments.get_m10() / moments.get_m00(), moments.get_m01() / moments.get_m00());
+//            centroid = new Point(moments.get_m10() / moments.get_m00(), moments.m00);
             Test = new Point(xTest, yTest);
 // Draw the centroid on the original image
+            Y = (int) (centroid.y - rect.height/2);
+            X = (int) (centroid.x + rect.width/2 * Math.cos(rc.angle));
+            Top = new Point(X, Y);
             Imgproc.drawContours(input, Arrays.asList(largestContour), -1, new Scalar(255, 0, 0), -1);
             Imgproc.circle(input, centroid, 5, new Scalar(0, 0, 255), -1);
+            Imgproc.circle(input, Top, 20, new Scalar(0, 255, 255), -1);
             Imgproc.circle(input, Test, 5, new Scalar(0, 255, 0), -1);
+
+
 
 
             maskedInputMat.release();
 
             xError = xCenterPos - centroid.x;
-            xErrorServo = xError/10 * Constants.PointsPerDegree;
+            xErrorServo = xError/10 * 0.0059;
             //Todo with 1280x720 junction should be around 10px wide so turret wants resolution of 128 points.
             // and turret far right is 0.05 and far left is 1.
             // About 0.0059375 points per degree on servo if rotating 160 degrees.
@@ -157,6 +177,11 @@ public class JunctionPipeline extends OpenCvPipeline {
             telemetry.addData("[Position x]", centroid.x);
             telemetry.addData("[Position y]", centroid.y);
             telemetry.addData("[x Error]", xError);
+            telemetry.addData("[Top X]", Top.x);
+            telemetry.addData("[Top Y]", Top.y);
+            telemetry.addData("[Size]", rc.size);
+            telemetry.addData("[Angle]", rc.angle);
+
             telemetry.addData("area", maxArea);
             telemetry.update();
 

@@ -4,6 +4,12 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
 @TeleOp(name = "BerthaTeleOp", group="Bertha")
 public class BerthaTeleOp extends LinearOpMode {
 
@@ -17,9 +23,29 @@ public class BerthaTeleOp extends LinearOpMode {
     private boolean Share = false;
     private boolean Gamepad2X = false;
 
+    OpenCvCamera webcam;
+    JunctionPipeline pipeline;
     @Override
     public void runOpMode() throws InterruptedException {
         bertha = new Bertha(hardwareMap, telemetry);
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam2"), cameraMonitorViewId);
+        pipeline = new JunctionPipeline(telemetry);
+        webcam.setPipeline(pipeline);
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                                         @Override
+                                         public void onOpened() {
+                                             webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPSIDE_DOWN);
+                                         }
+
+
+                                         public void onError(int errorCode) {
+
+                                         }
+                                     }
+
+        );
         waitForStart();
         while (!isStopRequested()) {
             try {

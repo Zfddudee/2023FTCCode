@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Const;
@@ -44,6 +45,7 @@ public class Testing extends LinearOpMode {
     public Servo Claw;
 
     public ColorRangeSensor IntakeSensor;
+    public DistanceSensor ExtakeSensor;
 
     double ClawPos;
 
@@ -71,7 +73,8 @@ public class Testing extends LinearOpMode {
         SlideExtension2 = hardwareMap.get(Servo.class, "SlideExtension2");
         Claw = hardwareMap.get(Servo.class, "Claw");
 
-//        IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
+        IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
+        ExtakeSensor = hardwareMap.get(DistanceSensor.class, "ExtakeSensor");
 
         // extake flip servo 1 is normal toque 2 is 5 turn
 
@@ -101,9 +104,9 @@ public class Testing extends LinearOpMode {
         waitForStart();
 
         while (!isStopRequested()) {
-            drive.Turret1.setPosition(turretPose);
-            drive.ExtakeFlip1.setPosition(Constants.ArmTarget1);
-            drive.ExtakeFlip2.setPosition(Constants.ArmTarget2);
+//            drive.Turret1.setPosition(turretPose);
+//            drive.ExtakeFlip1.setPosition(Constants.ArmTarget1);
+//            drive.ExtakeFlip2.setPosition(Constants.ArmTarget2);
 
             Constants.liftError1 = liftTarget - liftMotorR.getCurrentPosition();
             Constants.liftError2 = liftTarget - liftMotorL.getCurrentPosition();
@@ -276,7 +279,8 @@ public class Testing extends LinearOpMode {
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.addData("ArmPos1", Constants.ArmTarget1);
             telemetry.addData("ArmPos2", Constants.ArmTarget2);
-//            telemetry.addData("SensorValue", IntakeSensor.getDistance(DistanceUnit.MM));
+            telemetry.addData("SensorValue", IntakeSensor.getDistance(DistanceUnit.MM));
+            telemetry.addData("ExtakeSensorValue", ExtakeSensor.getDistance(DistanceUnit.MM));
             telemetry.addData("IntakeMotorPos", IntakeSlideMotor.getCurrentPosition());
             telemetry.addData("IntakeSlide Amps", ((DcMotorEx) drive.IntakeSlideMotor).getCurrent(CurrentUnit.AMPS));
             telemetry.addData("LiftMotorR", liftMotorR.getCurrentPosition());
