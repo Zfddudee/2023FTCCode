@@ -41,7 +41,9 @@ public class Lift extends BaseRobot{
             MoveLift(Constants.LiftMid);
         }
     }
-
+    public boolean IsLiftAtPosition(int position, int buffer) {
+        return this.IsAtPosition(position, liftMotorL.getCurrentPosition(), buffer);
+    }
     public void MoveLift(int position, int velocity) {
         if(velocity > Constants.HighVelocity)
             velocity = Constants.HighVelocity;

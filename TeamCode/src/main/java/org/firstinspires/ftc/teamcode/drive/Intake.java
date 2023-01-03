@@ -98,6 +98,9 @@ public class Intake extends BaseRobot {
     public void SlideMotorExchange() {
         SetSlidePosition(Constants.IntakeExchanging);
     }
+    public void SlideMotorWall() {
+        SetSlidePosition(Constants.IntakeWall);
+    }
 
     public boolean IsSlideMotorBusy() {
         return IntakeSlideMotor.isBusy();
@@ -110,7 +113,9 @@ public class Intake extends BaseRobot {
     public int GetCurrentSlidePosition() {
         return IntakeSlideMotor.getCurrentPosition();
     }
-
+    public boolean IsIntakeSlideAtPosition(int position, int buffer) {
+        return this.IsAtPosition(position, GetCurrentSlidePosition(), buffer);
+    }
     public void SetSlidePositionOffset(int offset) {
         SetSlidePosition(GetCurrentSlidePosition() + offset);
     }
@@ -159,49 +164,49 @@ public class Intake extends BaseRobot {
 
     ///region Entire Intake Flip
     /**
-     * This is the motor that brings the entire intake outwards
+     * This is the motor that flips the entire intake outwards
      */
     public void IntakeOut() {
-        SetIntakePosition(Constants.IntakeFlips, Constants.HighVelocity);
+        SetIntakeFlipPosition(Constants.IntakeFlips, Constants.HighVelocity);
     }
     public void AutoIntakeOut(int Position){
-        SetIntakePosition(Position, Constants.HighVelocity);
+        SetIntakeFlipPosition(Position, Constants.HighVelocity);
     }
 
     /**
-     * This is the motor that brings the intake into a position that prepares to grab cones
+     * This is the motor that flips the intake into a position that prepares to grab cones
      */
     public void IntakeLow() {
-        SetIntakePosition(Constants.IntakeFlipsLow, Constants.HighVelocity);
+        SetIntakeFlipPosition(Constants.IntakeFlipsLow, Constants.HighVelocity);
     }
 
     public void IntakeOut1() {
-        SetIntakePosition(Constants.IntakeFlips1, Constants.HighVelocity);
+        SetIntakeFlipPosition(Constants.IntakeFlips1, Constants.HighVelocity);
     }
     /**
-     * This is the motor that brings the entire intake inwards to its default position
+     * This is the motor that flips the entire intake inwards to its default position
      */
     public void IntakeIn() {
-        SetIntakePosition(Constants.IntakeIn, Constants.LowVelocity);
+        SetIntakeFlipPosition(Constants.IntakeIn, Constants.LowVelocity);
     }
 
-    public int GetIntakePosition() {
+    public int GetIntakeFlipPosition() {
         return IntakeFlipMotor.getCurrentPosition();
     }
 
-    public boolean IsIntakeAtPosition(int position, int buffer) {
-        return this.IsAtPosition(position, GetIntakePosition(), buffer);
+    public boolean IsIntakeFlipAtPosition(int position, int buffer) {
+        return this.IsAtPosition(position, GetIntakeFlipPosition(), buffer);
     }
 
-    public void SetIntakePosition(int positionOffset) {
+    public void SetIntakeFlipPosition(int positionOffset) {
         int newPosition = IntakeFlipMotor.getCurrentPosition() + positionOffset;
         int velocity = Constants.LowVelocity;
         if(positionOffset > 0)
             velocity = Constants.HighVelocity;
-        SetIntakePosition(newPosition, velocity);
+        SetIntakeFlipPosition(newPosition, velocity);
     }
 
-    private void SetIntakePosition(int position, int velocity) {
+    private void SetIntakeFlipPosition(int position, int velocity) {
         IntakeFlipMotor.setTargetPosition(position);
         IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx) IntakeFlipMotor).setVelocity(velocity);
@@ -251,7 +256,7 @@ public class Intake extends BaseRobot {
     }
 
     public void IntakeNewExchange() {
-        SetIntakePosition(IntakeNewExchange, Constants.LowVelocity);
+        SetIntakeFlipPosition(IntakeNewExchange, Constants.LowVelocity);
     }
 
 }

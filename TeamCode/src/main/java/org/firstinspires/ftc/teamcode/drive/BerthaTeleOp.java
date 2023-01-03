@@ -77,7 +77,7 @@ public class BerthaTeleOp extends LinearOpMode {
         }
         //opens intake claw
         else if(gamepad1.a && !ButtonA) {
-                bertha.PreConePickUp();
+                bertha.PreConePickup();
                 ButtonA = true;
         }
         //sets to going to pickup cone positions

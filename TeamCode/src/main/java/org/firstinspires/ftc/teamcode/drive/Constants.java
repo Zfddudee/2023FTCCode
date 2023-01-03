@@ -98,6 +98,7 @@ public class Constants {
     public static int IntakeOutAuto3 = -350;
     public static int IntakeOutAuto4 = -350;
     public static int IntakeOutAuto5 = -350;
+    public static int IntakeWall = -350;
     public static int IntakeExchanging = -240; //285
     public static int IntakeIn = 0;
 
