@@ -111,7 +111,7 @@ public class AutoCycleRight extends LinearOpMode{
 
         //endregion
 
-        Bertha bertha = new Bertha(hardwareMap, telemetry);
+        BerthaAuto bertha = new BerthaAuto(hardwareMap, telemetry);
 
         waitForStart();
 

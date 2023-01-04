@@ -270,24 +270,25 @@ public class BerthaAuto {
     }
 
     public void AutoExtake(Turret.TurretHorizontal TurretSide) {
-        lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
-        turret.SlideMid();
-        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.CycleVertical), 300);
-        extakeScheduler.schedule(() -> turret.MoveHorizontal(TurretSide), 300);
-        extakeScheduler.schedule(() -> turret.MoveHorizontal(TurretSide), 300);
-        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Flipped), 300);
-        extakeScheduler.schedule(() -> turret.OpenClaw(), 600);
-        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.CycleVertical), 300);
-        extakeScheduler.schedule(() -> {
-            turret.CloseClaw();
-            turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-        }, 100);
-        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Default), 500);
-        extakeScheduler.schedule(() -> lift.MoveLift(Lift.LiftHeight.Default), 400);
-        extakeScheduler.schedule(() -> {
-            turret.SlideOut();
-            turret.OpenClaw();
-        }, 700);
+        //Todo Make code for auto again
+//        lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
+//        turret.SlideMid();
+//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.CycleVertical), 300);
+//        extakeScheduler.schedule(() -> turret.MoveHorizontal(TurretSide), 300);
+//        extakeScheduler.schedule(() -> turret.MoveHorizontal(TurretSide), 300);
+//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Flipped), 300);
+//        extakeScheduler.schedule(() -> turret.OpenClaw(), 600);
+//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.CycleVertical), 300);
+//        extakeScheduler.schedule(() -> {
+//            turret.CloseClaw();
+//            turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+//        }, 100);
+//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Default), 500);
+//        extakeScheduler.schedule(() -> lift.MoveLift(Lift.LiftHeight.Default), 400);
+//        extakeScheduler.schedule(() -> {
+//            turret.SlideOut();
+//            turret.OpenClaw();
+//        }, 700);
     }
 
     public void AutoReturn() {

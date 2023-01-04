@@ -83,14 +83,20 @@ public class Bertha{
     JunctionPipeline pipeline;
     public void RunOpMode() {
 //Intaking cases
-        //todo make it so intake can be brought out without full intake process
+        //todo
+        // make it so intake can be brought out without full intake process
         // and make it so returning works then test code.
+        // Make possibility to exchange without sensor.
+        //Todo
+        // For full retract extake slide all the way out
+        // turret center and lift down then move extake arm to hover
+        // then move intake fully in and arm down and extake in
         switch (intaking) {
             case TurretSlideOut:
-                turret.SlideMid();
+                turret.SlideOut();
                 turret.MoveVertical(Turret.TurretHeight.Low);
                 intake.FlipDown();
-                if (timer.time() >= 500)
+                if (timer.milliseconds() >= 500)
                     intaking = Intaking.IntakeFlip;
                 break;
             case IntakeFlip:
@@ -99,7 +105,7 @@ public class Bertha{
                 if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 250))
                     intake.OpenClaw();
                 if(IntakeGo && intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 50)) {
-                    IntakeGo = false;
+//                    IntakeGo = false;
                     intaking = Intaking.IntakeSlide;
                 }
                 break;
@@ -116,14 +122,14 @@ public class Bertha{
                 lift.MoveLift(Lift.LiftHeight.Default);
                 intake.CloseClaw();
                 turret.SlideOut();
-                turret.CloseClaw();
+                turret.OpenClaw();
                 intake.FlipUp();
                 turret.MoveVertical(Turret.TurretHeight.Default);
                 intake.SlideMotorWall();
-                if(!intake.AutoCloseClaw()) {
-                    intaking = Intaking.IntakeFlip;
-                }
-                else if(intake.IsIntakeSlideAtPosition(Constants.IntakeWall, 50))
+//                if(!intake.AutoCloseClaw()) {
+//                    intaking = Intaking.IntakeFlip;
+//                }
+                if(intake.IsIntakeSlideAtPosition(Constants.IntakeWall, 50))
                     intaking = Intaking.Flipin;
                 break;
             case Flipin:
@@ -132,17 +138,17 @@ public class Bertha{
                 if(!intake.AutoCloseClaw()) {
                     intaking = Intaking.IntakeFlip;
                 }
-                else if(intake.IsIntakeSlideAtPosition(Constants.IntakeNewExchange, 50)) {
+                else if(intake.IsIntakeFlipAtPosition(Constants.IntakeNewExchange, 50)) {
                     timer.reset();
                     intaking = Intaking.ExhchangeToExtake;
                 }
                 break;
             case ExhchangeToExtake:
                 turret.SlideMid();
-                if(timer.time() >= 500){
+                if(timer.milliseconds() >= 500){
                     turret.CloseClaw();
                 }
-                if(timer.time() >= 550){
+                if(timer.milliseconds() >= 550){
                     intake.OpenClaw();
                     extaking = Extaking.Exchanging;
                     intaking = Intaking.None;
@@ -299,17 +305,18 @@ public class Bertha{
     }
 
     public void PickUpOverRide() {
-        turret.SlideOut();
-        intakeScheduler.schedule(() -> {
-            turret.MoveVertical(Turret.TurretHeight.Low);
-            intake.FlipDown();
-    }, 500);
-        intakeScheduler.schedule(() -> intake.IntakeOut(), 300);
-        intakeScheduler.schedule(() -> intake.OpenClaw(), 500);
-        intakeScheduler.schedule(() -> {
-            intake.OpenClaw();
-            intake.SlideMotorOut();
-        }, 100);
+        //TODO Fix and re add in to code
+//        turret.SlideOut();
+//        intakeScheduler.schedule(() -> {
+//            turret.MoveVertical(Turret.TurretHeight.Low);
+//            intake.FlipDown();
+//    }, 500);
+//        intakeScheduler.schedule(() -> intake.IntakeOut(), 300);
+//        intakeScheduler.schedule(() -> intake.OpenClaw(), 500);
+//        intakeScheduler.schedule(() -> {
+//            intake.OpenClaw();
+//            intake.SlideMotorOut();
+//        }, 100);
     }
 
     public void ExchangeToExtake() {

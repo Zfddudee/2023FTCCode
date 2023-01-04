@@ -147,11 +147,11 @@ public class BerthaTeleOp extends LinearOpMode {
     }
 
     private void GamePad2Loop() {
-        if(gamepad2.a)
-            bertha.TeleOpCycle();
-        else if(gamepad2.b)
-            bertha.IntakeReturn();
-        else if(gamepad2.y)
+//        if(gamepad2.a)
+//            bertha.TeleOpCycle();
+//        else if(gamepad2.b)
+//            bertha.IntakeReturn();
+        if(gamepad2.y)
             bertha.LiftMedium();
         //opens extake claw
         else if(gamepad2.right_trigger > 0)
