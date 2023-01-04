@@ -48,8 +48,8 @@ public class JunctionPipeline2 extends OpenCvPipeline {
     private Point centroid;
     private Point Test;
     private Point Top;
-    private int Y;
-    private int X;
+    public int Y;
+    public int X;
     private double Angle;
     public static Scalar DISPLAY_COLOR = new Scalar(210, 150, 190);
 //    public Scalar lower = new Scalar(0, 155, 60); //Tests
