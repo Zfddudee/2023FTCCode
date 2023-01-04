@@ -99,6 +99,9 @@ public class BerthaTeleOp extends LinearOpMode {
                 bertha.PreConePickup();
                 ButtonA = true;
         }
+
+        //Todo
+        // Remove test program.
         //sets to going to pickup cone positions
         else if(gamepad1.b)
             bertha.CameraCenterTest();

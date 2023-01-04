@@ -76,6 +76,7 @@ public class AutoCycleRight extends LinearOpMode{
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
                 .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
                 .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
+//                .UNSTABLE_addTemporalMarkerOffset(() -> bertha.AutoExtake(Turret.TurretHorizontal.AutoRight), 0)
 
                 .build();
 

@@ -199,6 +199,7 @@ public class Bertha{
                 //ClawOpening then moving to returning
             case ClawDrop:
                 turret.OpenClaw();
+                state = State.None;
                 if(timer.time() >= 100)
                     turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 if(timer.time() >= 300) {
