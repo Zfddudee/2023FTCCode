@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline2;
 
 @Config
 public class Bertha{
@@ -60,6 +61,13 @@ public class Bertha{
     private Telemetry telemetry;
 
     private boolean IntakeGo = false;
+
+    double CameraXError;
+    double Distance;
+    double DistanceError;
+    double turretPose;
+    double slidePose1 = Constants.SlideIn;
+    double slidePose2 = Constants.SlideIn2;
     public Bertha(HardwareMap map, Telemetry tel){
         lift = new Lift(map, tel);
         driveTrain = new DriveTrain(map, tel);
@@ -68,11 +76,15 @@ public class Bertha{
 
         timer = new ElapsedTime();
         state = State.None;
+        intaking = Intaking.None;
+        extaking = Extaking.None;
         telemetry = tel;
     }
 
     private void LogAllTelemetry(){
         telemetry.addData("Current State: ", state);
+        telemetry.addData("X val 1", pipeline.x);
+        telemetry.addData("X val 2", pipeline2.x);
         turret.Telemetry();
         intake.Telemetry();
         lift.Telemetry();
@@ -81,6 +93,7 @@ public class Bertha{
 //    HardwareMap hardwareMap;
     //region TeleOp
     JunctionPipeline pipeline;
+    JunctionPipeline2 pipeline2;
     public void RunOpMode() {
 //Intaking cases
         //todo
@@ -180,7 +193,7 @@ public class Bertha{
                 turret.MoveHorizontal(Constants.TurretRight);
                 break;
             case TurretAutoTurn:
-                turret.MoveHorizontal(Constants.TurretLeft);
+                turretPose = Constants.TurretLeft;
                 state = State.CameraCentering;
                 break;
                 //ClawOpening then moving to returning
@@ -237,8 +250,24 @@ public class Bertha{
 //                break;
             case CameraCentering:
 //                0.006 points per degree
-                double turretPose;
-                turretPose = pipeline.xErrorServo + Constants.TurretDefault;
+                //When too far left CameraXError is positive
+                CameraXError = (pipeline.x - pipeline2.x);
+                Distance = (45216114153.52 *  Math.pow(((pipeline.x + pipeline2.x)/2), -3.87))/2.54;
+                DistanceError = Distance - 13;
+                if(CameraXError >= 50)
+                    turretPose = turretPose + Constants.TurretStepOver;
+                else if(CameraXError <= -50)
+                    turretPose = turretPose - Constants.TurretStepOver;
+                if(DistanceError >= 0.5) {
+                    slidePose1 = slidePose1 - 0.1;
+                    slidePose1 = slidePose1 + 0.1;
+                }
+                else if(DistanceError <= 0.5) {
+                    slidePose1 = slidePose1 + 0.1;
+                    slidePose1 = slidePose1 - 0.1;
+                }
+                //                turretPose = pipeline.xErrorServo + Constants.TurretDefault;
+                turret.SetSlidePosition(slidePose1, slidePose2);
                 turret.MoveHorizontal(turretPose);
                 break;
 
@@ -273,6 +302,10 @@ public class Bertha{
 //        }, TimingConstants.Time4);
 //
 //    }
+    public void CameraCenterTest(){
+        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
+        state = State.CameraCentering;
+    }
     public void PreConePickup(){
         timer.reset();
         IntakeGo = true;

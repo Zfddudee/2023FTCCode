@@ -46,22 +46,21 @@ import java.util.function.Predicate;
 
 public class JunctionPipeline extends OpenCvPipeline {
 
-
     private Point centroid;
     private Point Test;
     private Point Top;
     public int Y;
     public int X;
+    public double y;
+    public double x;
     private double Angle;
     public static Scalar DISPLAY_COLOR = new Scalar(210, 150, 190);
-//    public Scalar lower = new Scalar(0, 155, 60); //Tests
-public Scalar lower = new Scalar(8, 68, 155); //Actual
-//    public Scalar upper = new Scalar(30, 220, 120); //Tests
-public Scalar upper = new Scalar(45, 255, 255); //Actual
+    //    public Scalar lower = new Scalar(0, 155, 60); //Tests
+    public Scalar lower = new Scalar(8, 68, 155); //Actual
+    //    public Scalar upper = new Scalar(30, 220, 120); //Tests
+    public Scalar upper = new Scalar(45, 255, 255); //Actual
     //public static Point LEFT = new Point(50, 120);
     //public static Point RIGHT = new Point(270, 120);
-    public double area;
-    private double minArea = 200;
 
     //public static int BORDER_LEFT_X = 0;   //amount of pixels from the left side of the cam to skip
     //public static int BORDER_RIGHT_X = 0;   //amount of pixels from the right of the cam to skip
@@ -76,11 +75,9 @@ public Scalar upper = new Scalar(45, 255, 255); //Actual
 
 
     public Exception debug;
-    public double x = -1;
-    public double y = -1;
     public double xTest = 665;
     public double yTest = 250;
-    public double xCenterPos = 120;
+    public double xCenterPos = 200;
     public double xError;
     public double xErrorServo;
 
@@ -102,7 +99,8 @@ public Scalar upper = new Scalar(45, 255, 255); //Actual
         }
     }
 
-    public JunctionPipeline(Telemetry telemetry) {
+//    public JunctionPipeline(Telemetry telemetry) {
+    public JunctionPipeline() {
         this.telemetry = telemetry;
     }
 
@@ -151,6 +149,8 @@ public Scalar upper = new Scalar(45, 255, 255); //Actual
 // Draw the centroid on the original image
             Y = (int) (centroid.y - rect.height/2);
             X = (int) (centroid.x + rect.width/2 * Math.cos(rc.angle));
+            y = centroid.y;
+            x = centroid.x;
             Top = new Point(X, Y);
             Imgproc.drawContours(input, Arrays.asList(largestContour), -1, new Scalar(255, 0, 0), -1);
             Imgproc.circle(input, centroid, 5, new Scalar(0, 0, 255), -1);
@@ -163,7 +163,7 @@ public Scalar upper = new Scalar(45, 255, 255); //Actual
             maskedInputMat.release();
 
             xError = xCenterPos - centroid.x;
-            xErrorServo = xError/10 * 0.0059;
+            xErrorServo = xError/5 * 0.0059;
             //Todo with 1280x720 junction should be around 10px wide so turret wants resolution of 128 points.
             // and turret far right is 0.05 and far left is 1.
             // About 0.0059375 points per degree on servo if rotating 160 degrees.

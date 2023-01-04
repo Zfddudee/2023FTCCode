@@ -18,12 +18,20 @@ public class PipelineTester extends LinearOpMode {
     OpenCvCamera webcam2;
     JunctionPipeline pipeline;
     JunctionPipeline2 pipeline2;
+    double CameraXError;
+    double Distance;
+    double DistanceError;
     @Override
     public void runOpMode() throws InterruptedException {
+        //Left camera camera 1
+        //right camera camera 2
+        //When too far left camera 1 gets greater
+        //When too far right camera 2 gets greater
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam2"), cameraMonitorViewId);
-        webcam2 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
-        pipeline = new JunctionPipeline(telemetry);
+        webcam2 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"));
+        pipeline = new JunctionPipeline();
+        pipeline2 = new JunctionPipeline2();
         webcam.setPipeline(pipeline);
         webcam2.setPipeline(pipeline2);
 
@@ -54,7 +62,9 @@ public class PipelineTester extends LinearOpMode {
 
         );
         while(!isStopRequested()){
-
+            CameraXError = (pipeline.x - pipeline2.x);
+            Distance = (45216114153.52 *  Math.pow(((pipeline.x + pipeline2.x)/2), -3.87))/2.54;
+            DistanceError = Distance - 13;
             telemetry.addData("[>]", "Change these values in tuner menu");
             telemetry.addData("[Lower Scalar]", pipeline.lower);
             telemetry.addData("[Upper Scalar]", pipeline.upper);
@@ -68,6 +78,9 @@ public class PipelineTester extends LinearOpMode {
             telemetry.addData("[Top Y 2]", pipeline2.Y);
             telemetry.addData("[Centroid X 2]", pipeline2.x);
             telemetry.addData("[Centroid Y 2]", pipeline2.y);
+            telemetry.addData("[X Error]", CameraXError);
+            telemetry.addData("[Distance]", Distance);
+            telemetry.addData("[Distance Error]", DistanceError);
             telemetry.update();
         }
     }

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline2;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -24,19 +25,24 @@ public class BerthaTeleOp extends LinearOpMode {
     private boolean Gamepad2X = false;
 
     OpenCvCamera webcam;
+    OpenCvCamera webcam2;
     JunctionPipeline pipeline;
+    JunctionPipeline2 pipeline2;
     @Override
     public void runOpMode() throws InterruptedException {
         bertha = new Bertha(hardwareMap, telemetry);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam2"), cameraMonitorViewId);
-        pipeline = new JunctionPipeline(telemetry);
+        webcam2 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"));
+        pipeline = new JunctionPipeline();
+        pipeline2 = new JunctionPipeline2();
         webcam.setPipeline(pipeline);
+        webcam2.setPipeline(pipeline2);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
                                          @Override
                                          public void onOpened() {
-                                             webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPSIDE_DOWN);
+                                             webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
                                          }
 
 
@@ -44,6 +50,19 @@ public class BerthaTeleOp extends LinearOpMode {
 
                                          }
                                      }
+
+        );
+        webcam2.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                                          @Override
+                                          public void onOpened() {
+                                              webcam2.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
+                                          }
+
+
+                                          public void onError(int errorCode) {
+
+                                          }
+                                      }
 
         );
         waitForStart();
@@ -81,7 +100,8 @@ public class BerthaTeleOp extends LinearOpMode {
                 ButtonA = true;
         }
         //sets to going to pickup cone positions
-//        else if(gamepad1.b)
+        else if(gamepad1.b)
+            bertha.CameraCenterTest();
         else if(gamepad1.y && !ButtonY) {
             bertha.PickUpOverRide();
             ButtonY = true;

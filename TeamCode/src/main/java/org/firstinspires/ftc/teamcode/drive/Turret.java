@@ -170,7 +170,7 @@ public class Turret extends BaseRobot{
             return false;
     }
 
-    private void SetSlidePosition(double slideIn, double slideIn2){
+    public void SetSlidePosition(double slideIn, double slideIn2){
         SlideExtension.setPosition(slideIn);
         SlideExtension2.setPosition(slideIn2);
     }
