@@ -24,7 +24,6 @@
 package org.firstinspires.ftc.teamcode.drive.opmode.Vision;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -42,9 +41,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
-public class JunctionPipeline extends OpenCvPipeline {
+public class JunctionPipeline2 extends OpenCvPipeline {
 
 
     private Point centroid;
@@ -102,7 +100,7 @@ public Scalar upper = new Scalar(45, 255, 255); //Actual
         }
     }
 
-    public JunctionPipeline(Telemetry telemetry) {
+    public JunctionPipeline2(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
 
