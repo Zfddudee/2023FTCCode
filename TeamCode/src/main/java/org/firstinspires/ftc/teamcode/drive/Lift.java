@@ -35,43 +35,38 @@ public class Lift extends BaseRobot{
              MoveLift(Constants.AutoLiftHigh);
         else if(height == LiftHeight.Low)
             MoveLift(Constants.LiftLow);
-        else {
-            // to determine when to move fast going up, and slow moving down
-            int velocity = (liftMotorL.getCurrentPosition() > Constants.LiftMid)? Constants.LowVelocity : Constants.HighVelocity;
-            MoveLift(Constants.LiftMid);
-        }
     }
 
-    public void MoveLift(int position, int velocity) {
-        if(velocity > Constants.HighVelocity)
-            velocity = Constants.HighVelocity;
+    public void MoveLift(int position) {
+        int velocity;
 
-        //TODO fix for negative values
-        /*
-        if(position > Math.abs(Constants.LiftHigh))
-            position = Constants.LiftHigh;
-        if(position < Math.abs(Constants.LiftDefault))
-            position = Constants.LiftDefault;
-*/
-        Constants.liftError1 = position - liftMotorR.getCurrentPosition();
-        Constants.liftError2 = position - liftMotorL.getCurrentPosition();
-        Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
-        Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
-        liftMotorR.setPower(Constants.liftPower1);
-        liftMotorL.setPower(Constants.liftPower2);
 
         if (position == 0){
-            Constants.liftGainP = Constants.liftGainP0;
+            velocity = 1500;
+            liftMotorR.setTargetPosition(position);
+            liftMotorL.setTargetPosition(position);
+            liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ((DcMotorEx) liftMotorL).setVelocity(velocity);
+            ((DcMotorEx) liftMotorR).setVelocity(velocity);
         }else{
-            Constants.liftGainP = Constants.liftGainPUp;
+            liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            Constants.liftError1 = position - liftMotorR.getCurrentPosition();
+            Constants.liftError2 = position - liftMotorL.getCurrentPosition();
+            Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
+            Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
+            liftMotorR.setPower(Constants.liftPower1);
+            liftMotorL.setPower(Constants.liftPower2);
+
+//            if (position == 0){
+//                Constants.liftGainP = Constants.liftGainP0;
+//            }else{
+//                Constants.liftGainP = Constants.liftGainPUp;
+//            }
         }
 
-//        liftMotorR.setTargetPosition(position);
-//        liftMotorL.setTargetPosition(position);
-//        liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        ((DcMotorEx) liftMotorL).setVelocity(velocity);
-//        ((DcMotorEx) liftMotorR).setVelocity(velocity);
+
 
     }
 
@@ -80,23 +75,6 @@ public class Lift extends BaseRobot{
         this.LogTelemetry("Current Lift Right Position: ", liftMotorR.getCurrentPosition());
         this.LogTelemetry("LiftMotorR Amps", ((DcMotorEx) liftMotorR).getCurrent(CurrentUnit.AMPS));
         this.LogTelemetry("LiftMotorL Amps", ((DcMotorEx) liftMotorL).getCurrent(CurrentUnit.AMPS));
-    }
-
-    /**
-     * moves the lift by an offset that's passed in
-     * @param positionOffset
-     */
-    public void MoveLift(int positionOffset) {
-        int newPosition = liftMotorR.getCurrentPosition() + positionOffset;
-        //TODO fix for negative values
-        /*
-        if(newPosition > Constants.LiftHigh)
-            newPosition = Constants.LiftHigh;
-        else if(newPosition < Constants.LiftDefault)
-            newPosition = Constants.LiftDefault;
-         */
-        int velocity = (positionOffset > 0)? Constants.HighVelocity : Constants.LowVelocity;
-        MoveLift(newPosition, velocity);
     }
 
     public void WaitTillCompleteMoveLift() {
@@ -117,14 +95,14 @@ public class Lift extends BaseRobot{
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void Reset() {
         liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }

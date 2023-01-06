@@ -368,7 +368,7 @@ public class Bertha{
     }
 
     public void AutoExtake(Turret.TurretHorizontal TurretSide) {
-        lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
+        lift.MoveLift(Constants.AutoLiftHigh);
         turret.SlideMid();
         PauseTimeMilliseconds(300);
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
@@ -443,7 +443,7 @@ public class Bertha{
         PauseTimeMilliseconds(50);
         intake.OpenClaw();
         PauseTimeMilliseconds(50);
-        lift.MoveLift(Constants.LiftMid, Constants.HighVelocity);
+        lift.MoveLift(Constants.LiftMid);
         intake.IntakeIn();
         PauseTimeMilliseconds(500);
         return true;
