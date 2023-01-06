@@ -23,6 +23,8 @@ public class BerthaTeleOp extends LinearOpMode {
     private boolean ButtonB = false;
     private boolean Share = false;
     private boolean Gamepad2X = false;
+    public double X1;
+    public double X2;
 
     OpenCvCamera webcam;
     OpenCvCamera webcam2;
@@ -67,6 +69,10 @@ public class BerthaTeleOp extends LinearOpMode {
         );
         waitForStart();
         while (!isStopRequested()) {
+//            X1 = pipeline.x;
+//            X2 = pipeline2.x;
+            X1 = 230;
+            X2 = 230;
             try {
                 GamePad1Loop();
                 GamePad2Loop();

@@ -85,6 +85,8 @@ public class Bertha{
         telemetry.addData("Current State: ", state);
         telemetry.addData("X val 1", pipeline.x);
         telemetry.addData("X val 2", pipeline2.x);
+        telemetry.addData("X val T1", berthaTeleOp.X1);
+        telemetry.addData("X val T2", berthaTeleOp.X2);
         turret.Telemetry();
         intake.Telemetry();
         lift.Telemetry();
@@ -94,7 +96,12 @@ public class Bertha{
     //region TeleOp
     JunctionPipeline pipeline;
     JunctionPipeline2 pipeline2;
+    BerthaTeleOp berthaTeleOp;
     public void RunOpMode() {
+        pipeline = new JunctionPipeline();
+        pipeline2 = new JunctionPipeline2();
+        berthaTeleOp = new BerthaTeleOp();
+
 //Intaking cases
         //todo
         // make it so intake can be brought out without full intake process
@@ -135,7 +142,6 @@ public class Bertha{
                 lift.MoveLift(Lift.LiftHeight.Default);
                 intake.CloseClaw();
                 turret.SlideOut();
-                turret.OpenClaw();
                 intake.FlipUp();
                 turret.MoveVertical(Turret.TurretHeight.Default);
                 intake.SlideMotorWall();
@@ -255,15 +261,15 @@ public class Bertha{
                 CameraXError = (pipeline.x - pipeline2.x);
                 Distance = (45216114153.52 *  Math.pow(((pipeline.x + pipeline2.x)/2), -3.87))/2.54;
                 DistanceError = Distance - 13;
-                if(CameraXError >= 50)
+                if(CameraXError >= 50 && pipeline.x != 0)
                     turretPose = turretPose + Constants.TurretStepOver;
-                else if(CameraXError <= -50)
+                else if(CameraXError <= -50 && pipeline.x != 0)
                     turretPose = turretPose - Constants.TurretStepOver;
-                if(DistanceError >= 0.5) {
+                if(DistanceError >= 0.5 && pipeline.x != 0) {
                     slidePose1 = slidePose1 - 0.1;
                     slidePose1 = slidePose1 + 0.1;
                 }
-                else if(DistanceError <= 0.5) {
+                else if(DistanceError <= 0.5 && pipeline.x != 0) {
                     slidePose1 = slidePose1 + 0.1;
                     slidePose1 = slidePose1 - 0.1;
                 }
@@ -304,6 +310,7 @@ public class Bertha{
 //
 //    }
     public void CameraCenterTest(){
+        turretPose = Constants.TurretLeft;
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
         state = State.CameraCentering;
     }
