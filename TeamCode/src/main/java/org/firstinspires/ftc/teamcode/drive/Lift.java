@@ -35,18 +35,11 @@ public class Lift extends BaseRobot{
              MoveLift(Constants.AutoLiftHigh);
         else if(height == LiftHeight.Low)
             MoveLift(Constants.LiftLow);
-        else {
-            // to determine when to move fast going up, and slow moving down
-            int velocity = (liftMotorL.getCurrentPosition() > Constants.LiftMid)? Constants.LowVelocity : Constants.HighVelocity;
-            MoveLift(Constants.LiftMid);
-        }
     }
     public boolean IsLiftAtPosition(int position, int buffer) {
         return this.IsAtPosition(position, liftMotorL.getCurrentPosition(), buffer);
     }
-    public void MoveLift(int position, int velocity) {
-        if(velocity > Constants.HighVelocity)
-            velocity = Constants.HighVelocity;
+    public void MoveLift(int position) {
 
         //TODO fix for negative values
         /*
@@ -82,23 +75,6 @@ public class Lift extends BaseRobot{
         this.LogTelemetry("Current Lift Right Position: ", liftMotorR.getCurrentPosition());
         this.LogTelemetry("LiftMotorR Amps", ((DcMotorEx) liftMotorR).getCurrent(CurrentUnit.AMPS));
         this.LogTelemetry("LiftMotorL Amps", ((DcMotorEx) liftMotorL).getCurrent(CurrentUnit.AMPS));
-    }
-
-    /**
-     * moves the lift by an offset that's passed in
-     * @param positionOffset
-     */
-    public void MoveLift(int positionOffset) {
-        int newPosition = liftMotorR.getCurrentPosition() + positionOffset;
-        //TODO fix for negative values
-        /*
-        if(newPosition > Constants.LiftHigh)
-            newPosition = Constants.LiftHigh;
-        else if(newPosition < Constants.LiftDefault)
-            newPosition = Constants.LiftDefault;
-         */
-        int velocity = (positionOffset > 0)? Constants.HighVelocity : Constants.LowVelocity;
-        MoveLift(newPosition, velocity);
     }
 
     public void WaitTillCompleteMoveLift() {
