@@ -175,11 +175,12 @@ public class BerthaTeleOp extends LinearOpMode {
             Share = false;
     }
 
+//todo fix gamepad 2 controls to be toggles
     private void GamePad2Loop() {
-//        if(gamepad2.a)
-//            bertha.TeleOpCycle();
-//        else if(gamepad2.b)
-//            bertha.IntakeReturn();
+        if(gamepad2.a)
+            bertha.TeleOpCycle();
+        else if(gamepad2.b)
+            bertha.IntakeReturn();
         if(gamepad2.y)
             bertha.LiftMedium();
         //opens extake claw
@@ -214,8 +215,8 @@ public class BerthaTeleOp extends LinearOpMode {
         //centers turret
         else if(gamepad2.touchpad)
             bertha.TurretCenter();
-        else if(gamepad2.left_stick_button)
-            bertha.ExchangeToExtake();
+//        else if(gamepad2.left_stick_button)
+//            bertha.ExchangeToExtake();
         //toggle between extake slide positions
         else if(gamepad2.x) {
             if (!Gamepad2X) {

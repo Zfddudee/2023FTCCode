@@ -263,7 +263,7 @@ public class BerthaAuto {
         intakeScheduler.schedule(() -> turret.CloseClaw(), 550);
         intakeScheduler.schedule(() -> intake.OpenClaw(), 50);
         intakeScheduler.schedule(() -> {
-            lift.MoveLift(Constants.LiftMid, Constants.HighVelocity);
+            lift.MoveLift(Constants.LiftMid);
             intake.IntakeIn();
         }, 50);
         intakeScheduler.schedule(() -> AutoExtake(TurretSide), 500);

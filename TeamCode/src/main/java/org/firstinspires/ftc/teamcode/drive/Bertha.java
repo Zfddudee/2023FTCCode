@@ -176,7 +176,14 @@ public class Bertha{
 
 //This is the case that starts the reset
             case Reset:
-
+                intake.CloseClaw();
+                intake.FlipUp();
+                if(lift.LiftPosition() >= 400){
+                    intake.IntakeIn();
+                    intake.SlideMotorIn();
+                    turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+                    intaking = Intaking.None;
+                }
                 break;
 
         }
@@ -223,12 +230,22 @@ public class Bertha{
                 lift.MoveLift(Lift.LiftHeight.Default);
                 turret.SlideOut();
                 turret.OpenClaw();
+                extaking = Extaking.None;
                 break;
 
 
 //This is the case that starts the reset
             case Reset:
-
+                turret.CloseClaw();
+                lift.MoveLift(Lift.LiftHeight.Medium);
+                turret.SlideOut();
+                if(intake.IsIntakeFlipAtPosition(0, 80)){
+                    turret.SlideIn();
+                    turret.MoveVertical(Turret.TurretHeight.Default);
+                    lift.MoveLift(Lift.LiftHeight.Default);
+                    turret.OpenClaw();
+                    extaking = Extaking.None;
+                }
                 break;
 
         }
@@ -241,20 +258,7 @@ public class Bertha{
                     state = State.None;
                 }
                 break;
-//            case AutoPickAndExchangeRight:
-//                intake.AutoCloseClaw();
-//                if(intake.AutoCloseClaw() || timer.milliseconds() >= 750){
-//                    AutoMoveToExchange2(Turret.TurretHorizontal.AutoRight);
-//                    state = State.None;
-//                }
-//                break;
-//            case AutoPickAndExchangeLeft:
-//                intake.AutoCloseClaw();
-//                if(intake.AutoCloseClaw() || timer.milliseconds() >= 750){
-//                    AutoMoveToExchange2(Turret.TurretHorizontal.AutoLeft);
-//                    state = State.None;
-//                }
-//                break;
+//
             case CameraCentering:
 //                0.006 points per degree
                 //When too far left CameraXError is positive
@@ -284,31 +288,6 @@ public class Bertha{
         this.LogAllTelemetry();
     }
 
-
-
-    //This moves the intake into a position to grab a cone in its low position
-//    public void PreConePickUp() {
-//        //        scheduler.schedule(() -> turret.SlideOut(), 0);
-//        if(!turret.IsSlideOut()) {
-//            turret.SlideOut();
-//            intakeScheduler.schedule(() -> {
-//                intake.FlipDown();
-//                turret.MoveVertical(Turret.TurretHeight.Low);
-//            }, TimingConstants.Time1);
-//        } else {
-//                intake.FlipDown();
-//                turret.MoveVertical(Turret.TurretHeight.Low);
-//        }
-//        intakeScheduler.schedule(() -> intake.IntakeOut(), TimingConstants.Time2);
-//        intakeScheduler.schedule(() -> intake.OpenClaw(), TimingConstants.Time3);
-//        intakeScheduler.schedule(() -> {
-//            intake.OpenClaw();
-//            intake.SlideMotorOut();
-//            PickAndExchange();
-////            intakeScheduler.stop();
-//        }, TimingConstants.Time4);
-//
-//    }
     public void CameraCenterTest(){
         turretPose = Constants.TurretLeft;
         turret.MoveVertical(Turret.TurretHeight.CycleVertical);
@@ -322,27 +301,6 @@ public class Bertha{
 
     public void MoveToExchange2() {
         intaking = Intaking.SlideIn;
-//        lift.MoveLift(Lift.LiftHeight.Default);
-//        intake.CloseClaw();
-//        turret.SlideOut();
-//        turret.CloseClaw();
-//        turret.MoveVertical(Turret.TurretHeight.Default);
-//        intakeScheduler.schedule(() -> {
-//            turret.OpenClaw();
-//            intake.FlipUp();
-//        }, 150);
-//        intakeScheduler.schedule(() -> intake.SlideMotorExchange(), 200);
-//        intakeScheduler.schedule(() -> intake.IntakeNewExchange(), 200);
-//        intakeScheduler.schedule(() -> turret.SlideMid(), 450);
-//        intakeScheduler.schedule(() -> turret.CloseClaw(), 500);
-//        intakeScheduler.schedule(() -> intake.OpenClaw(), 50);
-//        intakeScheduler.schedule(() -> {
-//            lift.MoveLift(Lift.LiftHeight.Medium);
-//            intake.IntakeIn();
-//            turret.SlideIn();
-//            TeleOpCycle();
-//            intakeScheduler.stop();
-//        }, 100);
     }
 
     public void PickUpOverRide() {
@@ -360,41 +318,12 @@ public class Bertha{
 //        }, 100);
     }
 
-    public void ExchangeToExtake() {
-        if(state != State.ExchangeToExtake) {
-            state = State.ExchangeToExtake;
-            lift.MoveLift(Lift.LiftHeight.High);
-            turret.SlideOut();
-            turret.MoveVertical(Turret.TurretHeight.Flipped);
-            state = State.None;
-        }
-    }
-
     /**
      * B button press on gamepad 2 that brings lift down
      */
-//    public boolean IntakeReturn() {
-//        if(state != State.IntakeReturn) {
-//            if (!turret.IsAtHorizontalPosition(Constants.TurretDefault, 5.0)) {
-//                turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-//                extakeScheduler.schedule(() -> turret.MoveHorizontal(Turret.TurretHorizontal.Center), 750);
-//            }
-//            if(!turret.IsSlideOut()) {
-//                turret.SlideOut();
-//            }
-//            if(!turret.IsAtVerticalPosition(Constants.ExtakeFlipIn, 2.0)) {
-//                extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Default), 0);
-//            }
-//            turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-//            turret.CloseClaw();
-//            extakeScheduler.schedule(() -> {
-//                turret.MoveVertical(Turret.TurretHeight.Default);
-//                lift.MoveLift(Lift.LiftHeight.Default);
-//                state = State.None;
-//            }, 250);
-//        }
-//        return true;
-//    }
+    public void IntakeReturn() {
+        extaking = Extaking.ClawDrop;
+    }
 
     /**
      * Share button function that brings everything back.
@@ -402,155 +331,14 @@ public class Bertha{
     public void Reset() {
         extaking = Extaking.Reset;
         intaking = Intaking.Reset;
-//        turret.CloseClaw();
-//        intake.CloseClaw();
-//        lift.MoveLift(Lift.LiftHeight.Medium);
-//        intake.FlipUp();
-//        turret.SlideOut();
-//        intakeScheduler.schedule(() -> intake.IntakeIn(), 300);
-//        intakeScheduler.schedule(() -> {
-//            intake.SlideMotorIn();
-//            turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-//        }, 300);
-//        intakeScheduler.schedule(() -> turret.SlideIn(), 500);
-//        intakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Default), 500);
-//        intakeScheduler.schedule(() -> {
-//            turret.SlideIn();
-//            lift.MoveLift(Lift.LiftHeight.Default);
-//            turret.OpenClaw();
-//        }, 250);
-        //Todo Make this code into loops
     }
 
-//    public void TeleOpCycle() {
-//        extakeScheduler.start();
-//        lift.MoveLift(Lift.LiftHeight.High);
-//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.CycleVertical), 300);
-//        extakeScheduler.schedule(() -> state = State.CameraCentering, 750);
-////        extakeScheduler.schedule(() -> turret.MoveHorizontal(Turret.TurretHorizontal.CycleHorizontal), 750);
-//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Flipped), Constants.CycleDropDelay);
-//        extakeScheduler.schedule(() -> extakeScheduler.stop(), 0);
-//    }
-
-    //endregion
-
-    //region Autonomous
-//    public void AutoCheck() {
-//        turret.CloseClaw();
-//        turret.SlideIn();
-//    }
-
-//    public void AutoIntake(int ConePosition, int SlidePose, Turret.TurretHorizontal TurretSide) {
-//        intakeScheduler.start();
-//        turret.SlideOut();
-//        intakeScheduler.schedule(() -> {
-//            turret.MoveVertical(Turret.TurretHeight.Low);
-//            intake.FlipDown();
-//        }, 500);
-//        intakeScheduler.schedule(() -> intake.AutoIntakeOut(ConePosition), 300);
-//        intakeScheduler.schedule(() -> intake.OpenClaw(), 200);
-//        intakeScheduler.schedule(() -> intake.OpenClaw(), 100);
-//        intakeScheduler.schedule(() -> {
-//            intake.OpenClaw();
-//            intake.SlideMotorAutoOut(SlidePose);
-//            timer.reset();
-//            if(TurretSide == Turret.TurretHorizontal.AutoLeft){
-//                state = State.AutoPickAndExchangeLeft;
-//            }else if(TurretSide == Turret.TurretHorizontal.AutoRight){
-//                state = State.AutoPickAndExchangeRight;
-//            }
-//        }, 200);
-//        PauseTimeMilliseconds(750);
-//        intake.CloseClaw();
-//        PauseTimeMilliseconds(250);
-//        AutoMoveToExchange2(TurretSide);
-//    }
-//    public void AutoMoveToExchange2(Turret.TurretHorizontal TurretSide){
-//        intakeScheduler.start();
-//        intake.CloseClaw();
-//        turret.SlideOut();
-//        turret.CloseClaw();
-//        turret.MoveVertical(Turret.TurretHeight.Default);
-//        intakeScheduler.schedule(() -> {
-//            turret.OpenClaw();
-//            intake.AutoFlipUp();
-//        }, 150);
-//        intakeScheduler.schedule(() -> {
-//            intake.IntakeNewExchange();
-//            intake.SlideMotorExchange();
-//        }, 400);
-//        intakeScheduler.schedule(() -> turret.SlideMid(), 300);
-//        intakeScheduler.schedule(() -> turret.CloseClaw(), 550);
-//        intakeScheduler.schedule(() -> intake.OpenClaw(), 50);
-//        intakeScheduler.schedule(() -> {
-//            lift.MoveLift(Constants.LiftMid, Constants.HighVelocity);
-//            intake.IntakeIn();
-//        }, 50);
-//        intakeScheduler.schedule(() -> AutoExtake(TurretSide), 500);
-//    }
-
-//    public void AutoExtake(Turret.TurretHorizontal TurretSide) {
-//        lift.MoveLift(Constants.AutoLiftHigh, Constants.HighVelocity);
-//        turret.SlideMid();
-//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.CycleVertical), 300);
-//        extakeScheduler.schedule(() -> turret.MoveHorizontal(TurretSide), 300);
-//        extakeScheduler.schedule(() -> turret.MoveHorizontal(TurretSide), 300);
-//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Flipped), 300);
-//        extakeScheduler.schedule(() -> turret.OpenClaw(), 600);
-//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.CycleVertical), 300);
-//        extakeScheduler.schedule(() -> {
-//            turret.CloseClaw();
-//            turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-//        }, 100);
-//        extakeScheduler.schedule(() -> turret.MoveVertical(Turret.TurretHeight.Default), 500);
-//        extakeScheduler.schedule(() -> lift.MoveLift(Lift.LiftHeight.Default), 400);
-//        extakeScheduler.schedule(() -> {
-//            turret.SlideOut();
-//            turret.OpenClaw();
-//        }, 700);
-//    }
-
-    public void AutoReturn() {
-        turret.CloseClaw();
-        turret.SlideIn();
-        intake.AutoFlipUp();
-        intake.SlideMotorIn();
-//        PauseTimeMilliseconds(500);
+    public void TeleOpCycle() {
+        extaking = Extaking.Exchanging;
     }
-
-    //endregion
-
-
-
-//    public void PickAndExchange(){
-//        while(!intake.AutoCloseClaw()){
-//        intake.AutoCloseClaw();
-//        if(intake.AutoCloseClaw()) {
-//            MoveToExchange2();
-//            state = State.None;
-//            }
-//        }
-//    }
-
-
-//    public void CameraCentering(){
-//        while(!IntakeReturn()){
-//            double turretPose;
-//            turretPose = pipeline.xErrorServo + Constants.TurretDefault;
-//            turret.MoveHorizontal(turretPose);
-//        }
-//    }
 
     public void Move(Pose2d drivePower) {
         driveTrain.Move(drivePower);
-    }
-
-    public void MoveLift(Lift.LiftHeight height) throws Exception {
-        lift.MoveLift(height);
-    }
-
-    public void MoveLift(int offSet) throws Exception {
-        lift.MoveLift(offSet);
     }
 
     public void IntakeOpenClaw() {
@@ -590,11 +378,6 @@ public class Bertha{
             turret.SlideOut();
     }
 
-    public void MoveLiftOffset(float positionOffset) {
-        int pos = (int)positionOffset;
-        lift.MoveLift(pos);
-    }
-
     public void MoveIntake(int offset) {
         intake.SetIntakeFlipPosition(offset);
     }
@@ -628,8 +411,5 @@ public class Bertha{
     }
     public void IntakeFlipDown(){
         intake.FlipDown();
-    }
-    public void IntakeFlipUp(){
-        intake.FlipUp();
     }
 }

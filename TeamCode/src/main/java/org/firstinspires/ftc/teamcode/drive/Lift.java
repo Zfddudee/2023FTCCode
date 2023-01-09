@@ -39,35 +39,31 @@ public class Lift extends BaseRobot{
     public boolean IsLiftAtPosition(int position, int buffer) {
         return this.IsAtPosition(position, liftMotorL.getCurrentPosition(), buffer);
     }
+    public int LiftPosition(){
+        return liftMotorL.getCurrentPosition();
+    }
     public void MoveLift(int position) {
+        int velocity;
 
-        //TODO fix for negative values
-        /*
-        if(position > Math.abs(Constants.LiftHigh))
-            position = Constants.LiftHigh;
-        if(position < Math.abs(Constants.LiftDefault))
-            position = Constants.LiftDefault;
-*/
-        Constants.liftError1 = position - liftMotorR.getCurrentPosition();
-        Constants.liftError2 = position - liftMotorL.getCurrentPosition();
-        Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
-        Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
-        liftMotorR.setPower(Constants.liftPower1);
-        liftMotorL.setPower(Constants.liftPower2);
 
-        if (position == 0){
-            Constants.liftGainP = Constants.liftGainP0;
-        }else{
-            Constants.liftGainP = Constants.liftGainPUp;
+        if (position == 0) {
+            velocity = 1500;
+            liftMotorR.setTargetPosition(position);
+            liftMotorL.setTargetPosition(position);
+            liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ((DcMotorEx) liftMotorL).setVelocity(velocity);
+            ((DcMotorEx) liftMotorR).setVelocity(velocity);
+        } else {
+            liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            Constants.liftError1 = position - liftMotorR.getCurrentPosition();
+            Constants.liftError2 = position - liftMotorL.getCurrentPosition();
+            Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
+            Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
+            liftMotorR.setPower(Constants.liftPower1);
+            liftMotorL.setPower(Constants.liftPower2);
         }
-
-//        liftMotorR.setTargetPosition(position);
-//        liftMotorL.setTargetPosition(position);
-//        liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        ((DcMotorEx) liftMotorL).setVelocity(velocity);
-//        ((DcMotorEx) liftMotorR).setVelocity(velocity);
-
     }
 
     public void Telemetry(){
