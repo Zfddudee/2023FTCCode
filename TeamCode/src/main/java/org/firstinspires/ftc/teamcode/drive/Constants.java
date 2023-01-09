@@ -27,7 +27,7 @@ public class Constants {
 
     //Claw servo values
     public static double ClawClosed = 0.8;
-    public static double ClawOpen = 0.9;
+    public static double ClawOpen = 0.88;
 
     //Turret servo values
     public static double TurretRight = 0.05;

@@ -109,8 +109,8 @@ public class BerthaTeleOp extends LinearOpMode {
         //Todo
         // Remove test program.
         //sets to going to pickup cone positions
-        else if(gamepad1.b)
-            bertha.CameraCenterTest();
+//        else if(gamepad1.b)
+//            bertha.CameraCenterTest();
         else if(gamepad1.y && !ButtonY) {
             bertha.PickUpOverRide();
             ButtonY = true;
@@ -150,10 +150,8 @@ public class BerthaTeleOp extends LinearOpMode {
 
         //open/close claw toggle button
         else if(gamepad1.right_trigger != 0 && !rightTrigger) {
-            if(!rightTrigger) {
                 bertha.OpenCloseIntakeClaw();
                 rightTrigger = true;
-            }
         }
         else if(gamepad1.right_trigger == 0)
             rightTrigger = false;

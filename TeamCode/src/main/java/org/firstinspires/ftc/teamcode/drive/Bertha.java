@@ -135,12 +135,14 @@ public class Bertha{
                 intake.AutoCloseClaw();
                 if(intake.AutoCloseClaw()) {
                     intaking = Intaking.SlideIn;
+                    timer.reset();
                 }
 
                 break;
             case SlideIn:
                 lift.MoveLift(Lift.LiftHeight.Default);
                 intake.CloseClaw();
+            if(timer.milliseconds() >= 100) {
                 turret.SlideOut();
                 intake.FlipUp();
                 turret.MoveVertical(Turret.TurretHeight.Default);
@@ -148,8 +150,9 @@ public class Bertha{
 //                if(!intake.AutoCloseClaw()) {
 //                    intaking = Intaking.IntakeFlip;
 //                }
-                if(intake.IsIntakeSlideAtPosition(Constants.IntakeWall, 50))
+                if (intake.IsIntakeSlideAtPosition(Constants.IntakeWall, 50))
                     intaking = Intaking.Flipin;
+            }
                 break;
             case Flipin:
                 intake.SlideMotorExchange();
@@ -164,6 +167,7 @@ public class Bertha{
                 break;
             case ExhchangeToExtake:
                 turret.SlideMid();
+                turret.OpenClaw();
                 if(timer.milliseconds() >= 500){
                     turret.CloseClaw();
                 }
@@ -176,13 +180,17 @@ public class Bertha{
 
 //This is the case that starts the reset
             case Reset:
+                state = State.None;
                 intake.CloseClaw();
                 intake.FlipUp();
-                if(lift.LiftPosition() >= 400){
+                intake.SlideMotorOut();
+                if(intake.IsIntakeSlideAtPosition(-650, 80)) {
                     intake.IntakeIn();
-                    intake.SlideMotorIn();
-                    turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-                    intaking = Intaking.None;
+                    if (intake.IsIntakeFlipAtPosition(0, 80)) {
+                        intake.SlideMotorIn();
+                        turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+                        intaking = Intaking.None;
+                    }
                 }
                 break;
 
@@ -194,7 +202,8 @@ public class Bertha{
                 intake.IntakeIn();
                 turret.SlideIn();
                 turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-                if(lift.IsLiftAtPosition(Constants.LiftHigh, 200)) {
+                if(lift.IsLiftAtPosition(Constants.LiftMid, 200)) {
+                    lift.MoveLift(Lift.LiftHeight.High);
                     extaking = Extaking.TurretAutoTurn;
                     turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
@@ -208,6 +217,7 @@ public class Bertha{
             case TurretAutoTurn:
                 turretPose = Constants.TurretLeft;
                 state = State.CameraCentering;
+                extaking = Extaking.None;
                 break;
                 //ClawOpening then moving to returning
             case ClawDrop:
@@ -236,6 +246,7 @@ public class Bertha{
 
 //This is the case that starts the reset
             case Reset:
+                turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 turret.CloseClaw();
                 lift.MoveLift(Lift.LiftHeight.Medium);
                 turret.SlideOut();
@@ -300,6 +311,7 @@ public class Bertha{
     }
 
     public void MoveToExchange2() {
+        timer.reset();
         intaking = Intaking.SlideIn;
     }
 
@@ -322,6 +334,7 @@ public class Bertha{
      * B button press on gamepad 2 that brings lift down
      */
     public void IntakeReturn() {
+        timer.reset();
         extaking = Extaking.ClawDrop;
     }
 
@@ -350,9 +363,10 @@ public class Bertha{
     }
 
     public void OpenClaw() {
-        if(extaking == Extaking.TurretAutoTurn || extaking == Extaking.TurretTurnLeft || extaking == Extaking.TurretTurnRight)
+        if(lift.LiftPosition() > 200){
+            timer.reset();
         extaking = Extaking.ClawDrop;
-        else turret.OpenClaw();
+        } else turret.OpenClaw();
     }
 
     public void CloseClaw() {
@@ -360,10 +374,12 @@ public class Bertha{
     }
 
     public void TurretRight() {
+        state = State.None;
         turret.MoveHorizontal(Turret.TurretHorizontal.Right);
     }
 
     public void TurretLeft() {
+        state = State.None;
         turret.MoveHorizontal(Turret.TurretHorizontal.Left);
     }
 
@@ -399,10 +415,12 @@ public class Bertha{
     }
 
     public void TurretHorizontal(double offset) {
+        state = State.None;
         turret.MoveHorizontalOffset(offset);
     }
 
     public void TurretCenter() {
+        state = State.None;
         turret.MoveHorizontal(Turret.TurretHorizontal.Center);
     }
 
