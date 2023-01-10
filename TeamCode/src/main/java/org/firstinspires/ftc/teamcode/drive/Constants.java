@@ -61,6 +61,8 @@ public class Constants {
     public static double ArmStepOver = 0.025;
 
     public static double TurretVerticalStepOver = 0.005;
+    public static double TurretVertialSpeedMultiplier = 1.5;
+    public static double TurretHorizontalSpeedMultiplier = 1.5;
 
     //Extake servo slide values
     public static double SlideOut = 0;

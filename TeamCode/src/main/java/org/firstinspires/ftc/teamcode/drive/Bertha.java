@@ -61,6 +61,8 @@ public class Bertha{
     private Telemetry telemetry;
 
     private boolean IntakeGo = false;
+    private Lift.LiftHeight LiftHeight;
+    private int LiftPosition = 3;
 
     double CameraXError;
     double Distance;
@@ -197,7 +199,11 @@ public class Bertha{
         }
 //Extaking cases
         switch (extaking){
+/**
+ * Case that finishes the exchange from intake to extake
+  */
             case Exchanging:
+                LiftPosition = 3;
                 lift.MoveLift(Lift.LiftHeight.High);
                 intake.IntakeIn();
                 turret.SlideIn();
@@ -208,18 +214,21 @@ public class Bertha{
                     turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
                 break;
+//Case that turns turret left
             case TurretTurnLeft:
                 turret.MoveHorizontal(Constants.TurretLeft);
                 break;
+//Case that turns turret right
             case TurretTurnRight:
                 turret.MoveHorizontal(Constants.TurretRight);
                 break;
+//Case that automatically turns the turret to junction off camera
             case TurretAutoTurn:
                 turretPose = Constants.TurretLeft;
                 state = State.CameraCentering;
                 extaking = Extaking.None;
                 break;
-                //ClawOpening then moving to returning
+//ClawOpening then moving to returning
             case ClawDrop:
                 turret.OpenClaw();
                 state = State.None;
@@ -230,11 +239,13 @@ public class Bertha{
                     extaking = Extaking.TurretCenter;
                 }
                 break;
+//Case that centers the turret
             case TurretCenter:
                 turret.MoveHorizontal(Constants.TurretDefault);
                 if(timer.time() >= 500)
                     extaking = Extaking.Returning;
                 break;
+//Case that brings lift down and final stages of retracting
             case Returning:
                 turret.MoveVertical(Turret.TurretHeight.Default);
                 lift.MoveLift(Lift.LiftHeight.Default);
@@ -262,6 +273,7 @@ public class Bertha{
         }
         switch (state)
         {
+            //Case to start the auto intake
             case PickAndExchange:
                 intake.AutoCloseClaw();
                 if(intake.AutoCloseClaw()){
@@ -269,13 +281,13 @@ public class Bertha{
                     state = State.None;
                 }
                 break;
-//
+//Case to use the camera to align to a junction
             case CameraCentering:
 //                0.006 points per degree
                 //When too far left CameraXError is positive
-                CameraXError = (pipeline.x - pipeline2.x);
-                Distance = (45216114153.52 *  Math.pow(((pipeline.x + pipeline2.x)/2), -3.87))/2.54;
-                DistanceError = Distance - 13;
+                CameraXError = (pipeline.x - pipeline2.x); //Gets error off center of camera
+                Distance = (45216114153.52 *  Math.pow(((pipeline.x + pipeline2.x)/2), -3.87))/2.54; //Gets distance from junction
+                DistanceError = Distance - 13; //Gets error of distance in inches off of 13 inches
                 if(CameraXError >= 50 && pipeline.x != 0)
                     turretPose = turretPose + Constants.TurretStepOver;
                 else if(CameraXError <= -50 && pipeline.x != 0)
@@ -299,22 +311,26 @@ public class Bertha{
         this.LogAllTelemetry();
     }
 
-    public void CameraCenterTest(){
-        turretPose = Constants.TurretLeft;
-        turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-        state = State.CameraCentering;
-    }
+    /**
+     * Start intaking process
+     */
     public void PreConePickup(){
         timer.reset();
         IntakeGo = true;
         intaking = Intaking.TurretSlideOut;
     }
 
+    /**
+     * Exchange from intake to extake
+     */
     public void MoveToExchange2() {
         timer.reset();
         intaking = Intaking.SlideIn;
     }
 
+    /**
+     * Start intaking process but without distance sensor
+     */
     public void PickUpOverRide() {
         //TODO Fix and re add in to code
 //        turret.SlideOut();
@@ -346,6 +362,9 @@ public class Bertha{
         intaking = Intaking.Reset;
     }
 
+    /**
+     * Moves lift up into cycle position
+     */
     public void TeleOpCycle() {
         extaking = Extaking.Exchanging;
     }
@@ -393,7 +412,23 @@ public class Bertha{
         else
             turret.SlideOut();
     }
+    public void LiftPositioning(int Pos){
+        if(LiftPosition > 3)
+            Pos = 3;
+        if(LiftPosition < 0)
+            Pos = 0;
+        LiftPosition = LiftPosition + Pos;
+        if(LiftPosition == 0)
+            LiftHeight = Lift.LiftHeight.Default;
+        else if(LiftPosition == 1)
+            LiftHeight = Lift.LiftHeight.Low;
+        else if(LiftPosition == 2)
+            LiftHeight = Lift.LiftHeight.Medium;
+        else if(LiftPosition == 3)
+            LiftHeight = Lift.LiftHeight.High;
 
+        lift.MoveLift(LiftHeight);
+    }
     public void MoveIntake(int offset) {
         intake.SetIntakeFlipPosition(offset);
     }
