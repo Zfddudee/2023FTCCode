@@ -109,10 +109,9 @@ public class Bertha{
         // make it so intake can be brought out without full intake process
         // and make it so returning works then test code.
         // Make possibility to exchange without sensor.
+
         //Todo
-        // For full retract extake slide all the way out
-        // turret center and lift down then move extake arm to hover
-        // then move intake fully in and arm down and extake in
+        // Make possible to press button to just return intake when driving around
         switch (intaking) {
             case TurretSlideOut:
                 if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 150))
