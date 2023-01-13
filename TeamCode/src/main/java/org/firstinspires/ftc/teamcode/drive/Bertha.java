@@ -115,6 +115,8 @@ public class Bertha{
         // then move intake fully in and arm down and extake in
         switch (intaking) {
             case TurretSlideOut:
+                if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 150))
+                    intaking = Intaking.IntakeSlide;
                 turret.SlideOut();
                 turret.MoveVertical(Turret.TurretHeight.Low);
                 intake.FlipDown();
@@ -207,6 +209,7 @@ public class Bertha{
                 lift.MoveLift(Lift.LiftHeight.High);
                 intake.IntakeIn();
                 turret.SlideIn();
+                intake.FlipDown();
                 turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 if(lift.IsLiftAtPosition(Constants.LiftMid, 200)) {
                     lift.MoveLift(Lift.LiftHeight.High);
@@ -216,14 +219,23 @@ public class Bertha{
                 break;
 //Case that turns turret left
             case TurretTurnLeft:
+                intake.IntakeOut();
+                intake.FlipDown();
+                intake.OpenClaw();
                 turret.MoveHorizontal(Constants.TurretLeft);
                 break;
 //Case that turns turret right
             case TurretTurnRight:
+                intake.IntakeOut();
+                intake.FlipDown();
+                intake.OpenClaw();
                 turret.MoveHorizontal(Constants.TurretRight);
                 break;
 //Case that automatically turns the turret to junction off camera
             case TurretAutoTurn:
+                intake.IntakeOut();
+                intake.FlipDown();
+                intake.OpenClaw();
                 turretPose = Constants.TurretLeft;
                 state = State.CameraCentering;
                 extaking = Extaking.None;
@@ -231,10 +243,11 @@ public class Bertha{
 //ClawOpening then moving to returning
             case ClawDrop:
                 turret.OpenClaw();
+                intake.OpenClaw();
                 state = State.None;
-                if(timer.time() >= 100)
+                if(timer.milliseconds() >= 100)
                     turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-                if(timer.time() >= 300) {
+                if(timer.milliseconds() >= 300) {
                     timer.reset();
                     extaking = Extaking.TurretCenter;
                 }
@@ -242,7 +255,7 @@ public class Bertha{
 //Case that centers the turret
             case TurretCenter:
                 turret.MoveHorizontal(Constants.TurretDefault);
-                if(timer.time() >= 500)
+                if(timer.milliseconds() >= 500)
                     extaking = Extaking.Returning;
                 break;
 //Case that brings lift down and final stages of retracting
