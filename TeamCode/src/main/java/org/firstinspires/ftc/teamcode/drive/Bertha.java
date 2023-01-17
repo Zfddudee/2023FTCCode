@@ -116,11 +116,13 @@ public class Bertha{
             case TurretSlideOut:
                 if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 150))
                     intaking = Intaking.IntakeSlide;
-                turret.SlideOut();
-                turret.MoveVertical(Turret.TurretHeight.Low);
-                intake.FlipDown();
-                if (timer.milliseconds() >= 500)
-                    intaking = Intaking.IntakeFlip;
+                else {
+                    turret.SlideOut();
+                    turret.MoveVertical(Turret.TurretHeight.Low);
+                    intake.FlipDown();
+                    if (timer.milliseconds() >= 500)
+                        intaking = Intaking.IntakeFlip;
+                }
                 break;
             case IntakeFlip:
                 intake.IntakeOut();
@@ -205,11 +207,11 @@ public class Bertha{
   */
             case Exchanging:
                 LiftPosition = 3;
+                turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 lift.MoveLift(Lift.LiftHeight.High);
                 intake.IntakeIn();
                 turret.SlideIn();
                 intake.FlipDown();
-                turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 if(lift.IsLiftAtPosition(Constants.LiftMid, 200)) {
                     lift.MoveLift(Lift.LiftHeight.High);
                     extaking = Extaking.TurretAutoTurn;
@@ -244,6 +246,7 @@ public class Bertha{
                 turret.OpenClaw();
                 intake.OpenClaw();
                 state = State.None;
+                intaking = Intaking.TurretSlideOut;
                 if(timer.milliseconds() >= 100)
                     turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 if(timer.milliseconds() >= 300) {
@@ -300,17 +303,18 @@ public class Bertha{
                 CameraXError = (pipeline.x - pipeline2.x); //Gets error off center of camera
                 Distance = (45216114153.52 *  Math.pow(((pipeline.x + pipeline2.x)/2), -3.87))/2.54; //Gets distance from junction
                 DistanceError = Distance - 13; //Gets error of distance in inches off of 13 inches
+
                 if(CameraXError >= 50 && pipeline.x != 0)
                     turretPose = turretPose + Constants.TurretStepOver;
                 else if(CameraXError <= -50 && pipeline.x != 0)
                     turretPose = turretPose - Constants.TurretStepOver;
                 if(DistanceError >= 0.5 && pipeline.x != 0) {
                     slidePose1 = slidePose1 - 0.1;
-                    slidePose1 = slidePose1 + 0.1;
+                    slidePose2 = slidePose2 + 0.1;
                 }
                 else if(DistanceError <= 0.5 && pipeline.x != 0) {
                     slidePose1 = slidePose1 + 0.1;
-                    slidePose1 = slidePose1 - 0.1;
+                    slidePose2 = slidePose2 - 0.1;
                 }
                 //                turretPose = pipeline.xErrorServo + Constants.TurretDefault;
                 turret.SetSlidePosition(slidePose1, slidePose2);
@@ -345,6 +349,8 @@ public class Bertha{
      */
     public void PickUpOverRide() {
         //TODO Fix and re add in to code
+        intaking = Intaking.None;
+        intake.SlideMotorIn();
 //        turret.SlideOut();
 //        intakeScheduler.schedule(() -> {
 //            turret.MoveVertical(Turret.TurretHeight.Low);

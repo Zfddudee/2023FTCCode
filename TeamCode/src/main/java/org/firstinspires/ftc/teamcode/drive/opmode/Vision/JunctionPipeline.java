@@ -23,6 +23,9 @@
 
 package org.firstinspires.ftc.teamcode.drive.opmode.Vision;
 
+import android.graphics.fonts.Font;
+import android.graphics.fonts.FontFamily;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import org.opencv.core.Core;
@@ -55,10 +58,10 @@ public class JunctionPipeline extends OpenCvPipeline {
     public double x;
     private double Angle;
     public static Scalar DISPLAY_COLOR = new Scalar(210, 150, 190);
-    //    public Scalar lower = new Scalar(0, 155, 60); //Tests
-    public Scalar lower = new Scalar(8, 68, 155); //Actual
-    //    public Scalar upper = new Scalar(30, 220, 120); //Tests
-    public Scalar upper = new Scalar(45, 255, 255); //Actual
+        public Scalar lower = new Scalar(0, 155, 60); //Tests
+//    public Scalar lower = new Scalar(8, 68, 155); //Actual
+        public Scalar upper = new Scalar(30, 220, 120); //Tests
+//    public Scalar upper = new Scalar(45, 255, 255); //Actual
     //public static Point LEFT = new Point(50, 120);
     //public static Point RIGHT = new Point(270, 120);
 
@@ -126,10 +129,14 @@ public class JunctionPipeline extends OpenCvPipeline {
 
             MatOfPoint largestContour = null;
             double maxArea = 0;
+            double maxWidth = 0;
             for (MatOfPoint contour : contours) {
+                Rect rec = Imgproc.boundingRect(largestContour);
                 double area = Imgproc.contourArea(contour);
-                if (area > maxArea) {
+                double width = rec.width;
+                if (width > maxWidth) {
                     maxArea = area;
+                    maxWidth = width;
                     largestContour = contour;
 
                 }
@@ -152,7 +159,9 @@ public class JunctionPipeline extends OpenCvPipeline {
             y = centroid.y;
             x = centroid.x;
             Top = new Point(X, Y);
+//            String text = maxWidth+"";
             Imgproc.drawContours(input, Arrays.asList(largestContour), -1, new Scalar(255, 0, 0), -1);
+//            Imgproc.putText(input, text, Top, Imgproc.FONT_HERSHEY_PLAIN, 2, new Scalar(255, 0, 0), 3);
             Imgproc.circle(input, centroid, 5, new Scalar(0, 0, 255), -1);
             Imgproc.circle(input, Top, 20, new Scalar(0, 255, 255), -1);
             Imgproc.circle(input, Test, 5, new Scalar(0, 255, 0), -1);
@@ -183,6 +192,7 @@ public class JunctionPipeline extends OpenCvPipeline {
             telemetry.addData("[Angle]", rc.angle);
 
             telemetry.addData("area", maxArea);
+            telemetry.addData("width", maxWidth);
             telemetry.update();
 
 
