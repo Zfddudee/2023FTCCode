@@ -40,6 +40,8 @@ public class PipelineTester2 extends LinearOpMode {
 //            telemetry.addData("[Top Y]", pipeline.Y);
 //            telemetry.addData("[Centroid X]", pipeline.x);
 //            telemetry.addData("[Centroid Y]", pipeline.y);
+            telemetry.addData("camera1 Opened?", Constants.CameraOpened1);
+            telemetry.addData("camera2 Opened?", Constants.CameraOpened2);
             telemetry.addData("X1", vision.X1());
             telemetry.addData("X2", vision.X2());
             telemetry.addData("XE1", vision.XE1());

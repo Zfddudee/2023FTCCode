@@ -12,6 +12,9 @@ public class Constants {
     public static boolean odoReady = true;
     //Boolean for weather or not turret is turning to the left
     public static boolean Left = false;
+    //Boolean that tells weather or not cameras are opened
+    public static boolean CameraOpened1 = false;
+    public static boolean CameraOpened2 = false;
 
     //Velocity for the slide vertical movement
     public static int HighVelocity = 2700;
