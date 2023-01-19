@@ -43,8 +43,10 @@ public class VisionSubsytem{
     }
     public void startReaderPipeline() {
         webcam.setPipeline(readerPipeline);
+        webcam2.setPipeline(null);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override public void onOpened() { startStreaming1(); Constants.CameraOpened1 = true; } public void onError(int errorCode) {Constants.CameraOpened1 = false;}});
+        webcam2.closeCameraDeviceAsync(()->{Constants.CameraOpened2 = false;});
     }
     public void startJunctionPipeline() {
         webcam.setPipeline(juntionPipeline);
@@ -59,6 +61,6 @@ public class VisionSubsytem{
         webcam.setPipeline(null);
         webcam2.setPipeline(null);
         webcam.closeCameraDeviceAsync(()->{Constants.CameraOpened1 = false;});
-        webcam2.closeCameraDeviceAsync(()->{Constants.CameraOpened1 = false;});
+        webcam2.closeCameraDeviceAsync(()->{Constants.CameraOpened2 = false;});
     }
 }
