@@ -173,10 +173,10 @@ public class Bertha{
             case ExhchangeToExtake:
                 turret.SlideMid();
                 turret.OpenClaw();
-                if(timer.milliseconds() >= 500){
+                if(timer.milliseconds() >= 300){
                     turret.CloseClaw();
                 }
-                if(timer.milliseconds() >= 550){
+                if(timer.milliseconds() >= 400){
                     intake.OpenClaw();
                     extaking = Extaking.Exchanging;
                     intaking = Intaking.None;
@@ -275,8 +275,9 @@ public class Bertha{
                 turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 turret.CloseClaw();
                 lift.MoveLift(Lift.LiftHeight.Medium);
+                turret.MoveHorizontal(Turret.TurretHorizontal.Center);
                 turret.SlideOut();
-                if(intake.IsIntakeFlipAtPosition(0, 80)){
+                if(intake.IsIntakeFlipAtPosition(0, 80) && timer.milliseconds() >= 200){
                     turret.SlideIn();
                     turret.MoveVertical(Turret.TurretHeight.Default);
                     lift.MoveLift(Lift.LiftHeight.Default);
@@ -376,6 +377,7 @@ public class Bertha{
      * Share button function that brings everything back.
      */
     public void Reset() {
+        timer.reset();
         extaking = Extaking.Reset;
         intaking = Intaking.Reset;
     }

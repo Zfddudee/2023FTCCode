@@ -125,7 +125,7 @@ public class JunctionPipeline2 extends OpenCvPipeline {
             double maxArea = 0;
             double maxWidth = 0;
             for (MatOfPoint contour : contours) {
-                Rect rec = Imgproc.boundingRect(largestContour);
+                Rect rec = Imgproc.boundingRect(contour);
                 double area = Imgproc.contourArea(contour);
                 double width = rec.width;
                 if (width > maxWidth) {
