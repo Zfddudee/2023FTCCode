@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline2;
@@ -87,8 +88,10 @@ public class Bertha{
         telemetry.addData("Current State: ", state);
         telemetry.addData("X val 1", pipeline.x);
         telemetry.addData("X val 2", pipeline2.x);
-        telemetry.addData("X val T1", berthaTeleOp.X1);
-        telemetry.addData("X val T2", berthaTeleOp.X2);
+        telemetry.addData("Distance", Distance);
+        telemetry.addData("Distance Error", DistanceError);
+        telemetry.addData("X val T1", Constants.X1);
+        telemetry.addData("X val T2", Constants.X2);
         turret.Telemetry();
         intake.Telemetry();
         lift.Telemetry();
@@ -301,21 +304,21 @@ public class Bertha{
             case CameraCentering:
 //                0.006 points per degree
                 //When too far left CameraXError is positive
-                CameraXError = (pipeline.x - pipeline2.x); //Gets error off center of camera
-                Distance = (45216114153.52 *  Math.pow(((pipeline.x + pipeline2.x)/2), -3.87))/2.54; //Gets distance from junction
+                CameraXError = (Constants.X1 - Constants.X2); //Gets error off center of camera
+                Distance = ((15034772.69 *  Math.pow(((Constants.X1 + Constants.X2)/2), -2.46))-1.2)/2.54; //Gets distance from junction
                 DistanceError = Distance - 13; //Gets error of distance in inches off of 13 inches
 
-                if(CameraXError >= 50 && pipeline.x != 0)
+                if(CameraXError >= 50 && Constants.X1 != 0)
                     turretPose = turretPose + Constants.TurretStepOver;
-                else if(CameraXError <= -50 && pipeline.x != 0)
+                else if(CameraXError <= -50 && Constants.X1 != 0)
                     turretPose = turretPose - Constants.TurretStepOver;
-                if(DistanceError >= 0.5 && pipeline.x != 0) {
-                    slidePose1 = slidePose1 - 0.1;
-                    slidePose2 = slidePose2 + 0.1;
+                if(DistanceError >= Constants.SlideRange && Constants.X1 != 0) {
+                    slidePose1 = slidePose1 + Constants.SlideStepover;
+                    slidePose2 = slidePose2 - Constants.SlideStepover;
                 }
-                else if(DistanceError <= 0.5 && pipeline.x != 0) {
-                    slidePose1 = slidePose1 + 0.1;
-                    slidePose2 = slidePose2 - 0.1;
+                else if(DistanceError <= Constants.SlideRange && Constants.X1 != 0) {
+                    slidePose1 = slidePose1 - Constants.SlideStepover;
+                    slidePose2 = slidePose2 + Constants.SlideStepover;
                 }
                 //                turretPose = pipeline.xErrorServo + Constants.TurretDefault;
                 turret.SetSlidePosition(slidePose1, slidePose2);

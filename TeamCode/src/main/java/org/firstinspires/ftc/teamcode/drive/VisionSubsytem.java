@@ -20,6 +20,7 @@ public class VisionSubsytem{
     public double X2(){return juntionPipeline2.x;}
     public double XE1(){return juntionPipeline.xError;}
     public double XE2(){return juntionPipeline2.xError;}
+    public String ColorSeen(){return readerPipeline.ColorSeen;}
 
 
     Telemetry telemetry;
@@ -47,20 +48,25 @@ public class VisionSubsytem{
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override public void onOpened() { startStreaming1(); Constants.CameraOpened1 = true; } public void onError(int errorCode) {Constants.CameraOpened1 = false;}});
         webcam2.closeCameraDeviceAsync(()->{Constants.CameraOpened2 = false;});
+        Constants.CameraState = "Reader";
     }
     public void startJunctionPipeline() {
-        webcam.setPipeline(juntionPipeline);
-        webcam2.setPipeline(juntionPipeline2);
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override public void onOpened() { startStreaming1();  Constants.CameraOpened1 = true;} public void onError(int errorCode) {Constants.CameraOpened1 = false;}});
-        webcam2.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override public void onOpened() { startStreaming2();  Constants.CameraOpened2 = true;} public void onError(int errorCode) {Constants.CameraOpened2 = true;}});
+//        webcam.setPipeline(juntionPipeline);
+//        webcam2.setPipeline(juntionPipeline2);
+//        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+//            @Override public void onOpened() { startStreaming1();  Constants.CameraOpened1 = true;} public void onError(int errorCode) {Constants.CameraOpened1 = false;}});
+//        webcam2.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+//            @Override public void onOpened() { startStreaming2();  Constants.CameraOpened2 = true;} public void onError(int errorCode) {Constants.CameraOpened2 = true;}});
+//        Constants.CameraState = "Junction";
     }
 
     public void stopPipeline() {
-        webcam.setPipeline(null);
-        webcam2.setPipeline(null);
-        webcam.closeCameraDeviceAsync(()->{Constants.CameraOpened1 = false;});
-        webcam2.closeCameraDeviceAsync(()->{Constants.CameraOpened2 = false;});
+//        webcam.setPipeline(null);
+//        webcam2.setPipeline(null);
+//        webcam.closeCameraDeviceAsync(()->{});
+//        webcam2.closeCameraDeviceAsync(()->{});
+//        Constants.CameraOpened1 = false;
+//        Constants.CameraOpened2 = false;
+//        Constants.CameraState = "None";
     }
 }

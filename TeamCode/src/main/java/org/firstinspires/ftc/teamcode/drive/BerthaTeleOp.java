@@ -69,9 +69,11 @@ public class BerthaTeleOp extends LinearOpMode {
         );
         waitForStart();
         while (!isStopRequested()) {
-//            X1 = pipeline.x;
+            X1 = pipeline.x;
             X2 = pipeline2.x;
-            X1 = 230;
+            Constants.X1 = pipeline.x;
+            Constants.X2 = pipeline2.x;
+//            X1 = 230;
 //            X2 = 230;
             try {
                 GamePad1Loop();
@@ -84,7 +86,7 @@ public class BerthaTeleOp extends LinearOpMode {
                 telemetry.addData("Inner exception", ex.getStackTrace());
             }
             telemetry.addData("X1", X1);
-            telemetry.addData("X2", X1);
+            telemetry.addData("X2", X2);
             telemetry.update();
         }
     }

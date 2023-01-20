@@ -16,6 +16,11 @@ public class Constants {
     public static boolean CameraOpened1 = false;
     public static boolean CameraOpened2 = false;
 
+    public static String CameraState = "None";
+
+    public static double X1;
+    public static double X2;
+
     //Velocity for the slide vertical movement
     public static int HighVelocity = 2700;
     public static int LowVelocity = 600;
@@ -38,7 +43,7 @@ public class Constants {
     public static double TurretDefault = 0.435;
     public static double TurretHorizontalCycle = 0.707;
     public static double AutoLeft = 0.8;
-    public static double TurretStepOver = -0.01;
+    public static double TurretStepOver = -0.005;
     public static double AutoRight = 0.09;
     public static double PointsPerDegree = 0.0059375;
 
@@ -68,17 +73,19 @@ public class Constants {
     public static double TurretHorizontalSpeedMultiplier = 1.5;
 
     //Extake servo slide values
-    public static double SlideOut = 0;
-    public static double SlideOut2 = 1;
-    public static double SlideIn = 0.9;
-    public static double SlideIn2 = 0.1;
-    public static double SlideMid = 0.2;
-    public static double SlideMid2 = 0.8;
-    public static double SlideAuto = 0.7;
-    public static double SlideAuto2 = 0.3;
+    public static double SlideOut = 1;
+    public static double SlideOut2 = 0;
+    public static double SlideIn = 0.1;
+    public static double SlideIn2 = 0.9;
+    public static double SlideMid = 0.8;
+    public static double SlideMid2 = 0.2;
+    public static double SlideAuto = 0.3;
+    public static double SlideAuto2 = 0.7;
+    public static double SlideStepover = 0.01;
+    public static double SlideRange = 1.0;
 
     //Lift motor values
-    public static int LiftHigh = -1000;
+    public static int LiftHigh = -900;
     public static int AutoLiftHigh = -750;
     public static int LiftMid = -500;
     public static int LiftLow = -200;

@@ -26,7 +26,7 @@ public class ImageDetectorPipeline extends OpenCvPipeline {
 
     private Telemetry telemetry;
 
-    public String ColorSeen = "";
+    public String ColorSeen = "None";
 
     public ImageDetectorPipeline(Telemetry tela){
         telemetry = tela;
