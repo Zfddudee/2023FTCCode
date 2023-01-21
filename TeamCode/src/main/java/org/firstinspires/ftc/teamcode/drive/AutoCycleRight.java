@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -181,59 +182,78 @@ public class AutoCycleRight extends LinearOpMode{
         int coneCount = 0;
 
         //drop first cone
-        bertha.lift.MoveLift(Lift.LiftHeight.High);
-        bertha.turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-        bertha.turret.Wait(200);
-        bertha.turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
-        bertha.turret.Wait(50);
-        bertha.turret.MoveVertical(Turret.TurretHeight.Flipped);
-        bertha.OpenClaw();
-        coneCount++;
-        bertha.turret.Wait(50);
-        bertha.turret.MoveHorizontal(Turret.TurretHorizontal.Center);
-        bertha.turret.Wait(100);
-        bertha.turret.MoveVertical(Turret.TurretHeight.Default);
-        bertha.lift.MoveLift(Lift.LiftHeight.Default);
+        bertha.TeleOpCycle();
+        Boolean firstDrop = true;
+        while(firstDrop && bertha.extaking != Bertha.Extaking.Returning) {
+            bertha.RunOpMode();
 
-        bertha.intakeHeightOffset = Constants.IntakeFlips1;
-        bertha.PreConePickup();
+            if(bertha.extaking == Bertha.Extaking.TurretTurnLeft)
+                bertha.extaking = Bertha.Extaking.TurretTurnRight;
+            else if(bertha.extaking == Bertha.Extaking.None) {
+                bertha.PlaceConeOverJunction();
+                bertha.turret.Wait(500);
+                bertha.extaking = Bertha.Extaking.ClawDrop;
+                coneCount++;
+                firstDrop = false;
+            }
+        }
+
         State currentState = State.PreCone;
         while (opModeIsActive() && coneCount <= Constants.ConeCount ) {
-            if(bertha.intaking == Bertha.Intaking.IntakeFlip)
+            if(bertha.intaking == Bertha.Intaking.IntakeFlip){
+                bertha.intakeHeightOffset = GetIntakeOffsetHeight(coneCount);
                 bertha.intaking = Bertha.Intaking.IntakeFlipAuto;
+            }
+
             bertha.RunOpMode();
-            if(bertha.intaking == Bertha.Intaking.None && currentState == State.PreCone){
-                currentState = State.PlacingCone;
-                timer.reset();
-                timer.startTime();
+            if(bertha.extaking == Bertha.Extaking.TurretTurnLeft)
+                bertha.extaking = Bertha.Extaking.TurretTurnRight;
+            else if(bertha.extaking == Bertha.Extaking.None) {
                 bertha.PlaceConeOverJunction();
-            }
-            if(timer.milliseconds() > 200 && currentState == State.PlacingCone) {
-                bertha.OpenClaw();
+                bertha.turret.Wait(500);
+                bertha.extaking = Bertha.Extaking.ClawDrop;
                 coneCount++;
-                currentState = State.OpeningClaw;
             }
-            else if(currentState == State.OpeningClaw && timer.milliseconds() > 500) {
-                bertha.PreConePickup();
-                currentState = State.PreCone;
-                switch (coneCount){
-                    case 2:
-                        bertha.intakeHeightOffset = Constants.IntakeFlips2;
-                        break;
-                    case 3:
-                        bertha.intakeHeightOffset = Constants.IntakeFlips3;
-                        break;
-                    case 4:
-                        bertha.intakeHeightOffset = Constants.IntakeFlips4;
-                        break;
-                    case 5:
-                        bertha.intakeHeightOffset = Constants.IntakeFlips5;
-                }
-            }
+//            if(bertha.intaking == Bertha.Intaking.None && currentState == State.PreCone){
+//                currentState = State.PlacingCone;
+//                timer.reset();
+//                timer.startTime();
+//                bertha.PlaceConeOverJunction();
+//            }
+//            if(timer.milliseconds() > 200 && currentState == State.PlacingCone) {
+//                bertha.OpenClaw();
+//                coneCount++;
+//                currentState = State.OpeningClaw;
+//            }
+//            else if(currentState == State.OpeningClaw && timer.milliseconds() > 2000) {
+//                //bertha.PreConePickup();
+//                currentState = State.PreCone;
+//            }
         }
 
         bertha.Reset();
         //Park
 
+    }
+
+    private int GetIntakeOffsetHeight(int coneCount){
+        switch (coneCount){
+            case 1:
+                return Constants.IntakeFlips1;
+
+            case 2:
+                return Constants.IntakeFlips2;
+
+            case 3:
+                return Constants.IntakeFlips3;
+
+            case 4:
+                return Constants.IntakeFlips4;
+
+            case 5:
+                return Constants.IntakeFlips5;
+
+        }
+        return 0;
     }
 }

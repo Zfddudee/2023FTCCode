@@ -63,7 +63,7 @@ public class Bertha{
     private ElapsedTime CurrentTime;
     private State state;
     protected Intaking intaking;
-    private Extaking extaking;
+    protected Extaking extaking;
     private Telemetry telemetry;
 
     private boolean IntakeGo = false;
@@ -255,7 +255,10 @@ public class Bertha{
                 intake.FlipDown();
                 intake.OpenClaw();
                 turret.MoveHorizontal(Constants.TurretHorizontalCycle);
-                extaking = Extaking.None;
+                if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
+                    turret.MoveVertical(Turret.TurretHeight.Flipped);
+                    extaking = Extaking.None;
+                }
                 break;
 //Case that turns turret right
             case TurretTurnRight:
@@ -263,7 +266,10 @@ public class Bertha{
                 intake.FlipDown();
                 intake.OpenClaw();
                 turret.MoveHorizontal(Constants.TurretRight);
-                extaking = Extaking.None;
+                if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
+                    turret.MoveVertical(Turret.TurretHeight.Flipped);
+                    extaking = Extaking.None;
+                }
                 break;
 //Case that automatically turns the turret to junction off camera
             case TurretAutoTurn:
