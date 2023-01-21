@@ -54,8 +54,7 @@ public class BerthaAuto {
     private Intaking intaking;
     private Extaking extaking;
     private Telemetry telemetry;
-    private IntakeScheduler intakeScheduler = new IntakeScheduler();
-    public BerthaAuto(HardwareMap map, Telemetry tel){
+       public BerthaAuto(HardwareMap map, Telemetry tel){
         lift = new Lift(map, tel);
         driveTrain = new DriveTrain(map, tel);
         turret = new Turret(map, tel);
@@ -221,16 +220,15 @@ public class BerthaAuto {
     }
 
     public void AutoIntake(int ConePosition, int SlidePose, Turret.TurretHorizontal TurretSide) {
-        intakeScheduler.start();
         turret.SlideOut();
-        intakeScheduler.schedule(() -> {
-            turret.MoveVertical(Turret.TurretHeight.Low);
-            intake.FlipDown();
-        }, 500);
-        intakeScheduler.schedule(() -> intake.AutoIntakeOut(ConePosition), 300);
-        intakeScheduler.schedule(() -> intake.OpenClaw(), 200);
-        intakeScheduler.schedule(() -> intake.OpenClaw(), 100);
-        intakeScheduler.schedule(() -> {
+//        intakeScheduler.schedule(() -> {
+//            turret.MoveVertical(Turret.TurretHeight.Low);
+//            intake.FlipDown();
+//        }, 500);
+//        intakeScheduler.schedule(() -> intake.AutoIntakeOut(ConePosition), 300);
+//        intakeScheduler.schedule(() -> intake.OpenClaw(), 200);
+//        intakeScheduler.schedule(() -> intake.OpenClaw(), 100);
+//        intakeScheduler.schedule(() -> {
             intake.OpenClaw();
             intake.SlideMotorAutoOut(SlidePose);
             timer.reset();
@@ -239,34 +237,34 @@ public class BerthaAuto {
             }else if(TurretSide == Turret.TurretHorizontal.AutoRight){
                 state = State.AutoPickAndExchangeRight;
             }
-        }, 200);
+//        }, 200);
 //        PauseTimeMilliseconds(750);
 //        intake.CloseClaw();
 //        PauseTimeMilliseconds(250);
 //        AutoMoveToExchange2(TurretSide);
     }
     public void AutoMoveToExchange2(Turret.TurretHorizontal TurretSide){
-        intakeScheduler.start();
+//        intakeScheduler.start();
         intake.CloseClaw();
         turret.SlideOut();
         turret.CloseClaw();
         turret.MoveVertical(Turret.TurretHeight.Default);
-        intakeScheduler.schedule(() -> {
-            turret.OpenClaw();
-            intake.AutoFlipUp();
-        }, 150);
-        intakeScheduler.schedule(() -> {
-            intake.IntakeNewExchange();
-            intake.SlideMotorExchange();
-        }, 400);
-        intakeScheduler.schedule(() -> turret.SlideMid(), 300);
-        intakeScheduler.schedule(() -> turret.CloseClaw(), 550);
-        intakeScheduler.schedule(() -> intake.OpenClaw(), 50);
-        intakeScheduler.schedule(() -> {
-            lift.MoveLift(Constants.LiftMid);
-            intake.IntakeIn();
-        }, 50);
-        intakeScheduler.schedule(() -> AutoExtake(TurretSide), 500);
+//        intakeScheduler.schedule(() -> {
+//            turret.OpenClaw();
+//            intake.AutoFlipUp();
+//        }, 150);
+////        intakeScheduler.schedule(() -> {
+//            intake.IntakeNewExchange();
+//            intake.SlideMotorExchange();
+//        }, 400);
+//        intakeScheduler.schedule(() -> turret.SlideMid(), 300);
+//        intakeScheduler.schedule(() -> turret.CloseClaw(), 550);
+//        intakeScheduler.schedule(() -> intake.OpenClaw(), 50);
+//        intakeScheduler.schedule(() -> {
+//            lift.MoveLift(Constants.LiftMid);
+//            intake.IntakeIn();
+//        }, 50);
+//        intakeScheduler.schedule(() -> AutoExtake(TurretSide), 500);
     }
 
     public void AutoExtake(Turret.TurretHorizontal TurretSide) {

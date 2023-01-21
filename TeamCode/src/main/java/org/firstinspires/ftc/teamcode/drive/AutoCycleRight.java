@@ -21,28 +21,25 @@ public class AutoCycleRight extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
         //region Variables
 
-        //start bot at pose x = 30, y = 64, heading 90 degrees
         Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
 
         double d1 = 270;
-        double d2 = 180;
-        double d3 = 0;
+        double d2 = 0;
 
-        //region Park Left
+        //region
 
         // This is an x value
         double c1 = -35;
         // This is a y value
-        double c2 = -14;
+        double c2 = -30;
         // This is an x value
-        double c3 = -36;
+        double c3 = -45;
         // This is a y value
-        double c4 = -12;
+        double c4 = -11.5;
         // This is an x value
-        double c5 = -25;
+        double c5 = -52;
 
         //endregion
 
@@ -70,105 +67,110 @@ public class AutoCycleRight extends LinearOpMode{
                                      }
         );
 
-        //region TrajectoryX
+        //region TrajectoryOut
         TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
 
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
-                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d3)))
-//                .UNSTABLE_addTemporalMarkerOffset(() -> bertha.AutoExtake(Turret.TurretHorizontal.AutoRight), 0)
-
+                .splineTo(new Vector2d(c3, c4), Math.toRadians(d2))
+                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d2)))
                 .build();
-
-        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
-
-                .lineToLinearHeading(new Pose2d(-59, c4, Math.toRadians(d3)))
-                .turn(Math.toRadians(-90))
-                .lineToLinearHeading(new Pose2d(-59, -22, Math.toRadians(d1)))
-
-                .build();
-
         //endregion
 
-        //region TrajectoryY
-        TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(TrajectoryOut.end())
-
-                .lineToLinearHeading(new Pose2d(-35, -11, Math.toRadians(d3)))
-                .turn(Math.toRadians(-90))
-                .lineToLinearHeading(new Pose2d(-35, -22, Math.toRadians(d1)))
-
-                .build();
-
-        //endregion
-
-        //region TrajectoryZ
-        TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(TrajectoryOut.end())
-
-                .lineToLinearHeading(new Pose2d(-11.5, c4, Math.toRadians(d3)))
-                .turn(Math.toRadians(-90))
-                .lineToLinearHeading(new Pose2d(-11.5, -22, Math.toRadians(d1)))
-
-                .build();
-
-        //endregion
+//        //region TrajectoryX
+//        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
+//                .lineToLinearHeading(new Pose2d(-59, c4, Math.toRadians(d3)))
+//                .turn(Math.toRadians(-90))
+//                .lineToLinearHeading(new Pose2d(-59, -22, Math.toRadians(d1)))
+//                .build();
+//
+//        //endregion
+//
+//        //region TrajectoryY
+//        TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(TrajectoryOut.end())
+//
+//                .lineToLinearHeading(new Pose2d(-35, -11, Math.toRadians(d3)))
+//                .turn(Math.toRadians(-90))
+//                .lineToLinearHeading(new Pose2d(-35, -22, Math.toRadians(d1)))
+//
+//                .build();
+//
+//        //endregion
+//
+//        //region TrajectoryZ
+//        TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(TrajectoryOut.end())
+//
+//                .lineToLinearHeading(new Pose2d(-11.5, c4, Math.toRadians(d3)))
+//                .turn(Math.toRadians(-90))
+//                .lineToLinearHeading(new Pose2d(-11.5, -22, Math.toRadians(d1)))
+//
+//                .build();
+//
+//        //endregion
 
         BerthaAuto bertha = new BerthaAuto(hardwareMap, telemetry);
 
         waitForStart();
 
-        if (pipeline.ColorSeen == "Green") {
-            bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake();
-//            bertha.AutoExtake();
-            bertha.AutoReturn();
-            drive.followTrajectorySequence(TrajectoryX);
+        String pipelineColorSeen = pipeline.ColorSeen;
+        bertha.AutoCheck();
+        drive.followTrajectorySequence(TrajectoryOut);
 
-        } else if (pipeline.ColorSeen == "Orange") {
-           bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake();
-//            bertha.AutoExtake();
-            bertha.AutoReturn();
-            drive.followTrajectorySequence(TrajectoryY);
+//
+//
+//        if (pipeline.ColorSeen == "Green") {
+//            bertha.AutoCheck();
+//            drive.followTrajectorySequence(TrajectoryOut);
+//            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
+//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
+//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
+////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake();
+////            bertha.AutoExtake();
+//            bertha.AutoReturn();
+//            drive.followTrajectorySequence(TrajectoryX);
+//
+//        } else if (pipeline.ColorSeen == "Orange") {
+//           bertha.AutoCheck();
+//            drive.followTrajectorySequence(TrajectoryOut);
+//            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
+//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
+//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
+////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake();
+////            bertha.AutoExtake();
+//            bertha.AutoReturn();
+//            drive.followTrajectorySequence(TrajectoryY);
+//
+//
+//        } else if (pipeline.ColorSeen == "Purple") {
+//            bertha.AutoCheck();
+//            drive.followTrajectorySequence(TrajectoryOut);
+//            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
+//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
+//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
+////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+////            bertha.AutoExtakeLeft();
+////            bertha.AutoIntake();
+////            bertha.AutoExtake();
+//            bertha.AutoReturn();
+//            drive.followTrajectorySequence(TrajectoryZ);
+//
+//        }
 
-
-        } else if (pipeline.ColorSeen == "Purple") {
-            bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-//            bertha.AutoExtakeLeft();
-//            bertha.AutoIntake();
-//            bertha.AutoExtake();
-            bertha.AutoReturn();
-            drive.followTrajectorySequence(TrajectoryZ);
-
-        }
         while (opModeIsActive()) {
 
 //                telemetry.addData("placement]", pipeline.ColorSeen);
