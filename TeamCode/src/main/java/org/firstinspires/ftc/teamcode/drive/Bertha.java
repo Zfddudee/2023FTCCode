@@ -35,6 +35,7 @@ public class Bertha{
         Flipin,
         SlideFullIn,
         ExhchangeToExtake,
+        IntakeFlipAuto,
         Reset
     }
     enum Extaking {
@@ -57,6 +58,7 @@ public class Bertha{
     protected Intake intake;
     //endregion
 
+    ///region Private members
     private ElapsedTime timer;
     private ElapsedTime CurrentTime;
     private State state;
@@ -79,9 +81,10 @@ public class Bertha{
     double turretPose = Constants.TurretHorizontalCycle;
     double slidePose1 = Constants.SlideIn;
     double slidePose2 = Constants.SlideIn2;
-    public Bertha() {
 
-    }
+    protected int intakeHeightOffset = 0;
+    ///endregion
+
     public Bertha(HardwareMap map, Telemetry tel){
         lift = new Lift(map, tel);
         driveTrain = new DriveTrain(map, tel);
@@ -116,11 +119,9 @@ public class Bertha{
     //region TeleOp
     JunctionPipeline pipeline;
     JunctionPipeline2 pipeline2;
-//    BerthaTeleOp berthaTeleOp;
     public void RunOpMode() {
         pipeline = new JunctionPipeline();
         pipeline2 = new JunctionPipeline2();
-//        berthaTeleOp = new BerthaTeleOp();
         CurrentTime.reset();
 //Intaking cases
         //todo
@@ -145,6 +146,17 @@ public class Bertha{
             case IntakeFlip:
                 intake.IntakeOut();
                 intake.FlipDown();
+                if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 250))
+                    intake.OpenClaw();
+                if(IntakeGo && intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 50)) {
+//                    IntakeGo = false;
+                    intaking = Intaking.IntakeSlide;
+                }
+                break;
+            case IntakeFlipAuto:
+                intake.IntakeOut();
+                intake.SetIntakeFlipPosition(intakeHeightOffset);
+
                 if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 250))
                     intake.OpenClaw();
                 if(IntakeGo && intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 50)) {

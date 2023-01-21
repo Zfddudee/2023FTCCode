@@ -16,6 +16,12 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous(name = "CycleRight", group="Bertha", preselectTeleOp = "BerthaTeleOp")
 public class AutoCycleRight extends LinearOpMode{
 
+    enum State{
+        PlacingCone,
+        OpeningClaw,
+        PreCone,
+        None
+    }
     OpenCvCamera webcam;
     ImageDetectorPipeline pipeline;
 
@@ -68,14 +74,14 @@ public class AutoCycleRight extends LinearOpMode{
                                      }
         );
 
-        //region TrajectoryOut
-        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
-
-                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-                .splineTo(new Vector2d(c3, c4), Math.toRadians(d2))
-                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d2)))
-                .build();
-        //endregion
+//        //region TrajectoryOut
+//        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
+//
+//                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
+//                .splineTo(new Vector2d(c3, c4), Math.toRadians(d2))
+//                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d2)))
+//                .build();
+//        //endregion
 
 //        //region TrajectoryX
 //        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
@@ -114,7 +120,7 @@ public class AutoCycleRight extends LinearOpMode{
 
         String pipelineColorSeen = pipeline.ColorSeen;
         bertha.AutoCheck();
-        drive.followTrajectorySequence(TrajectoryOut);
+//        drive.followTrajectorySequence(TrajectoryOut);
 
 //
 //
@@ -176,9 +182,9 @@ public class AutoCycleRight extends LinearOpMode{
 
         //drop first cone
         bertha.lift.MoveLift(Lift.LiftHeight.High);
-        bertha.turret.MoveVertical(Turret.TurretHeight.Low);
+        bertha.turret.MoveVertical(Turret.TurretHeight.CycleVertical);
         bertha.turret.Wait(200);
-        bertha.turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
+        bertha.turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
         bertha.turret.Wait(50);
         bertha.turret.MoveVertical(Turret.TurretHeight.Flipped);
         bertha.OpenClaw();
@@ -189,20 +195,41 @@ public class AutoCycleRight extends LinearOpMode{
         bertha.turret.MoveVertical(Turret.TurretHeight.Default);
         bertha.lift.MoveLift(Lift.LiftHeight.Default);
 
+        bertha.intakeHeightOffset = Constants.IntakeFlips1;
         bertha.PreConePickup();
+        State currentState = State.PreCone;
         while (opModeIsActive() && coneCount <= Constants.ConeCount ) {
+            if(bertha.intaking == Bertha.Intaking.IntakeFlip)
+                bertha.intaking = Bertha.Intaking.IntakeFlipAuto;
             bertha.RunOpMode();
-            if(bertha.intaking == Bertha.Intaking.None){
+            if(bertha.intaking == Bertha.Intaking.None && currentState == State.PreCone){
+                currentState = State.PlacingCone;
                 timer.reset();
                 timer.startTime();
                 bertha.PlaceConeOverJunction();
             }
-            if(timer.milliseconds() > 200) {
+            if(timer.milliseconds() > 200 && currentState == State.PlacingCone) {
                 bertha.OpenClaw();
                 coneCount++;
+                currentState = State.OpeningClaw;
             }
-            else if(timer.milliseconds() > 200 && timer.milliseconds() <= 500)
+            else if(currentState == State.OpeningClaw && timer.milliseconds() > 500) {
                 bertha.PreConePickup();
+                currentState = State.PreCone;
+                switch (coneCount){
+                    case 2:
+                        bertha.intakeHeightOffset = Constants.IntakeFlips2;
+                        break;
+                    case 3:
+                        bertha.intakeHeightOffset = Constants.IntakeFlips3;
+                        break;
+                    case 4:
+                        bertha.intakeHeightOffset = Constants.IntakeFlips4;
+                        break;
+                    case 5:
+                        bertha.intakeHeightOffset = Constants.IntakeFlips5;
+                }
+            }
         }
 
         bertha.Reset();

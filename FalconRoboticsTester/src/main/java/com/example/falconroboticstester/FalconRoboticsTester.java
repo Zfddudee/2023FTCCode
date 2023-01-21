@@ -37,15 +37,15 @@ public class FalconRoboticsTester {
             // RIGHT RED
             //start bot at pose x = 30, y = 64, heading 90 degrees
             //start bot at pose x = 12, y = 0, heading 90 degrees
-            v.Init(35, 62, 90, -12, 0, 90);
+            v.Init(35, 62, 270, -12, 0, 90);
 
-            v.d1 = 90;
+            v.d1 = 270;
             v.d2 = 0;
 
             // This is an x value
             v.c1 = 35;
             // This is a y value
-            v.c2 = 30;
+            v.c2 = 20;
             // This is an x value
             v.c3 = 45;
             // This is a y value
@@ -77,7 +77,7 @@ public class FalconRoboticsTester {
                         drive.trajectorySequenceBuilder(v.startPose)
 
 
-                                .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(270)))
+                                .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(v.d1)))
                                 .splineTo(new Vector2d(v.c3, v.c4), Math.toRadians(v.d2))
                                 .lineToSplineHeading(new Pose2d(v.c5, v.c4, Math.toRadians(v.d2)))
 

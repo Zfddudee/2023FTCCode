@@ -121,52 +121,52 @@ public class AutoCycleLeft extends LinearOpMode{
 
         //region ColorCode
 
-        if (pipeline.ColorSeen == "Green") {
-            bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoLeft);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoLeft);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoLeft);
-//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-//            bertha.AutoExtakeRight();
-//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-//            bertha.AutoExtakeRight();
-//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-//            bertha.AutoExtakeRight();
-            bertha.AutoReturn();
-            drive.followTrajectorySequence(TrajectoryX);
-
-        } else if (pipeline.ColorSeen == "Orange") {
-            bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoLeft);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoLeft);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoLeft);
-//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-//            bertha.AutoExtakeRight();
-//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-//            bertha.AutoExtakeRight();
-//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-//            bertha.AutoExtakeRight();
-            bertha.AutoReturn();
-            drive.followTrajectorySequence(TrajectoryY);
-
-
-        } else if (pipeline.ColorSeen == "Purple") {
-            bertha.AutoCheck();
-            drive.followTrajectorySequence(TrajectoryOut);
-            bertha.AutoExtake(Turret.TurretHorizontal.AutoLeft);
-            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoLeft);
-            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoLeft);
-//            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-//            bertha.AutoExtakeRight();
-//            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-//            bertha.AutoExtakeRight();
-//            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-//            bertha.AutoExtakeRight();
-            bertha.AutoReturn();
-            drive.followTrajectorySequence(TrajectoryZ);
-        }
+//        if (pipeline.ColorSeen == "Green") {
+//            bertha.AutoCheck();
+//            drive.followTrajectorySequence(TrajectoryOut);
+//            bertha.AutoExtake(Turret.TurretHorizontal.AutoLeft);
+//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoLeft);
+//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoLeft);
+////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+////            bertha.AutoExtakeRight();
+////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+////            bertha.AutoExtakeRight();
+////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+////            bertha.AutoExtakeRight();
+//            bertha.AutoReturn();
+//            drive.followTrajectorySequence(TrajectoryX);
+//
+//        } else if (pipeline.ColorSeen == "Orange") {
+//            bertha.AutoCheck();
+//            drive.followTrajectorySequence(TrajectoryOut);
+//            bertha.AutoExtake(Turret.TurretHorizontal.AutoLeft);
+//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoLeft);
+//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoLeft);
+////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+////            bertha.AutoExtakeRight();
+////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+////            bertha.AutoExtakeRight();
+////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+////            bertha.AutoExtakeRight();
+//            bertha.AutoReturn();
+//            drive.followTrajectorySequence(TrajectoryY);
+//
+//
+//        } else if (pipeline.ColorSeen == "Purple") {
+//            bertha.AutoCheck();
+//            drive.followTrajectorySequence(TrajectoryOut);
+//            bertha.AutoExtake(Turret.TurretHorizontal.AutoLeft);
+//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoLeft);
+//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoLeft);
+////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
+////            bertha.AutoExtakeRight();
+////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
+////            bertha.AutoExtakeRight();
+////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
+////            bertha.AutoExtakeRight();
+//            bertha.AutoReturn();
+//            drive.followTrajectorySequence(TrajectoryZ);
+//        }
 
         //endregion
 
