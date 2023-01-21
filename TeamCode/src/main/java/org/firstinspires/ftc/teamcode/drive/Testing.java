@@ -45,7 +45,7 @@ public class Testing extends LinearOpMode {
     public Servo Claw;
 
     public ColorRangeSensor IntakeSensor;
-    public DistanceSensor ExtakeSensor;
+//    public DistanceSensor ExtakeSensor;
 
     double ClawPos;
 
@@ -74,7 +74,7 @@ public class Testing extends LinearOpMode {
         Claw = hardwareMap.get(Servo.class, "Claw");
 
         IntakeSensor = hardwareMap.get(ColorRangeSensor.class, "IntakeSensor");
-        ExtakeSensor = hardwareMap.get(DistanceSensor.class, "ExtakeSensor");
+//        ExtakeSensor = hardwareMap.get(DistanceSensor.class, "ExtakeSensor");
 
         // extake flip servo 1 is normal toque 2 is 5 turn
 
@@ -146,7 +146,12 @@ public class Testing extends LinearOpMode {
             }
             if(gamepad1.a){
 
-                liftTarget = Constants.LiftHigh;
+//                liftTarget = Constants.LiftHigh;
+                SlideExtension.setPosition(Constants.SlideMid);
+                SlideExtension2.setPosition(Constants.SlideMid2);
+                IntakeSlideMotor.setTargetPosition(Constants.IntakeExchanging);
+                IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                ((DcMotorEx) IntakeSlideMotor).setVelocity(Constants.HighVelocity);
 //    lift            liftMotorR.setTargetPosition(Constants.LiftHigh);//-790
 //                liftMotorL.setTargetPosition(Constants.LiftHigh);//-790
 //                liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -280,7 +285,7 @@ public class Testing extends LinearOpMode {
             telemetry.addData("ArmPos1", Constants.ArmTarget1);
             telemetry.addData("ArmPos2", Constants.ArmTarget2);
             telemetry.addData("SensorValue", IntakeSensor.getDistance(DistanceUnit.MM));
-            telemetry.addData("ExtakeSensorValue", ExtakeSensor.getDistance(DistanceUnit.MM));
+//            telemetry.addData("ExtakeSensorValue", ExtakeSensor.getDistance(DistanceUnit.MM));
             telemetry.addData("IntakeMotorPos", IntakeSlideMotor.getCurrentPosition());
             telemetry.addData("IntakeSlide Amps", ((DcMotorEx) drive.IntakeSlideMotor).getCurrent(CurrentUnit.AMPS));
             telemetry.addData("LiftMotorR", liftMotorR.getCurrentPosition());

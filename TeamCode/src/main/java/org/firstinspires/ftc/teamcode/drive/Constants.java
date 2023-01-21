@@ -35,7 +35,7 @@ public class Constants {
 
     //Claw servo values
     public static double ClawClosed = 0.8;
-    public static double ClawOpen = 0.88;
+    public static double ClawOpen = 0.86;
 
     //Turret servo values
     public static double TurretRight = 0.05;
@@ -77,8 +77,8 @@ public class Constants {
     public static double SlideOut2 = 0;
     public static double SlideIn = 0.1;
     public static double SlideIn2 = 0.9;
-    public static double SlideMid = 0.8;
-    public static double SlideMid2 = 0.2;
+    public static double SlideMid = 0.725;
+    public static double SlideMid2 = 0.35;
     public static double SlideAuto = 0.3;
     public static double SlideAuto2 = 0.7;
     public static double SlideStepover = 0.01;

@@ -11,6 +11,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline2;
 
+import java.time.Clock;
+
 @Config
 public class Bertha{
 
@@ -56,6 +58,7 @@ public class Bertha{
     //endregion
 
     private ElapsedTime timer;
+    private ElapsedTime CurrentTime;
     private State state;
     private Intaking intaking;
     private Extaking extaking;
@@ -65,10 +68,15 @@ public class Bertha{
     private Lift.LiftHeight LiftHeight;
     private int LiftPosition = 3;
 
+    double LastTime = 0;
+    double Dt;
+    double Kd = 0.5;
+    double Kp = 0.5;
     double CameraXError;
     double Distance;
     double DistanceError;
-    double turretPose;
+    double DistanceErrorLast = 0;
+    double turretPose = Constants.TurretHorizontalCycle;
     double slidePose1 = Constants.SlideIn;
     double slidePose2 = Constants.SlideIn2;
     public Bertha(HardwareMap map, Telemetry tel){
@@ -78,6 +86,7 @@ public class Bertha{
         intake = new Intake(map, tel);
 
         timer = new ElapsedTime();
+        CurrentTime = new ElapsedTime();
         state = State.None;
         intaking = Intaking.None;
         extaking = Extaking.None;
@@ -92,6 +101,11 @@ public class Bertha{
         telemetry.addData("Distance Error", DistanceError);
         telemetry.addData("X val T1", Constants.X1);
         telemetry.addData("X val T2", Constants.X2);
+        telemetry.addData("TurretStepover: ", Constants.TurretStepOver);
+        telemetry.addData("SlideStepover: ", Constants.SlideStepover);
+        telemetry.addData("SlidePos: ", slidePose1);
+        telemetry.addData("SlidePos2: ", slidePose2);
+        telemetry.addData("TurretPos: ", turretPose);
         turret.Telemetry();
         intake.Telemetry();
         lift.Telemetry();
@@ -106,7 +120,7 @@ public class Bertha{
         pipeline = new JunctionPipeline();
         pipeline2 = new JunctionPipeline2();
         berthaTeleOp = new BerthaTeleOp();
-
+        CurrentTime.reset();
 //Intaking cases
         //todo
         // make it so intake can be brought out without full intake process
@@ -123,7 +137,7 @@ public class Bertha{
                     turret.SlideOut();
                     turret.MoveVertical(Turret.TurretHeight.Low);
                     intake.FlipDown();
-                    if (timer.milliseconds() >= 500)
+                    if (timer.milliseconds() >= 250)
                         intaking = Intaking.IntakeFlip;
                 }
                 break;
@@ -217,8 +231,9 @@ public class Bertha{
                 intake.FlipDown();
                 if(lift.IsLiftAtPosition(Constants.LiftMid, 200)) {
                     lift.MoveLift(Lift.LiftHeight.High);
-                    extaking = Extaking.TurretAutoTurn;
-                    turret.MoveVertical(Turret.TurretHeight.Flipped);
+//                    extaking = Extaking.TurretAutoTurn;
+                    extaking = Extaking.TurretTurnLeft;
+//                    turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
                 break;
 //Case that turns turret left
@@ -226,7 +241,8 @@ public class Bertha{
                 intake.IntakeOut();
                 intake.FlipDown();
                 intake.OpenClaw();
-                turret.MoveHorizontal(Constants.TurretLeft);
+                turret.MoveHorizontal(Constants.TurretHorizontalCycle);
+                extaking = Extaking.None;
                 break;
 //Case that turns turret right
             case TurretTurnRight:
@@ -234,13 +250,16 @@ public class Bertha{
                 intake.FlipDown();
                 intake.OpenClaw();
                 turret.MoveHorizontal(Constants.TurretRight);
+                extaking = Extaking.None;
                 break;
 //Case that automatically turns the turret to junction off camera
             case TurretAutoTurn:
                 intake.IntakeOut();
                 intake.FlipDown();
                 intake.OpenClaw();
-                turretPose = Constants.TurretLeft;
+                turretPose = Constants.TurretHorizontalCycle;
+                slidePose1 = Constants.SlideIn;
+                slidePose2 = Constants.SlideIn2;
                 state = State.CameraCentering;
                 extaking = Extaking.None;
                 break;
@@ -276,15 +295,15 @@ public class Bertha{
 //This is the case that starts the reset
             case Reset:
                 turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-                turret.CloseClaw();
+                turret.OpenClaw();
                 lift.MoveLift(Lift.LiftHeight.Medium);
                 turret.MoveHorizontal(Turret.TurretHorizontal.Center);
                 turret.SlideOut();
                 if(intake.IsIntakeFlipAtPosition(0, 80) && timer.milliseconds() >= 200){
+                    turret.CloseClaw();
                     turret.SlideIn();
                     turret.MoveVertical(Turret.TurretHeight.Default);
                     lift.MoveLift(Lift.LiftHeight.Default);
-                    turret.OpenClaw();
                     extaking = Extaking.None;
                 }
                 break;
@@ -308,19 +327,55 @@ public class Bertha{
                 Distance = ((15034772.69 *  Math.pow(((Constants.X1 + Constants.X2)/2), -2.46))-1.2)/2.54; //Gets distance from junction
                 DistanceError = Distance - 13; //Gets error of distance in inches off of 13 inches
 
-                if(CameraXError >= 50 && Constants.X1 != 0)
+                Dt = CurrentTime.milliseconds() - LastTime;
+                LastTime = CurrentTime.milliseconds();
+
+
+
+                if(Math.abs(CameraXError) >= 50){
+                    Constants.TurretStepOver = CameraXError/-10000;
                     turretPose = turretPose + Constants.TurretStepOver;
-                else if(CameraXError <= -50 && Constants.X1 != 0)
-                    turretPose = turretPose - Constants.TurretStepOver;
-                if(DistanceError >= Constants.SlideRange && Constants.X1 != 0) {
+                }
+
+                if(Math.abs(DistanceError) >= 1.25){
+//                    Constants.SlideStepover = Math.pow((DistanceError), 1.1423) * 0.0025;
+
+                    Constants.SlideStepover = (DistanceError * 0.0025)*Kp - ((DistanceError-DistanceErrorLast)/Dt)*Kd;
+                    DistanceErrorLast = DistanceError;
+
                     slidePose1 = slidePose1 + Constants.SlideStepover;
                     slidePose2 = slidePose2 - Constants.SlideStepover;
                 }
-                else if(DistanceError <= Constants.SlideRange && Constants.X1 != 0) {
-                    slidePose1 = slidePose1 - Constants.SlideStepover;
-                    slidePose2 = slidePose2 + Constants.SlideStepover;
-                }
-                //                turretPose = pipeline.xErrorServo + Constants.TurretDefault;
+
+//                if(CameraXError >= 50 && Constants.X1 != 0)
+//                    turretPose = turretPose + Constants.TurretStepOver;
+//                else if(CameraXError <= -50 && Constants.X1 != 0)
+//                    turretPose = turretPose - Constants.TurretStepOver;
+//
+//                if(DistanceError >= Constants.SlideRange && Constants.X1 != 0) {
+//                    slidePose1 = slidePose1 + Constants.SlideStepover;
+//                    slidePose2 = slidePose2 - Constants.SlideStepover;
+//                }
+//                else if(DistanceError <= Constants.SlideRange && Constants.X1 != 0) {
+//                    slidePose1 = slidePose1 - Constants.SlideStepover;
+//                    slidePose2 = slidePose2 + Constants.SlideStepover;
+//                }
+
+
+                if(slidePose1 > Constants.SlideOut)
+                    slidePose1 = Constants.SlideOut;
+                else if(slidePose1 < Constants.SlideIn)
+                    slidePose1 = Constants.SlideIn;
+                if(slidePose2 > Constants.SlideIn2)
+                    slidePose2 = Constants.SlideIn2;
+                else if(slidePose2 < Constants.SlideOut2)
+                    slidePose2 = Constants.SlideOut2;
+                if(turretPose > Constants.TurretLeft)
+                    turretPose = Constants.TurretLeft;
+                else if(turretPose < Constants.TurretRight)
+                    turretPose = Constants.TurretRight;
+
+//                                turretPose = pipeline.xErrorServo + Constants.TurretDefault;
                 turret.SetSlidePosition(slidePose1, slidePose2);
                 turret.MoveHorizontal(turretPose);
                 break;

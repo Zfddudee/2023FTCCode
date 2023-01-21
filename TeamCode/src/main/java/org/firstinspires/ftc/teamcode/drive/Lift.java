@@ -55,14 +55,21 @@ public class Lift extends BaseRobot{
             ((DcMotorEx) liftMotorL).setVelocity(velocity);
             ((DcMotorEx) liftMotorR).setVelocity(velocity);
         } else {
-            liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            Constants.liftError1 = position - liftMotorR.getCurrentPosition();
-            Constants.liftError2 = position - liftMotorL.getCurrentPosition();
-            Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
-            Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
-            liftMotorR.setPower(Constants.liftPower1);
-            liftMotorL.setPower(Constants.liftPower2);
+            velocity = 3500;
+            liftMotorR.setTargetPosition(position);
+            liftMotorL.setTargetPosition(position);
+            liftMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ((DcMotorEx) liftMotorL).setVelocity(velocity);
+            ((DcMotorEx) liftMotorR).setVelocity(velocity);
+//            liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            Constants.liftError1 = position - liftMotorR.getCurrentPosition();
+//            Constants.liftError2 = position - liftMotorL.getCurrentPosition();
+//            Constants.liftPower1 = Constants.liftError1 * Constants.liftGainP;
+//            Constants.liftPower2 = Constants.liftError2 * Constants.liftGainP;
+//            liftMotorR.setPower(Constants.liftPower1);
+//            liftMotorL.setPower(Constants.liftPower2);
         }
     }
 
