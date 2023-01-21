@@ -170,13 +170,13 @@ public class AutoCycleRight extends LinearOpMode{
 //            drive.followTrajectorySequence(TrajectoryZ);
 //
 //        }
-
+        bertha.PreConePickup();
         while (opModeIsActive()) {
+            bertha.RunOpMode();
+            if(bertha.intaking == Bertha.Intaking.None){
 
-//                telemetry.addData("placement]", pipeline.ColorSeen);
-//                telemetry.update();
-            //sleep(50);
-
+                bertha.OpenClaw();
+            }
         }
     }
 }

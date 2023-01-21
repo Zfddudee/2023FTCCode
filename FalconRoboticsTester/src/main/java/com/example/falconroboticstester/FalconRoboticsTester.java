@@ -16,7 +16,7 @@ public class FalconRoboticsTester {
 
         if(mode == Mode.Left1) {
             // LEFT RED
-            v.Init(-35, -62, 90, -12, 0, 270);
+            v.Init(-35, -62, 0, -12, 0, 270);
 
             v.d1 = 90;
             v.d2 = 180;
@@ -78,7 +78,7 @@ public class FalconRoboticsTester {
 
 
                                 .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(v.d1)))
-                                .splineTo(new Vector2d(v.c3, v.c4), Math.toRadians(v.d2))
+                                .splineToLinearHeading(new Pose2d(v.c3, v.c4), Math.toRadians(v.d2))
                                 .lineToSplineHeading(new Pose2d(v.c5, v.c4, Math.toRadians(v.d2)))
 
                                 .build()

@@ -51,16 +51,16 @@ public class Bertha{
     }
 
     ///region Robot objects
-    private Lift lift;
-    private DriveTrain driveTrain;
-    private Turret turret;
-    private Intake intake;
+    protected Lift lift;
+    protected DriveTrain driveTrain;
+    protected Turret turret;
+    protected Intake intake;
     //endregion
 
     private ElapsedTime timer;
     private ElapsedTime CurrentTime;
     private State state;
-    private Intaking intaking;
+    protected Intaking intaking;
     private Extaking extaking;
     private Telemetry telemetry;
 
@@ -79,6 +79,9 @@ public class Bertha{
     double turretPose = Constants.TurretHorizontalCycle;
     double slidePose1 = Constants.SlideIn;
     double slidePose2 = Constants.SlideIn2;
+    public Bertha() {
+
+    }
     public Bertha(HardwareMap map, Telemetry tel){
         lift = new Lift(map, tel);
         driveTrain = new DriveTrain(map, tel);
@@ -110,16 +113,14 @@ public class Bertha{
         intake.Telemetry();
         lift.Telemetry();
     }
-
-//    HardwareMap hardwareMap;
     //region TeleOp
     JunctionPipeline pipeline;
     JunctionPipeline2 pipeline2;
-    BerthaTeleOp berthaTeleOp;
+//    BerthaTeleOp berthaTeleOp;
     public void RunOpMode() {
         pipeline = new JunctionPipeline();
         pipeline2 = new JunctionPipeline2();
-        berthaTeleOp = new BerthaTeleOp();
+//        berthaTeleOp = new BerthaTeleOp();
         CurrentTime.reset();
 //Intaking cases
         //todo
