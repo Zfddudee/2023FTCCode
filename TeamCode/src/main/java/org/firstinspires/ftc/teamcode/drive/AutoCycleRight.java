@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
@@ -170,13 +171,42 @@ public class AutoCycleRight extends LinearOpMode{
 //            drive.followTrajectorySequence(TrajectoryZ);
 //
 //        }
+        ElapsedTime timer = new ElapsedTime();
+        int coneCount = 0;
+
+        //drop first cone
+        bertha.lift.MoveLift(Lift.LiftHeight.High);
+        bertha.turret.MoveVertical(Turret.TurretHeight.Low);
+        bertha.turret.Wait(200);
+        bertha.turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
+        bertha.turret.Wait(50);
+        bertha.turret.MoveVertical(Turret.TurretHeight.Flipped);
+        bertha.OpenClaw();
+        coneCount++;
+        bertha.turret.Wait(50);
+        bertha.turret.MoveHorizontal(Turret.TurretHorizontal.Center);
+        bertha.turret.Wait(100);
+        bertha.turret.MoveVertical(Turret.TurretHeight.Default);
+        bertha.lift.MoveLift(Lift.LiftHeight.Default);
+
         bertha.PreConePickup();
-        while (opModeIsActive()) {
+        while (opModeIsActive() && coneCount <= Constants.ConeCount ) {
             bertha.RunOpMode();
             if(bertha.intaking == Bertha.Intaking.None){
-
-                bertha.OpenClaw();
+                timer.reset();
+                timer.startTime();
+                bertha.PlaceConeOverJunction();
             }
+            if(timer.milliseconds() > 200) {
+                bertha.OpenClaw();
+                coneCount++;
+            }
+            else if(timer.milliseconds() > 200 && timer.milliseconds() <= 500)
+                bertha.PreConePickup();
         }
+
+        bertha.Reset();
+        //Park
+
     }
 }

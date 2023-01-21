@@ -152,4 +152,6 @@ public class Constants {
 
     public static int TestConst = 43;
 
+    public static int ConeCount = 6;
+
 }
