@@ -26,30 +26,7 @@ public class AutoCycleRight extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        //region Variables
 
-        Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
-
-        double d1 = 270;
-        double d2 = 0;
-
-        //region
-
-        // This is an x value
-        double c1 = -35;
-        // This is a y value
-        double c2 = -30;
-        // This is an x value
-        double c3 = -45;
-        // This is a y value
-        double c4 = -11.5;
-        // This is an x value
-        double c5 = -52;
-
-        //endregion
-
-        drive.setPoseEstimate(startPose);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
@@ -85,55 +62,9 @@ public class AutoCycleRight extends LinearOpMode{
         //bertha.DriveToConeStation();
         //All the code to drive below can be in this function so it can be used for both right and left driving
 
-        //region TrajectoryOut
-        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
-
-                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-                .splineTo(new Vector2d(c3, c4), Math.toRadians(d2))
-                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d2)))
-                .build();
-        //endregion
-
-        drive.followTrajectorySequence(TrajectoryOut);
-
-//        //region TrajectoryX
-//        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
-//                .lineToLinearHeading(new Pose2d(-59, c4, Math.toRadians(d3)))
-//                .turn(Math.toRadians(-90))
-//                .lineToLinearHeading(new Pose2d(-59, -22, Math.toRadians(d1)))
-//                .build();
-//
-//        //endregion
-//
-//        //region TrajectoryY
-//        TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(TrajectoryOut.end())
-//
-//                .lineToLinearHeading(new Pose2d(-35, -11, Math.toRadians(d3)))
-//                .turn(Math.toRadians(-90))
-//                .lineToLinearHeading(new Pose2d(-35, -22, Math.toRadians(d1)))
-//
-//                .build();
-//
-//        //endregion
-//
-//        //region TrajectoryZ
-//        TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(TrajectoryOut.end())
-//
-//                .lineToLinearHeading(new Pose2d(-11.5, c4, Math.toRadians(d3)))
-//                .turn(Math.toRadians(-90))
-//                .lineToLinearHeading(new Pose2d(-11.5, -22, Math.toRadians(d1)))
-//
-//                .build();
-//
-//        //endregion
 
 
-        //Drive to Cone cycling spot
-        //bertha.DriveToConeStation();
-//        drive.followTrajectorySequence(TrajectoryOut);
-
-//
-//
+    //region
 //        if (pipeline.ColorSeen == "Green") {
 //            bertha.AutoCheck();
 //            drive.followTrajectorySequence(TrajectoryOut);
@@ -186,7 +117,8 @@ public class AutoCycleRight extends LinearOpMode{
 //            bertha.AutoReturn();
 //            drive.followTrajectorySequence(TrajectoryZ);
 //
-//
+//endregion
+
         //Drop First code
         bertha.DropFirstCone();
 
