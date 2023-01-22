@@ -206,7 +206,7 @@ public class Intake extends BaseRobot {
         SetIntakeFlipPosition(newPosition, velocity);
     }
 
-    private void SetIntakeFlipPosition(int position, int velocity) {
+    public void SetIntakeFlipPosition(int position, int velocity) {
         IntakeFlipMotor.setTargetPosition(position);
         IntakeFlipMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx) IntakeFlipMotor).setVelocity(velocity);

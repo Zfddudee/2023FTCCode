@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -21,7 +17,7 @@ public class AutoCycleRight extends LinearOpMode{
         PlacingCone,
         OpeningClaw,
         PreCone,
-        None
+        ClawDrop, None
     }
     OpenCvCamera webcam;
     ImageDetectorPipeline pipeline;
@@ -183,57 +179,45 @@ public class AutoCycleRight extends LinearOpMode{
 
         //drop first cone
         bertha.TeleOpCycle();
-        Boolean firstDrop = true;
-        while(firstDrop && bertha.extaking != Bertha.Extaking.Returning) {
+        bertha.intakeHeightOffset = GetIntakeOffsetHeight(1);
+        while(bertha.extaking != Bertha.Extaking.None)
+        {
             bertha.RunOpMode();
 
             if(bertha.extaking == Bertha.Extaking.TurretTurnLeft)
                 bertha.extaking = Bertha.Extaking.TurretTurnRight;
-            else if(bertha.extaking == Bertha.Extaking.None) {
+            else if(coneCount <1 && bertha.extaking == Bertha.Extaking.None) {
                 bertha.PlaceConeOverJunction();
                 bertha.turret.Wait(500);
                 bertha.extaking = Bertha.Extaking.ClawDrop;
                 coneCount++;
-                firstDrop = false;
+                bertha.intakeHeightOffset = GetIntakeOffsetHeight(coneCount);
             }
         }
 
-        State currentState = State.PreCone;
+        bertha.intakeHeightOffset = GetIntakeOffsetHeight(coneCount);
         while (opModeIsActive() && coneCount <= Constants.ConeCount ) {
-            if(bertha.intaking == Bertha.Intaking.IntakeFlip){
-                bertha.intakeHeightOffset = GetIntakeOffsetHeight(coneCount);
-                bertha.intaking = Bertha.Intaking.IntakeFlipAuto;
-            }
-
             bertha.RunOpMode();
             if(bertha.extaking == Bertha.Extaking.TurretTurnLeft)
                 bertha.extaking = Bertha.Extaking.TurretTurnRight;
-            else if(bertha.extaking == Bertha.Extaking.None) {
+            else if(bertha.extaking == Bertha.Extaking.None
+                    && bertha.lift.IsLiftAtPosition(Constants.LiftHigh, 200)) {
                 bertha.PlaceConeOverJunction();
                 bertha.turret.Wait(500);
                 bertha.extaking = Bertha.Extaking.ClawDrop;
                 coneCount++;
+                bertha.intakeHeightOffset = GetIntakeOffsetHeight(coneCount);
             }
-//            if(bertha.intaking == Bertha.Intaking.None && currentState == State.PreCone){
-//                currentState = State.PlacingCone;
-//                timer.reset();
-//                timer.startTime();
-//                bertha.PlaceConeOverJunction();
-//            }
-//            if(timer.milliseconds() > 200 && currentState == State.PlacingCone) {
-//                bertha.OpenClaw();
-//                coneCount++;
-//                currentState = State.OpeningClaw;
-//            }
-//            else if(currentState == State.OpeningClaw && timer.milliseconds() > 2000) {
-//                //bertha.PreConePickup();
-//                currentState = State.PreCone;
-//            }
+            telemetry.addData("Cone Count", coneCount);
         }
 
         bertha.Reset();
-        //Park
+        while(bertha.extaking == Bertha.Extaking.Reset || bertha.intaking == Bertha.Intaking.Reset)
+        {
+            bertha.RunOpMode();
+        }
 
+        //Park
     }
 
     private int GetIntakeOffsetHeight(int coneCount){

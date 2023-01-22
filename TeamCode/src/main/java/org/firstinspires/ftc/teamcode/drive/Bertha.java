@@ -83,6 +83,9 @@ public class Bertha{
     double slidePose2 = Constants.SlideIn2;
 
     protected int intakeHeightOffset = 0;
+
+    private JunctionPipeline pipeline;
+    private JunctionPipeline2 pipeline2;
     ///endregion
 
     public Bertha(HardwareMap map, Telemetry tel){
@@ -99,6 +102,7 @@ public class Bertha{
         telemetry = tel;
     }
 
+    ///region Private Helper Functions
     private void LogAllTelemetry(){
         telemetry.addData("Current State: ", state);
         telemetry.addData("X val 1", pipeline.x);
@@ -116,9 +120,23 @@ public class Bertha{
         intake.Telemetry();
         lift.Telemetry();
     }
-    //region TeleOp
-    JunctionPipeline pipeline;
-    JunctionPipeline2 pipeline2;
+
+    private boolean IsIntakeFlipAtPosition(int buffer){
+        if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips,buffer))
+            return true;
+        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips1,buffer))
+            return true;
+        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips2,buffer))
+            return true;
+        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips3,buffer))
+            return true;
+        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips4,buffer))
+            return true;
+        else
+            return false;
+    }
+    ///endregion
+
     public void RunOpMode() {
         pipeline = new JunctionPipeline();
         pipeline2 = new JunctionPipeline2();
@@ -133,33 +151,22 @@ public class Bertha{
         // Make possible to press button to just return intake when driving around
         switch (intaking) {
             case TurretSlideOut:
-                if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 150))
+                if(IsIntakeFlipAtPosition(150))
                     intaking = Intaking.IntakeSlide;
                 else {
                     turret.SlideOut();
                     turret.MoveVertical(Turret.TurretHeight.Low);
-                    intake.FlipDown();
+                    IntakeFlipDown();
                     if (timer.milliseconds() >= 250)
                         intaking = Intaking.IntakeFlip;
                 }
                 break;
             case IntakeFlip:
                 intake.IntakeOut();
-                intake.FlipDown();
-                if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 250))
+                IntakeFlipDown();
+                if(IsIntakeFlipAtPosition(250))
                     intake.OpenClaw();
-                if(IntakeGo && intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 50)) {
-//                    IntakeGo = false;
-                    intaking = Intaking.IntakeSlide;
-                }
-                break;
-            case IntakeFlipAuto:
-                intake.IntakeOut();
-                intake.SetIntakeFlipPosition(intakeHeightOffset);
-
-                if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 250))
-                    intake.OpenClaw();
-                if(IntakeGo && intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, 50)) {
+                if(IntakeGo && IsIntakeFlipAtPosition(50)) {
 //                    IntakeGo = false;
                     intaking = Intaking.IntakeSlide;
                 }
@@ -241,18 +248,20 @@ public class Bertha{
                 lift.MoveLift(Lift.LiftHeight.High);
                 intake.IntakeIn();
                 turret.SlideIn();
-                intake.FlipDown();
+                IntakeFlipDown();
                 if(lift.IsLiftAtPosition(Constants.LiftMid, 200)) {
                     lift.MoveLift(Lift.LiftHeight.High);
 //                    extaking = Extaking.TurretAutoTurn;
                     extaking = Extaking.TurretTurnLeft;
 //                    turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
+//                else if(lift.IsLiftAtPosition(Constants.LiftHigh, 200))
+//                    extaking = Extaking.TurretTurnLeft;
                 break;
 //Case that turns turret left
             case TurretTurnLeft:
                 intake.IntakeOut();
-                intake.FlipDown();
+                IntakeFlipDown();
                 intake.OpenClaw();
                 turret.MoveHorizontal(Constants.TurretHorizontalCycle);
                 if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
@@ -263,7 +272,7 @@ public class Bertha{
 //Case that turns turret right
             case TurretTurnRight:
                 intake.IntakeOut();
-                intake.FlipDown();
+                IntakeFlipDown();
                 intake.OpenClaw();
                 turret.MoveHorizontal(Constants.TurretRight);
                 if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
@@ -274,7 +283,7 @@ public class Bertha{
 //Case that automatically turns the turret to junction off camera
             case TurretAutoTurn:
                 intake.IntakeOut();
-                intake.FlipDown();
+                IntakeFlipDown();
                 intake.OpenClaw();
                 turretPose = Constants.TurretHorizontalCycle;
                 slidePose1 = Constants.SlideIn;
@@ -309,8 +318,6 @@ public class Bertha{
                 turret.OpenClaw();
                 extaking = Extaking.None;
                 break;
-
-
 //This is the case that starts the reset
             case Reset:
                 turret.MoveVertical(Turret.TurretHeight.CycleVertical);
@@ -432,7 +439,7 @@ public class Bertha{
 //        turret.SlideOut();
 //        intakeScheduler.schedule(() -> {
 //            turret.MoveVertical(Turret.TurretHeight.Low);
-//            intake.FlipDown();
+//            IntakeFlipDown();
 //    }, 500);
 //        intakeScheduler.schedule(() -> intake.IntakeOut(), 300);
 //        intakeScheduler.schedule(() -> intake.OpenClaw(), 500);
@@ -559,7 +566,10 @@ public class Bertha{
     public void ToggleClawFlip() {
         intake.ToggleFlip();
     }
-    public void IntakeFlipDown(){
+    public void IntakeFlipDown() {
+        if (intakeHeightOffset > 0) {
+            intake.SetIntakeFlipPosition(intakeHeightOffset, Constants.HighVelocity);
+        }
         intake.FlipDown();
     }
 }
