@@ -67,6 +67,7 @@ public class Bertha{
     protected Telemetry telemetry;
 
     private boolean IntakeGo = false;
+    private boolean TurretGo = false;
     private Lift.LiftHeight LiftHeight;
     private int LiftPosition = 3;
 
@@ -253,6 +254,7 @@ public class Bertha{
                     lift.MoveLift(Lift.LiftHeight.High);
 //                    extaking = Extaking.TurretAutoTurn;
                     extaking = Extaking.TurretTurnLeft;
+                    TurretGo = true;
 //                    turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
 //                else if(lift.IsLiftAtPosition(Constants.LiftHigh, 200))
@@ -293,10 +295,11 @@ public class Bertha{
                 break;
 //ClawOpening then moving to returning
             case ClawDrop:
-                turret.OpenClaw();
+                turret.FullOpenClaw();
                 intake.OpenClaw();
                 state = State.None;
                 intaking = Intaking.TurretSlideOut;
+                TurretGo = false;
                 if(timer.milliseconds() >= 100)
                     turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 if(timer.milliseconds() >= 300) {
@@ -505,7 +508,14 @@ public class Bertha{
         state = State.None;
         turret.MoveHorizontal(Turret.TurretHorizontal.Left);
     }
-
+    public void TurretTurnRight(){
+        if(TurretGo)
+            extaking = Extaking.TurretTurnRight;
+    }
+    public void TurretTurnLeft(){
+        if(TurretGo)
+            extaking = Extaking.TurretTurnLeft;
+    }
     public void LiftMedium() {
         lift.MoveLift(Lift.LiftHeight.Medium);
     }
@@ -529,7 +539,7 @@ public class Bertha{
         else if(LiftPosition == 1)
             LiftHeight = Lift.LiftHeight.Low;
         else if(LiftPosition == 2)
-            LiftHeight = Lift.LiftHeight.Medium;
+            LiftHeight = Lift.LiftHeight.ActualMedium;
         else if(LiftPosition == 3)
             LiftHeight = Lift.LiftHeight.High;
 

@@ -36,6 +36,7 @@ public class Constants {
     //Claw servo values
     public static double ClawClosed = 0.8;
     public static double ClawOpen = 0.86;
+    public static double ClawFullOpen = 0.95;
 
     //Turret servo values
     public static double TurretRight = 0.05;
@@ -48,8 +49,8 @@ public class Constants {
     public static double PointsPerDegree = 0.0059375;
 
     //Extake servo flip values
-    public static double ExtakeFlipIn = 0.65;
-    public static double ExtakeFlipIn2 = 0.35;
+    public static double ExtakeFlipIn = 0.7;
+    public static double ExtakeFlipIn2 = 0.3;
     public static double ExtakeFlipOut = 0;
     public static double ExtakeFlipOut2 = 1;
     public static double ExtakeFlipLow = 0.4;
