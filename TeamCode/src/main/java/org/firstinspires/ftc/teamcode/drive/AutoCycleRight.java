@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -71,14 +73,28 @@ public class AutoCycleRight extends LinearOpMode{
                                      }
         );
 
-//        //region TrajectoryOut
-//        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
-//
-//                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-//                .splineTo(new Vector2d(c3, c4), Math.toRadians(d2))
-//                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d2)))
-//                .build();
-//        //endregion
+        String pipelineColorSeen = pipeline.ColorSeen;
+        //Initializes Bertha Autonomous with the State to right for the right side
+        BerthaAuto bertha = new BerthaAuto(hardwareMap, telemetry, BerthaAuto.AutoState.Right);
+        bertha.AutoCheck();
+
+        ElapsedTime timer = new ElapsedTime();
+        waitForStart();
+        timer.startTime();
+
+        //bertha.DriveToConeStation();
+        //All the code to drive below can be in this function so it can be used for both right and left driving
+
+        //region TrajectoryOut
+        TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startPose)
+
+                .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
+                .splineTo(new Vector2d(c3, c4), Math.toRadians(d2))
+                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d2)))
+                .build();
+        //endregion
+
+        drive.followTrajectorySequence(TrajectoryOut);
 
 //        //region TrajectoryX
 //        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
@@ -111,12 +127,9 @@ public class AutoCycleRight extends LinearOpMode{
 //
 //        //endregion
 
-        BerthaAuto bertha = new BerthaAuto(hardwareMap, telemetry);
 
-        waitForStart();
-
-        String pipelineColorSeen = pipeline.ColorSeen;
-        bertha.AutoCheck();
+        //Drive to Cone cycling spot
+        //bertha.DriveToConeStation();
 //        drive.followTrajectorySequence(TrajectoryOut);
 
 //
@@ -173,71 +186,33 @@ public class AutoCycleRight extends LinearOpMode{
 //            bertha.AutoReturn();
 //            drive.followTrajectorySequence(TrajectoryZ);
 //
+//
+        //Drop First code
+        bertha.DropFirstCone();
+
+        //Cycle remaining Code while we have cones and our timer is less than 25 seconds
+        while (opModeIsActive() && bertha.GetConeCount() <= Constants.ConeCount && timer.seconds() <= 25)
+        {
+            bertha.CycleCone();
+        }
+
+        //Cycle Bertha to default state
+       bertha.CycleDown();
+
+        //Park Bertha
+        //bertha.Park(pipelineColorSeen);
+//        if(pipelineColorSeen == "Green") {
+//          drive.followTrajectorySequence(TrajectoryX);
 //        }
-        ElapsedTime timer = new ElapsedTime();
-        int coneCount = 0;
-
-        //drop first cone
-        bertha.TeleOpCycle();
-        bertha.intakeHeightOffset = GetIntakeOffsetHeight(1);
-        while(bertha.extaking != Bertha.Extaking.None)
-        {
-            bertha.RunOpMode();
-
-            if(bertha.extaking == Bertha.Extaking.TurretTurnLeft)
-                bertha.extaking = Bertha.Extaking.TurretTurnRight;
-            else if(coneCount <1 && bertha.extaking == Bertha.Extaking.None) {
-                bertha.PlaceConeOverJunction();
-                bertha.turret.Wait(500);
-                bertha.extaking = Bertha.Extaking.ClawDrop;
-                coneCount++;
-                bertha.intakeHeightOffset = GetIntakeOffsetHeight(coneCount);
-            }
-        }
-
-        bertha.intakeHeightOffset = GetIntakeOffsetHeight(coneCount);
-        while (opModeIsActive() && coneCount <= Constants.ConeCount ) {
-            bertha.RunOpMode();
-            if(bertha.extaking == Bertha.Extaking.TurretTurnLeft)
-                bertha.extaking = Bertha.Extaking.TurretTurnRight;
-            else if(bertha.extaking == Bertha.Extaking.None
-                    && bertha.lift.IsLiftAtPosition(Constants.LiftHigh, 200)) {
-                bertha.PlaceConeOverJunction();
-                bertha.turret.Wait(500);
-                bertha.extaking = Bertha.Extaking.ClawDrop;
-                coneCount++;
-                bertha.intakeHeightOffset = GetIntakeOffsetHeight(coneCount);
-            }
-            telemetry.addData("Cone Count", coneCount);
-        }
-
-        bertha.Reset();
-        while(bertha.extaking == Bertha.Extaking.Reset || bertha.intaking == Bertha.Intaking.Reset)
-        {
-            bertha.RunOpMode();
-        }
-
-        //Park
+//
+//        if(pipelineColorSeen == "Orange") {
+//            drive.followTrajectorySequence(TrajcectoryY);
+//        }
+//
+//        if(pipelineColorSeen == "Purple") {
+//           drive.followTrajectorySequence(TrajectoryZ);
+//        }
     }
 
-    private int GetIntakeOffsetHeight(int coneCount){
-        switch (coneCount){
-            case 1:
-                return Constants.IntakeFlips1;
 
-            case 2:
-                return Constants.IntakeFlips2;
-
-            case 3:
-                return Constants.IntakeFlips3;
-
-            case 4:
-                return Constants.IntakeFlips4;
-
-            case 5:
-                return Constants.IntakeFlips5;
-
-        }
-        return 0;
-    }
 }

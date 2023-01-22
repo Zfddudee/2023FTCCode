@@ -10,18 +10,116 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
 
 public class BerthaAuto extends Bertha {
-    public BerthaAuto (HardwareMap hardwareMap, Telemetry telemetry) {
+    enum AutoState{
+        Right,
+        Left
+    };
+
+    private AutoState state;
+    private int coneCount;
+
+    public BerthaAuto (HardwareMap hardwareMap, Telemetry telemetry, AutoState runState) {
         super(hardwareMap, telemetry);
+        coneCount = 0;
+        state = runState;
     }
 
-        public void AutoCheck() {
+    public void SetState(AutoState newState){
+        state = newState;
+    }
+    public void AutoCheck() {
         turret.CloseClaw();
         turret.SlideIn();
     }
 
+    public int GetConeCount(){
+        return coneCount;
+    }
+
     public void PlaceConeOverJunction() {
-        turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
+        if(state == AutoState.Right)
+            turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
+        else
+            turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
         turret.MoveVertical(Turret.TurretHeight.Flipped);
+    }
+
+    public void DropFirstCone(){
+        //drop first cone
+        TeleOpCycle();
+//        bertha.intakeHeightOffset = GetIntakeOffsetHeight(1);
+        while(extaking != Bertha.Extaking.None)
+        {
+            RunOpMode();
+
+            if(state == AutoState.Right && extaking == Bertha.Extaking.TurretTurnLeft)
+                extaking = Bertha.Extaking.TurretTurnRight;
+            else if(coneCount <1 && extaking == Bertha.Extaking.None) {
+                PlaceConeOverJunction();
+                turret.Wait(500);
+                extaking = Bertha.Extaking.ClawDrop;
+                coneCount++;
+                intakeHeightOffset = GetIntakeOffsetHeight();
+            }
+        }
+    }
+
+    public void CycleCone(){
+        intakeHeightOffset = GetIntakeOffsetHeight();
+        RunOpMode();
+        if(extaking == Bertha.Extaking.TurretTurnLeft)
+            extaking = Bertha.Extaking.TurretTurnRight;
+        else if(extaking == Bertha.Extaking.None
+                && lift.IsLiftAtPosition(Constants.LiftHigh, 200)) {
+            PlaceConeOverJunction();
+            turret.Wait(500);
+            extaking = Bertha.Extaking.ClawDrop;
+            coneCount++;
+            intakeHeightOffset = GetIntakeOffsetHeight();
+        }
+        telemetry.addData("Cone Count", coneCount);
+    }
+
+    public void CycleDown(){
+        Reset();
+        while(extaking == Bertha.Extaking.Reset || intaking == Bertha.Intaking.Reset)
+        {
+            RunOpMode();
+        }
+        turret.Wait(1000);
+    }
+
+    private int GetIntakeOffsetHeight(){
+        switch (coneCount){
+            case 1:
+                return Constants.IntakeFlips1;
+
+            case 2:
+                return Constants.IntakeFlips2;
+
+            case 3:
+                return Constants.IntakeFlips3;
+
+            case 4:
+                return Constants.IntakeFlips4;
+
+            case 5:
+                return Constants.IntakeFlips5;
+
+        }
+        return 0;
+    }
+
+    public void DriveToConeStation(){
+        ///TODO: Put all the code to drive from park to cone cycling station.
+        //The state  should set the variable to drive to the right or
+        //to the left
+    }
+
+    public void Park(String station){
+        ///TODO: add all logic to drive cone cycling to parking spot.
+        //Code should know if it's on the right or left and which station to drive
+        //to.  String station is just a place holder, replace with what you think is correct
     }
 }
 

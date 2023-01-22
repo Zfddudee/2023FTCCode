@@ -64,7 +64,7 @@ public class Bertha{
     private State state;
     protected Intaking intaking;
     protected Extaking extaking;
-    private Telemetry telemetry;
+    protected Telemetry telemetry;
 
     private boolean IntakeGo = false;
     private Lift.LiftHeight LiftHeight;
@@ -122,15 +122,15 @@ public class Bertha{
     }
 
     private boolean IsIntakeFlipAtPosition(int buffer){
-        if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips,buffer))
+        if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips, buffer))
             return true;
-        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips1,buffer))
+        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips1, buffer))
             return true;
-        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips2,buffer))
+        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips2, buffer))
             return true;
-        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips3,buffer))
+        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips3, buffer))
             return true;
-        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips4,buffer))
+        else if(intake.IsIntakeFlipAtPosition(Constants.IntakeFlips4, buffer))
             return true;
         else
             return false;
@@ -566,6 +566,11 @@ public class Bertha{
     public void ToggleClawFlip() {
         intake.ToggleFlip();
     }
+
+    /**
+     * IntakeFlipDown allows manipulation over the offset to
+     * give control over the height that the intake is at
+     */
     public void IntakeFlipDown() {
         if (intakeHeightOffset > 0) {
             intake.SetIntakeFlipPosition(intakeHeightOffset, Constants.HighVelocity);
