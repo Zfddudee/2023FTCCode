@@ -518,10 +518,12 @@ public class Bertha{
     }
     public void LiftPositioning(int Pos){
         if(LiftPosition > 3)
-            Pos = 3;
+            LiftPosition = 3;
         if(LiftPosition < 0)
-            Pos = 0;
+            LiftPosition = 0;
+
         LiftPosition = LiftPosition + Pos;
+
         if(LiftPosition == 0)
             LiftHeight = Lift.LiftHeight.Default;
         else if(LiftPosition == 1)

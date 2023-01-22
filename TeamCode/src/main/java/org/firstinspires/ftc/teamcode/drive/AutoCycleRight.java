@@ -29,23 +29,23 @@ public class AutoCycleRight extends LinearOpMode{
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         //region Variables
 
-        Pose2d startPose = new Pose2d(-35, -61, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(35, -62, Math.toRadians(270));
 
-        double d1 = 270;
+        double d1 = 90;
         double d2 = 0;
 
         //region
 
         // This is an x value
-        double c1 = -35;
+        double c1 = 35;
         // This is a y value
         double c2 = -30;
         // This is an x value
-        double c3 = -45;
+        double c3 = 45;
         // This is a y value
         double c4 = -11.5;
         // This is an x value
-        double c5 = -52;
+        double c5 = 52;
 
         //endregion
 
@@ -90,11 +90,12 @@ public class AutoCycleRight extends LinearOpMode{
 
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
                 .splineTo(new Vector2d(c3, c4), Math.toRadians(d2))
-                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d2)))
+//                .splineToLinearHeading(new Pose2d(c3, c4), Math.toRadians(d2))
+//                .lineToSplineHeading(new Pose2d(c5, c4, Math.toRadians(d2)))
                 .build();
         //endregion
 
-        drive.followTrajectorySequence(TrajectoryOut);
+//        drive.followTrajectorySequence(TrajectoryOut);
 
 //        //region TrajectoryX
 //        TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(TrajectoryOut.end())
