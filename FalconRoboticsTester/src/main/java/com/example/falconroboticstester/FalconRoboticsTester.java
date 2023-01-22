@@ -67,16 +67,16 @@ public class FalconRoboticsTester {
 
         }
         else if(mode == Mode.MiddleTest1) {
-            v.Init(35, 62, 270, -12, 0, 90);
+            v.Init(35, 62, 90, -12, 0, 90);
 
-            v.d1 = 270;
-            v.d2 = 180;
-            v.d3 = 0;
+            v.d1 = 90;
+            v.d2 = 0;
+            v.d3 = 180;
 
             v.c1 = 35;
             v.c2 = 20;
             v.c3 = 13;
-            v.c4 = 47;
+            v.c4 = 17;
             v.c5 = 12;
 
         }
