@@ -54,6 +54,32 @@ public class FalconRoboticsTester {
             v.c5 = 52;
 
         }
+        else if(mode == Mode.SpeedTest1) {
+            v.Init(35, 62, 270, -12, 0, 90);
+
+            v.d1 = 180;
+            v.d2 = 0;
+
+            v.c1 = 35;
+            v.c2 = 20;
+            v.c3 = 47;
+            v.c4 = 12;
+
+        }
+        else if(mode == Mode.MiddleTest1) {
+            v.Init(35, 62, 270, -12, 0, 90);
+
+            v.d1 = 270;
+            v.d2 = 180;
+            v.d3 = 0;
+
+            v.c1 = 35;
+            v.c2 = 20;
+            v.c3 = 13;
+            v.c4 = 47;
+            v.c5 = 12;
+
+        }
 
         else
         {
@@ -65,7 +91,9 @@ public class FalconRoboticsTester {
     public static void main(String[] args) {
 
 //        Vars v = GetVars(Mode.Left1);
-          Vars v = GetVars(Mode.Right1);
+//        Vars v = GetVars(Mode.Right1);
+//        Vars v = GetVars(Mode.SpeedTest1);
+        Vars v = GetVars(Mode.MiddleTest1);
 
         MeepMeep meepMeep = new MeepMeep(800);
 
@@ -76,10 +104,16 @@ public class FalconRoboticsTester {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(v.startPose)
 
+//region SpeedTest
+//                                .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(180)))
+//                                .splineToConstantHeading(new Vector2d(v.c3, v.c4), Math.toRadians(0))
+//endregion
 
+//region MiddleManTest
                                 .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(v.d1)))
-                                .splineTo(new Vector2d(v.c3, v.c4), Math.toRadians(v.d2))
-                                .lineToSplineHeading(new Pose2d(v.c5, v.c4, Math.toRadians(v.d2)))
+                                .lineToSplineHeading(new Pose2d(v.c1, v.c3, Math.toRadians(v.d2)))
+                                .splineToConstantHeading(new Vector2d(v.c4, v.c5), Math.toRadians(v.d3))
+//endregion
 
                                 .build()
                 );
