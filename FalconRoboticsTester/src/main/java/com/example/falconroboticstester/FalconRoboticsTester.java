@@ -54,7 +54,7 @@ public class FalconRoboticsTester {
             v.c5 = 52;
 
         }
-        else if(mode == Mode.SpeedTest1) {
+        else if(mode == Mode.SpeedTestRight) {
             v.Init(35, 62, 270, -12, 0, 90);
 
             v.d1 = 180;
@@ -66,7 +66,7 @@ public class FalconRoboticsTester {
             v.c4 = 12;
 
         }
-        else if(mode == Mode.MiddleTest1) {
+        else if(mode == Mode.MiddleTestRight) {
             v.Init(35, 62, 270, -12, 0, 90);
 
             v.d1 = 270;
@@ -93,7 +93,7 @@ public class FalconRoboticsTester {
 //        Vars v = GetVars(Mode.Left1);
 //        Vars v = GetVars(Mode.Right1);
 //        Vars v = GetVars(Mode.SpeedTest1);
-        Vars v = GetVars(Mode.MiddleTest1);
+        Vars v = GetVars(Mode.MiddleTestRight);
 
         MeepMeep meepMeep = new MeepMeep(800);
 
