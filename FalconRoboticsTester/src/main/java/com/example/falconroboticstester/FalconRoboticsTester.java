@@ -54,7 +54,7 @@ public class FalconRoboticsTester {
             v.c5 = 52;
 
         }
-        else if(mode == Mode.SpeedTestRight) {
+        else if(mode == Mode.SpeedTest1) {
             v.Init(35, 62, 270, -12, 0, 90);
 
             v.d1 = 180;
@@ -66,27 +66,18 @@ public class FalconRoboticsTester {
             v.c4 = 12;
 
         }
-        else if(mode == Mode.SpeedTestLeft) {}
-        else if(mode == Mode.MiddleTestRight) {
-            v.Init(-35, 62, 90, -12, 0, 90);
+        else if(mode == Mode.MiddleTest1) {
+            v.Init(35, 62, 270, -12, 0, 90);
 
-            v.d1 = 90;
+            v.d1 = 270;
             v.d2 = 180;
-            v.d3 = 270;
+            v.d3 = 0;
 
-            v.c1 = -35;
+            v.c1 = 35;
             v.c2 = 20;
             v.c3 = 13;
-            v.c4 = -47;
+            v.c4 = 47;
             v.c5 = 12;
-            v.c6 = -57;
-            v.c7 = -59;
-            v.c8 = 23;
-            v.c9 = -38;
-            v.c10 = -18;
-            v.c11 = -12;
-
-
 
         }
 
@@ -102,7 +93,7 @@ public class FalconRoboticsTester {
 //        Vars v = GetVars(Mode.Left1);
 //        Vars v = GetVars(Mode.Right1);
 //        Vars v = GetVars(Mode.SpeedTest1);
-        Vars v = GetVars(Mode.MiddleTestRight);
+        Vars v = GetVars(Mode.MiddleTest1);
 
         MeepMeep meepMeep = new MeepMeep(800);
 
@@ -121,24 +112,8 @@ public class FalconRoboticsTester {
 //region MiddleManTest
                                 .lineToSplineHeading(new Pose2d(v.c1, v.c2, Math.toRadians(v.d1)))
                                 .lineToSplineHeading(new Pose2d(v.c1, v.c3, Math.toRadians(v.d2)))
-                                .splineToConstantHeading(new Vector2d(v.c4, v.c5), Math.toRadians(v.d2))
+                                .splineToConstantHeading(new Vector2d(v.c4, v.c5), Math.toRadians(v.d3))
 //endregion
-
-                                //region Right 1
-//                                .lineToSplineHeading(new Pose2d(v.c6, v.c5, Math.toRadians(v.d3)))
-//                                .splineToConstantHeading(new Vector2d(v.c7, v.c8), Math.toRadians(v.d1))
-                                //endregion
-
-                                //region Right 2
-//                                .lineToSplineHeading(new Pose2d(v.c9, v.c5, Math.toRadians(v.d1)))
-//                                .splineToConstantHeading(new Vector2d(v.c1,v.c8), Math.toRadians(v.d1))
-                                //endregion
-
-                                //region Right 3
-                                .lineToSplineHeading(new Pose2d(v.c10, v.c5, Math.toRadians(v.d2)))
-                                .lineToSplineHeading(new Pose2d(v.c11, v.c5, Math.toRadians(v.d1)))
-                                .splineToConstantHeading(new Vector2d(v.c11, v.c8), Math.toRadians(v.d1))
-                                //endregion
 
                                 .build()
                 );

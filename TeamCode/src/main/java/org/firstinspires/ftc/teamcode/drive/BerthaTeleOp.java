@@ -21,6 +21,8 @@ public class BerthaTeleOp extends LinearOpMode {
     private boolean ButtonY = false;
     private boolean ButtonX = false;
     private boolean ButtonB = false;
+    private boolean DpadUp = false;
+    private boolean DpadDown = false;
     private boolean Share = false;
     private boolean Gamepad2X = false;
     public double X1;
@@ -202,22 +204,24 @@ public class BerthaTeleOp extends LinearOpMode {
         //resets robot to moving position
         else if(gamepad2.share)
             bertha.Reset();
-        //manually move arm
-        else if(gamepad2.left_stick_y != 0)
-            bertha.TurretVertical(Constants.TurretVerticalStepOver * gamepad2.left_stick_y * Constants.TurretVertialSpeedMultiplier);
-        //manually move turret
-        else if(gamepad2.right_stick_x != 0)
-            bertha.TurretHorizontal(Constants.TurretStepOver * gamepad2.right_stick_x * Constants.TurretHorizontalSpeedMultiplier);
-        else if(gamepad2.dpad_up)
+        else if(gamepad2.dpad_up && !DpadUp) {
             bertha.LiftPositioning(1);
-        else if(gamepad2.dpad_down)
+            DpadUp = true;
+        }
+        else if(gamepad2.dpad_down && !DpadDown) {
             bertha.LiftPositioning(-1);
-        //centers turret
+            DpadDown = true;
+        }
+        else if(gamepad2.dpad_right) {
+            bertha.LiftPositioning(-1);
+        }
+        else if(gamepad2.dpad_left) {
+            bertha.LiftPositioning(-1);
+        }
+            //centers turret
         else if(gamepad2.touchpad)
             bertha.TurretCenter();
-//        else if(gamepad2.left_stick_button)
-//            bertha.ExchangeToExtake();
-        //toggle between extake slide positions
+            //toggle between extake slide positions
         else if(gamepad2.x) {
             if (!Gamepad2X) {
                 bertha.ExtakeSlideInOut();
@@ -226,6 +230,20 @@ public class BerthaTeleOp extends LinearOpMode {
         }
         else if(!gamepad2.x)
             Gamepad2X = false;
+
+        //manually move arm
+        if(gamepad2.left_stick_y != 0)
+            bertha.TurretVertical(Constants.TurretVerticalStepOver * gamepad2.left_stick_y * Constants.TurretVertialSpeedMultiplier);
+        //manually move turret
+        if(gamepad2.right_stick_x != 0)
+            bertha.TurretHorizontal(Constants.TurretStepOver * gamepad2.right_stick_x * Constants.TurretHorizontalSpeedMultiplier);
+
+//        else if(gamepad2.left_stick_button)
+//            bertha.ExchangeToExtake();
+        if(!gamepad2.dpad_down)
+            DpadDown = false;
+        if(!gamepad2.dpad_up)
+            DpadUp = false;
 
     }
 }

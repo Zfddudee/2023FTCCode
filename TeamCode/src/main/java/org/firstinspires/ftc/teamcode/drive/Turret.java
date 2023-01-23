@@ -151,6 +151,9 @@ public class Turret extends BaseRobot{
     public void OpenClaw() {
         Claw.setPosition(Constants.ClawOpen);
     }
+    public void FullOpenClaw() {
+        Claw.setPosition(Constants.ClawFullOpen);
+    }
 
     public void CloseClaw() {
         Claw.setPosition(Constants.ClawClosed);

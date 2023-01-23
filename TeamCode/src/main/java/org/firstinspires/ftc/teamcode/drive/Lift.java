@@ -16,6 +16,7 @@ public class Lift extends BaseRobot{
         High,
         AutoHigh,
         Medium,
+        ActualMedium,
         Default,
         Low
     }
@@ -33,6 +34,8 @@ public class Lift extends BaseRobot{
             MoveLift(Constants.LiftHigh);
          else if(height == LiftHeight.AutoHigh)
              MoveLift(Constants.AutoLiftHigh);
+         else if(height == LiftHeight.ActualMedium)
+             MoveLift(Constants.LiftMid);
         else if(height == LiftHeight.Low)
             MoveLift(Constants.LiftLow);
     }
