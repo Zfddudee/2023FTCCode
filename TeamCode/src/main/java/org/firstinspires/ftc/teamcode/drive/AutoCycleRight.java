@@ -36,7 +36,7 @@ public class AutoCycleRight extends LinearOpMode{
         timer.startTime();
 
         //Drive to Cones
-        bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Conservative);
+        bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Fast);
 
         //TODO MAKE SURE TO UNBLOCK THIS TO ALLOW CYCLES TO HAPPEN
         //region UNBLOCK THIS TO ALLOW CYCLES

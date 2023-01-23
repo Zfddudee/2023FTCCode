@@ -74,12 +74,12 @@ public class Constants {
     public static double TurretHorizontalSpeedMultiplier = 1.5;
 
     //Extake servo slide values
-    public static double SlideOut = 1;
-    public static double SlideOut2 = 0;
+    public static double SlideOut = 1; //0.91
+    public static double SlideOut2 = 0; //0.15
     public static double SlideIn = 0.1;
     public static double SlideIn2 = 0.9;
-    public static double SlideMid = 0.8; //0.725
-    public static double SlideMid2 = 0.25; //0.35
+    public static double SlideMid = 0.725; //0.8
+    public static double SlideMid2 = 0.35; //0.25
     public static double SlideAuto = 0.3;
     public static double SlideAuto2 = 0.7;
     public static double SlideStepover = 0.01;

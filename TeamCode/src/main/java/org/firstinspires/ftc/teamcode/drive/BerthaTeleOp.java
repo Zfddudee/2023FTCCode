@@ -232,7 +232,7 @@ public class BerthaTeleOp extends LinearOpMode {
             Gamepad2X = false;
 
         //manually move arm
-        if(gamepad2.left_stick_y != 0)
+        if(gamepad2.left_stick_y >= 0.2 || gamepad2.left_stick_y <= -0.2)
             bertha.TurretVertical(Constants.TurretVerticalStepOver * gamepad2.left_stick_y * Constants.TurretVertialSpeedMultiplier);
         //manually move turret
         if(gamepad2.right_stick_x != 0)
