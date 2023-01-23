@@ -255,8 +255,11 @@ public class Intake extends BaseRobot {
             OpenClaw();
     }
 
+    /**
+     * Function to flip intake in
+     */
     public void IntakeNewExchange() {
-        SetIntakeFlipPosition(IntakeNewExchange, Constants.LowVelocity);
+        SetIntakeFlipPosition(IntakeNewExchange, Constants.HighVelocity);
     }
 
 }
