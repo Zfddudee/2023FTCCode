@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipelineArea;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -22,7 +23,7 @@ public class AutoCycleRight extends LinearOpMode{
         ClawDrop, None
     }
     OpenCvCamera webcam;
-    ImageDetectorPipeline pipeline;
+    ImageDetectorPipelineArea pipeline;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -34,7 +35,7 @@ public class AutoCycleRight extends LinearOpMode{
         // OR...  Do Not Activate the Camera Monitor View
         //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-        pipeline = new ImageDetectorPipeline(telemetry);
+        pipeline = new ImageDetectorPipelineArea(telemetry);
         webcam.setPipeline(pipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -50,7 +51,7 @@ public class AutoCycleRight extends LinearOpMode{
                                      }
         );
 
-        String pipelineColorSeen = pipeline.ColorSeen;
+//        String pipelineColorSeen = pipeline.ColorSeen;
         //Initializes Bertha Autonomous with the State to right for the right side
         BerthaAuto bertha = new BerthaAuto(hardwareMap, telemetry, BerthaAuto.AutoState.Right);
         bertha.AutoCheck();

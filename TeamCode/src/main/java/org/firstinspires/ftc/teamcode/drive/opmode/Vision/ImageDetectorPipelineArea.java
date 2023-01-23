@@ -115,7 +115,8 @@ public class ImageDetectorPipelineArea extends OpenCvPipeline {
 
             Core.bitwise_and(input, input, maskedInputMat, MaskGreen);
 
-            telemetry.addData("Area", maxArea);
+            telemetry.addData("Position: ", Last);
+            telemetry.addData("Area: ", maxArea);
             telemetry.update();
 
             return maskedInputMat;
