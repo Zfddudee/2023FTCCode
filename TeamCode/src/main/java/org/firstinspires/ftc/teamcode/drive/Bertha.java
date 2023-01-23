@@ -177,6 +177,7 @@ public class Bertha{
                 intake.SlideMotorOut();
                 intake.AutoCloseClaw();
                 if(intake.AutoCloseClaw()) {
+                    intake.SlideStop();
                     intaking = Intaking.SlideIn;
                     timer.reset();
                 }
@@ -185,7 +186,7 @@ public class Bertha{
             case SlideIn:
                 lift.MoveLift(Lift.LiftHeight.Default);
                 intake.CloseClaw();
-            if(timer.milliseconds() >= 100) {
+            if(timer.milliseconds() >= 150) {
                 turret.SlideOut();
                 intake.FlipUp();
                 turret.MoveVertical(Turret.TurretHeight.Default);
@@ -198,6 +199,7 @@ public class Bertha{
             }
                 break;
             case Flipin:
+                turret.OpenClaw();
                 intake.SlideMotorExchange();
                 intake.IntakeNewExchange();
                 if(!intake.AutoCloseClaw()) {
@@ -211,10 +213,10 @@ public class Bertha{
             case ExhchangeToExtake:
                 turret.SlideMid();
                 turret.OpenClaw();
-                if(timer.milliseconds() >= 300){
+                if(timer.milliseconds() >= 250){
                     turret.CloseClaw();
                 }
-                if(timer.milliseconds() >= 400){
+                if(timer.milliseconds() >= 350){
                     intake.OpenClaw();
                     extaking = Extaking.Exchanging;
                     intaking = Intaking.None;

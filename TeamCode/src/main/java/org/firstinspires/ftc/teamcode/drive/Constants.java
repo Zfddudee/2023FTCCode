@@ -78,8 +78,8 @@ public class Constants {
     public static double SlideOut2 = 0;
     public static double SlideIn = 0.1;
     public static double SlideIn2 = 0.9;
-    public static double SlideMid = 0.725;
-    public static double SlideMid2 = 0.35;
+    public static double SlideMid = 0.8; //0.725
+    public static double SlideMid2 = 0.25; //0.35
     public static double SlideAuto = 0.3;
     public static double SlideAuto2 = 0.7;
     public static double SlideStepover = 0.01;
@@ -127,7 +127,7 @@ public class Constants {
     public static int IntakeNewExchange = 20;
 
     //Intake servo flip values
-    public static double ServoIntakeFlipIntaking = 0.15;
+    public static double ServoIntakeFlipIntaking = 0.19;
     public static double ServoIntakeFlipExchanging = 0.87;
     public static double AutoServoIntakeFlipExchanging = 0.95;
 

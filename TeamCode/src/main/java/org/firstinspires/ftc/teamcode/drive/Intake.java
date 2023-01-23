@@ -81,6 +81,7 @@ public class Intake extends BaseRobot {
         SetSlidePosition(Constants.IntakeOut);
     }
 
+
     public void SlideMotorAutoOut(int SlidePose) {
         SetSlidePosition(Constants.IntakeOutAuto1);
     }
@@ -125,6 +126,9 @@ public class Intake extends BaseRobot {
         IntakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx) IntakeSlideMotor).setVelocity(Constants.HighVelocity);
 
+    }
+    public void SlideStop(){
+        ((DcMotorEx) IntakeSlideMotor).setVelocity(0);
     }
     private void SetFlip(double position) {
         IntakeFlip.setPosition(position);
