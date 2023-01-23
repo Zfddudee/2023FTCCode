@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipelineArea;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -26,7 +27,7 @@ public class BerthaAuto extends Bertha {
     private AutonomousDrive drive;
 
     private OpenCvCamera webcam;
-    private ImageDetectorPipeline pipeline;
+    private ImageDetectorPipelineArea pipeline;
 
     public BerthaAuto (HardwareMap map, Telemetry telemetry, AutoState runState) {
         super(map, telemetry);
@@ -43,7 +44,7 @@ public class BerthaAuto extends Bertha {
         // OR...  Do Not Activate the Camera Monitor View
         //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-        pipeline = new ImageDetectorPipeline(telemetry);
+        pipeline = new ImageDetectorPipelineArea(telemetry);
         webcam.setPipeline(pipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -60,9 +61,9 @@ public class BerthaAuto extends Bertha {
         );
     }
 
-    public String GetColorSeen()
+    public int GetParkPosition()
     {
-        return pipeline.ColorSeen;
+        return pipeline.Last;
     }
 
     public void SetState(AutoState newState){
@@ -160,7 +161,7 @@ public class BerthaAuto extends Bertha {
 
     public void Park(){
         ///TODO: add all logic to drive cone cycling to parking spot.
-        drive.Park(GetColorSeen());
+        drive.Park(GetParkPosition());
     }
 }
 

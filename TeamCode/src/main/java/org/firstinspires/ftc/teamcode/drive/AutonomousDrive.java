@@ -88,7 +88,7 @@ public class AutonomousDrive {
     private Pose2d GetStartingPosition() {
         if(direction == DriveDirection.Right)
             // This is the Right Starting Position
-            return new Pose2d(35, 62, Math.toRadians(90));
+            return new Pose2d(-35, 62, Math.toRadians(90));
         else
             // This is the Left Starting Position
             return new Pose2d(-35, -61, Math.toRadians(90));
@@ -160,14 +160,14 @@ public class AutonomousDrive {
         return TrajectoryOut;
     }
 
-    public void Park(String colorSeen){
+    public void Park(int Position){
         SetVariables();
         if(endPosition == null)
             endPosition = new Pose2d(0.0);
         TrajectorySequence sequence;
-        if(colorSeen == "1")
+        if(Position == 1)
             sequence = SetStationOne(endPosition);
-        else if(colorSeen == "2")
+        else if(Position == 2)
             sequence = SetStationTwo(endPosition);
         else
             sequence = SetStationThree(endPosition);

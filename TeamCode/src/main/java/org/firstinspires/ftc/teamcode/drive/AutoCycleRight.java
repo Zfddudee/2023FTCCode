@@ -22,34 +22,9 @@ public class AutoCycleRight extends LinearOpMode{
         PreCone,
         ClawDrop, None
     }
-    OpenCvCamera webcam;
-    ImageDetectorPipelineArea pipeline;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
-
-        // OR...  Do Not Activate the Camera Monitor View
-        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-
-        pipeline = new ImageDetectorPipelineArea(telemetry);
-        webcam.setPipeline(pipeline);
-
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-                                         @Override
-                                         public void onOpened() {
-                                             webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
-                                         }
-
-
-                                         public void onError(int errorCode) {
-
-                                         }
-                                     }
-        );
 
 //        String pipelineColorSeen = pipeline.ColorSeen;
         //Initializes Bertha Autonomous with the State to right for the right side
