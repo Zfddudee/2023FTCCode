@@ -8,12 +8,22 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Config
 public class AutonomousDriveTesting extends LinearOpMode {
 
-    public AutonomousDrive.DriveSpeed speed = AutonomousDrive.DriveSpeed.Conservative;
-    public AutonomousDrive.DriveDirection direction = AutonomousDrive.DriveDirection.Right;
+    private AutonomousDrive.DriveSpeed speed;
+    private AutonomousDrive.DriveDirection direction;
+
+    public boolean IsConservative = true;
+    public boolean IsRight = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
         AutonomousDrive drive = new AutonomousDrive(hardwareMap);
+
+        speed = (IsConservative)? AutonomousDrive.DriveSpeed.Conservative : AutonomousDrive.DriveSpeed.Fast;
+        direction = (IsRight)? AutonomousDrive.DriveDirection.Right : AutonomousDrive.DriveDirection.Left;
+
+        waitForStart();
         drive.Go(speed, direction);
+        while(opModeIsActive()){
+        }
     }
 }

@@ -7,7 +7,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.JunctionPipeline;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class BerthaAuto extends Bertha {
     enum AutoState{
@@ -17,16 +22,53 @@ public class BerthaAuto extends Bertha {
 
     private AutoState state;
     private int coneCount;
+    private HardwareMap hardwareMap;
+    private AutonomousDrive drive;
 
-    public BerthaAuto (HardwareMap hardwareMap, Telemetry telemetry, AutoState runState) {
-        super(hardwareMap, telemetry);
+    private OpenCvCamera webcam;
+    private ImageDetectorPipeline pipeline;
+
+    public BerthaAuto (HardwareMap map, Telemetry telemetry, AutoState runState) {
+        super(map, telemetry);
+        hardwareMap = map;
         coneCount = 0;
         state = runState;
+        InitCamAndPipeline();
+    }
+
+    private void InitCamAndPipeline(){
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
+
+        // OR...  Do Not Activate the Camera Monitor View
+        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
+
+        pipeline = new ImageDetectorPipeline(telemetry);
+        webcam.setPipeline(pipeline);
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                                         @Override
+                                         public void onOpened() {
+                                             webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
+                                         }
+
+
+                                         public void onError(int errorCode) {
+
+                                         }
+                                     }
+        );
+    }
+
+    public String GetColorSeen()
+    {
+        return pipeline.ColorSeen;
     }
 
     public void SetState(AutoState newState){
         state = newState;
     }
+
     public void AutoCheck() {
         turret.CloseClaw();
         turret.SlideIn();
@@ -47,7 +89,7 @@ public class BerthaAuto extends Bertha {
     public void DropFirstCone(){
         //drop first cone
         TeleOpCycle();
-//        bertha.intakeHeightOffset = GetIntakeOffsetHeight(1);
+        intakeHeightOffset = GetIntakeOffsetHeight();
         while(extaking != Bertha.Extaking.None)
         {
             RunOpMode();
@@ -110,16 +152,15 @@ public class BerthaAuto extends Bertha {
         return 0;
     }
 
-    public void DriveToConeStation(){
-        ///TODO: Put all the code to drive from park to cone cycling station.
-        //The state  should set the variable to drive to the right or
-        //to the left
+    public void DriveToConeStation(AutonomousDrive.DriveSpeed speed){
+        drive = new AutonomousDrive(hardwareMap);
+        AutonomousDrive.DriveDirection direction = (state == AutoState.Right)? AutonomousDrive.DriveDirection.Right : AutonomousDrive.DriveDirection.Left;
+        drive.Go(speed, direction);
     }
 
-    public void Park(String station){
+    public void Park(){
         ///TODO: add all logic to drive cone cycling to parking spot.
-        //Code should know if it's on the right or left and which station to drive
-        //to.  String station is just a place holder, replace with what you think is correct
+        drive.Park(GetColorSeen());
     }
 }
 

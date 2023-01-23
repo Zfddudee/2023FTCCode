@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipeline;
-import org.firstinspires.ftc.teamcode.drive.opmode.Vision.ImageDetectorPipelineArea;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -60,92 +59,30 @@ public class AutoCycleRight extends LinearOpMode{
         waitForStart();
         timer.startTime();
 
-        //bertha.DriveToConeStation();
-        //All the code to drive below can be in this function so it can be used for both right and left driving
+        //Drive to Cones
+        bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Conservative);
 
-
-
-    //region
-//        if (pipeline.ColorSeen == "Green") {
-//            bertha.AutoCheck();
-//            drive.followTrajectorySequence(TrajectoryOut);
-//            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
-////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake();
-////            bertha.AutoExtake();
-//            bertha.AutoReturn();
-//            drive.followTrajectorySequence(TrajectoryX);
+        //TODO MAKE SURE TO UNBLOCK THIS TO ALLOW CYCLES TO HAPPEN
+        //region UNBLOCK THIS TO ALLOW CYCLES
+//        try {
+//            //Drop First code
+////            bertha.DropFirstCone();
 //
-//        } else if (pipeline.ColorSeen == "Orange") {
-//           bertha.AutoCheck();
-//            drive.followTrajectorySequence(TrajectoryOut);
-//            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
-////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake();
-////            bertha.AutoExtake();
-//            bertha.AutoReturn();
-//            drive.followTrajectorySequence(TrajectoryY);
-//
-//
-//        } else if (pipeline.ColorSeen == "Purple") {
-//            bertha.AutoCheck();
-//            drive.followTrajectorySequence(TrajectoryOut);
-//            bertha.AutoExtake(Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips1, Constants.IntakeOutAuto1, Turret.TurretHorizontal.AutoRight);
-//            bertha.AutoIntake(Constants.IntakeFlips2, Constants.IntakeOutAuto2, Turret.TurretHorizontal.AutoRight);
-////            bertha.AutoIntake(Constants.IntakeFlips3, Constants.IntakeOutAuto3);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake(Constants.IntakeFlips4, Constants.IntakeOutAuto4);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake(Constants.IntakeFlips5, Constants.IntakeOutAuto5);
-////            bertha.AutoExtakeLeft();
-////            bertha.AutoIntake();
-////            bertha.AutoExtake();
-//            bertha.AutoReturn();
-//            drive.followTrajectorySequence(TrajectoryZ);
-//
-//endregion
-
-        //Drop First code
-        bertha.DropFirstCone();
-
-        //Cycle remaining Code while we have cones and our timer is less than 25 seconds
-        while (opModeIsActive() && bertha.GetConeCount() <= Constants.ConeCount && timer.seconds() <= 25)
-        {
-            bertha.CycleCone();
-        }
-
-        //Cycle Bertha to default state
-       bertha.CycleDown();
+//            //Cycle remaining Code while we have cones and our timer is less than 25 seconds
+//            while (opModeIsActive() && bertha.GetConeCount() <= Constants.ConeCount && timer.seconds() <= 25) {
+////                bertha.CycleCone();
+//            }
+//        }
+//        catch(Exception ex){
+//            telemetry.addData("Exception: ", ex.getMessage());
+//            telemetry.update();
+//            throw new InterruptedException();
+//        }
+//        //Cycle Bertha to default state
+//       bertha.CycleDown();
+        //endregion
 
         //Park Bertha
-        //bertha.Park(pipelineColorSeen);
-//        if(pipelineColorSeen == "Green") {
-//          drive.followTrajectorySequence(TrajectoryX);
-//        }
-//
-//        if(pipelineColorSeen == "Orange") {
-//            drive.followTrajectorySequence(TrajcectoryY);
-//        }
-//
-//        if(pipelineColorSeen == "Purple") {
-//           drive.followTrajectorySequence(TrajectoryZ);
-//        }
+        bertha.Park();
     }
-
-
 }
