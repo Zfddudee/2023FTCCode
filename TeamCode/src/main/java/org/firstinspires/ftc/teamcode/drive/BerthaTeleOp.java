@@ -18,6 +18,7 @@ public class BerthaTeleOp extends LinearOpMode {
     private boolean rightTrigger = false;
     private boolean touchpad = false;
     private boolean ButtonA = false;
+    private boolean GamepadB = false;
     private boolean ButtonY = false;
     private boolean ButtonX = false;
     private boolean ButtonB = false;
@@ -42,6 +43,7 @@ public class BerthaTeleOp extends LinearOpMode {
         pipeline2 = new JunctionPipeline2();
         webcam.setPipeline(pipeline);
         webcam2.setPipeline(pipeline2);
+        Constants.Right = false;
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
                                          @Override
@@ -115,8 +117,8 @@ public class BerthaTeleOp extends LinearOpMode {
         //Todo
         // Remove test program.
         //sets to going to pickup cone positions
-//        else if(gamepad1.b)
-//            bertha.CameraCenterTest();
+        else if(gamepad1.b && !GamepadB)
+            Constants.Right = !Constants.Right;
         else if(gamepad1.y && !ButtonY) {
             bertha.PickUpOverRide();
             ButtonY = true;
@@ -177,6 +179,8 @@ public class BerthaTeleOp extends LinearOpMode {
             ButtonY = false;
         if (!gamepad1.share)
             Share = false;
+        if(!gamepad1.b)
+            GamepadB = false;
     }
 
 //todo fix gamepad 2 controls to be toggles

@@ -155,7 +155,7 @@ public class AutonomousDrive {
     private TrajectorySequence SetAggressivePath(SampleMecanumDrive drive, Pose2d startingPosition){
         TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startingPosition)
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
-                .splineToConstantHeading(new Vector2d(c3, c4), Math.toRadians(d2))
+                .splineToConstantHeading(new Vector2d(c4, c3), Math.toRadians(d2))
                 .build();
         return TrajectoryOut;
     }
