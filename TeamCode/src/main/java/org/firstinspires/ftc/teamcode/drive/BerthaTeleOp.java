@@ -162,8 +162,8 @@ public class BerthaTeleOp extends LinearOpMode {
         else if(gamepad1.right_trigger == 0)
             rightTrigger = false;
         //flips intake wrist flip
-        else if(gamepad1.right_stick_button)
-            bertha.ToggleClawFlip();
+//        else if(gamepad1.right_stick_button)
+//            bertha.ToggleClawFlip();
 
         if (!gamepad1.touchpad)
             touchpad = false;

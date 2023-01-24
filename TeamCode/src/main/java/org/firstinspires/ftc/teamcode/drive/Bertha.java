@@ -267,6 +267,7 @@ public class Bertha{
                 intake.IntakeOut();
                 IntakeFlipDown();
                 intake.OpenClaw();
+                intake.SlideMotorIn();
                 turret.MoveHorizontal(Constants.TurretHorizontalCycle);
                 if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
                     turret.MoveVertical(Turret.TurretHeight.Flipped);
@@ -278,6 +279,7 @@ public class Bertha{
                 intake.IntakeOut();
                 IntakeFlipDown();
                 intake.OpenClaw();
+                intake.SlideMotorIn();
                 turret.MoveHorizontal(Constants.TurretRight);
                 if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
                     turret.MoveVertical(Turret.TurretHeight.Flipped);
@@ -289,6 +291,7 @@ public class Bertha{
                 intake.IntakeOut();
                 IntakeFlipDown();
                 intake.OpenClaw();
+                intake.SlideMotorIn();
                 turretPose = Constants.TurretHorizontalCycle;
                 slidePose1 = Constants.SlideIn;
                 slidePose2 = Constants.SlideIn2;
@@ -325,9 +328,9 @@ public class Bertha{
                 break;
 //This is the case that starts the reset
             case Reset:
+                turret.FullOpenClaw();
                 turret.MoveVertical(Turret.TurretHeight.CycleVertical);
-                turret.OpenClaw();
-                lift.MoveLift(Lift.LiftHeight.Medium);
+                lift.MoveLift(Lift.LiftHeight.ActualMedium);
                 turret.MoveHorizontal(Turret.TurretHorizontal.Center);
                 turret.SlideOut();
                 if(intake.IsIntakeFlipAtPosition(0, 80) && timer.milliseconds() >= 200){
@@ -458,8 +461,10 @@ public class Bertha{
      * B button press on gamepad 2 that brings lift down
      */
     public void IntakeReturn() {
-        timer.reset();
-        extaking = Extaking.ClawDrop;
+        if(extaking == Extaking.None) {
+            timer.reset();
+            extaking = Extaking.ClawDrop;
+        }
     }
 
     /**
@@ -491,7 +496,7 @@ public class Bertha{
     }
 
     public void OpenClaw() {
-        if(lift.LiftPosition() > 200){
+        if(lift.LiftPosition() > 200 && extaking == Extaking.None){
             timer.reset();
         extaking = Extaking.ClawDrop;
         } else turret.OpenClaw();
