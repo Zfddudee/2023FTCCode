@@ -35,27 +35,22 @@ public class AutoCycleRight extends LinearOpMode{
         waitForStart();
         timer.startTime();
 
-        //Drive to Cones
-        bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Fast);
-
         //TODO MAKE SURE TO UNBLOCK THIS TO ALLOW CYCLES TO HAPPEN
         //region UNBLOCK THIS TO ALLOW CYCLES
-//        try {
-//            //Drop First code
-////            bertha.DropFirstCone();
-//
-//            //Cycle remaining Code while we have cones and our timer is less than 25 seconds
-//            while (opModeIsActive() && bertha.GetConeCount() <= Constants.ConeCount && timer.seconds() <= 25) {
-////                bertha.CycleCone();
-//            }
-//        }
-//        catch(Exception ex){
-//            telemetry.addData("Exception: ", ex.getMessage());
-//            telemetry.update();
-//            throw new InterruptedException();
-//        }
-//        //Cycle Bertha to default state
-//       bertha.CycleDown();
+        try {
+            //Drive to Cones
+            bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Fast);
+
+            //Cycle Cones
+            bertha.CycleCones(timer, 25);
+        }
+        catch(Exception ex){
+            telemetry.addData("Exception: ", ex.getMessage());
+            telemetry.update();
+            throw new InterruptedException();
+        }
+        //Cycle Bertha to default state
+        bertha.CycleDown();
         //endregion
 
         //Park Bertha

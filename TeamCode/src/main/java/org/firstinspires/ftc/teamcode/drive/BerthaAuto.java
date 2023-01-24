@@ -87,40 +87,25 @@ public class BerthaAuto extends Bertha {
         turret.MoveVertical(Turret.TurretHeight.Flipped);
     }
 
-    public void DropFirstCone(){
-        //drop first cone
+    public void CycleCones(ElapsedTime timer, int maxTime){
         TeleOpCycle();
         intakeHeightOffset = GetIntakeOffsetHeight();
-        while(extaking != Bertha.Extaking.None)
+        while(extaking != Bertha.Extaking.None && coneCount <= Constants.ConeCount && timer.seconds() < maxTime)
         {
             RunOpMode();
 
             if(state == AutoState.Right && extaking == Bertha.Extaking.TurretTurnLeft)
                 extaking = Bertha.Extaking.TurretTurnRight;
-            else if(coneCount <1 && extaking == Bertha.Extaking.None) {
+            else if(extaking == Bertha.Extaking.None && lift.IsLiftAtPosition(Constants.LiftHigh, 200)) {
                 PlaceConeOverJunction();
                 turret.Wait(500);
                 extaking = Bertha.Extaking.ClawDrop;
                 coneCount++;
                 intakeHeightOffset = GetIntakeOffsetHeight();
             }
-        }
-    }
 
-    public void CycleCone(){
-        intakeHeightOffset = GetIntakeOffsetHeight();
-        RunOpMode();
-        if(extaking == Bertha.Extaking.TurretTurnLeft)
-            extaking = Bertha.Extaking.TurretTurnRight;
-        else if(extaking == Bertha.Extaking.None
-                && lift.IsLiftAtPosition(Constants.LiftHigh, 200)) {
-            PlaceConeOverJunction();
-            turret.Wait(500);
-            extaking = Bertha.Extaking.ClawDrop;
-            coneCount++;
-            intakeHeightOffset = GetIntakeOffsetHeight();
+            telemetry.addData("Cone Count", coneCount);
         }
-        telemetry.addData("Cone Count", coneCount);
     }
 
     public void CycleDown(){
@@ -134,6 +119,7 @@ public class BerthaAuto extends Bertha {
 
     private int GetIntakeOffsetHeight(){
         switch (coneCount){
+            case 0:
             case 1:
                 return Constants.IntakeFlips1;
 
@@ -150,7 +136,7 @@ public class BerthaAuto extends Bertha {
                 return Constants.IntakeFlips5;
 
         }
-        return 0;
+        return Constants.IntakeFlips;
     }
 
     public void DriveToConeStation(AutonomousDrive.DriveSpeed speed){
