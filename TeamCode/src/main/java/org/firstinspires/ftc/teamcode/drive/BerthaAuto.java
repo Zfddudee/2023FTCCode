@@ -61,9 +61,13 @@ public class BerthaAuto extends Bertha {
         );
     }
 
+    public void Read(){
+        Constants.last = pipeline.Last;
+    }
+
     public int GetParkPosition()
     {
-        return pipeline.Last;
+        return Constants.last;
     }
 
     public void SetState(AutoState newState){
@@ -80,24 +84,27 @@ public class BerthaAuto extends Bertha {
     }
 
     public void PlaceConeOverJunction() {
-        if(state == AutoState.Right)
+        turret.SlideMid();
+        if (state == AutoState.Right) {
             turret.MoveHorizontal(Turret.TurretHorizontal.AutoRight);
-        else
+        } else {
             turret.MoveHorizontal(Turret.TurretHorizontal.AutoLeft);
+        }
         turret.MoveVertical(Turret.TurretHeight.Flipped);
     }
 
     public void CycleCones(ElapsedTime timer, int maxTime){
         TeleOpCycle();
         intakeHeightOffset = GetIntakeOffsetHeight();
-        while(extaking != Bertha.Extaking.None && coneCount <= Constants.ConeCount && timer.seconds() < maxTime)
+        while(coneCount <= Constants.ConeCount && timer.seconds() < maxTime)
         {
             RunOpMode();
 
             if(state == AutoState.Right && extaking == Bertha.Extaking.TurretTurnLeft)
                 extaking = Bertha.Extaking.TurretTurnRight;
             else if(extaking == Bertha.Extaking.None && lift.IsLiftAtPosition(Constants.LiftHigh, 200)) {
-                PlaceConeOverJunction();
+                ExtakeSlideMid();
+//                PlaceConeOverJunction();
                 turret.Wait(500);
                 extaking = Bertha.Extaking.ClawDrop;
                 coneCount++;
@@ -118,7 +125,7 @@ public class BerthaAuto extends Bertha {
     }
 
     private int GetIntakeOffsetHeight(){
-        switch (coneCount){
+        switch (coneCount + 1){
             case 0:
             case 1:
                 return Constants.IntakeFlips1;

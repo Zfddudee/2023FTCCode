@@ -163,11 +163,11 @@ public class Bertha{
                 }
                 break;
             case IntakeFlip:
-                intake.IntakeOut();
+//                intake.IntakeOut();
                 IntakeFlipDown();
                 if(IsIntakeFlipAtPosition(250))
                     intake.OpenClaw();
-                if(IntakeGo && IsIntakeFlipAtPosition(50)) {
+                if(IsIntakeFlipAtPosition(50)) {
 //                    IntakeGo = false;
                     intaking = Intaking.IntakeSlide;
                 }
@@ -522,6 +522,9 @@ public class Bertha{
         lift.MoveLift(Lift.LiftHeight.Medium);
     }
 
+    public void ExtakeSlideMid(){
+        turret.SlideMid();
+    }
     public void ExtakeSlideInOut() {
         if(turret.IsSlideOut())
             turret.SlideIn();

@@ -33,13 +33,14 @@ public class AutoCycleRight extends LinearOpMode{
 
         ElapsedTime timer = new ElapsedTime();
         waitForStart();
+        bertha.Read();
         timer.startTime();
 
         //TODO MAKE SURE TO UNBLOCK THIS TO ALLOW CYCLES TO HAPPEN
         //region UNBLOCK THIS TO ALLOW CYCLES
         try {
             //Drive to Cones
-            bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Fast);
+            bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Conservative);
 
             //Cycle Cones
             bertha.CycleCones(timer, 25);

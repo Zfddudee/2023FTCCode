@@ -17,6 +17,7 @@ public class Constants {
     public static boolean CameraOpened2 = false;
 
     public static String CameraState = "None";
+    public static int last;
 
     public static double X1;
     public static double X2;
@@ -117,7 +118,7 @@ public class Constants {
 
     //Intake flip motor values
     public static int IntakeFlips = 550;
-    public static int IntakeFlips1 = 380;
+    public static int IntakeFlips1 = 430;
     public static int IntakeFlips2 = 430;
     public static int IntakeFlips3 = 430;
     public static int IntakeFlips4 = 530;
