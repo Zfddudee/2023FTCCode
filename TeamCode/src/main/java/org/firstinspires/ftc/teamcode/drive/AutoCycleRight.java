@@ -38,6 +38,16 @@ public class AutoCycleRight extends LinearOpMode{
         //Drive to Cones
         bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Fast);
 
+        bertha.TeleOpCycle();
+        while(bertha.GetConeCount() <= Constants.ConeCount && timer.seconds() <= 25){
+            bertha.RunOpMode();
+            if(bertha.extaking == Bertha.Extaking.None && bertha.lift.IsLiftAtPosition(Constants.LiftHigh, 200)){
+                bertha.IncrementCone(1);
+                bertha.lift.Wait(1000);
+                bertha.IntakeReturn();
+            }
+        }
+
         //TODO MAKE SURE TO UNBLOCK THIS TO ALLOW CYCLES TO HAPPEN
         //region UNBLOCK THIS TO ALLOW CYCLES
 //        try {
@@ -55,7 +65,7 @@ public class AutoCycleRight extends LinearOpMode{
 //            throw new InterruptedException();
 //        }
 //        //Cycle Bertha to default state
-//       bertha.CycleDown();
+       bertha.CycleDown();
         //endregion
 
         //Park Bertha

@@ -78,6 +78,9 @@ public class BerthaAuto extends Bertha {
     public int GetConeCount(){
         return coneCount;
     }
+    public void IncrementCone(int step){
+        coneCount += step;
+    }
 
     public void PlaceConeOverJunction() {
         if(state == AutoState.Right)
