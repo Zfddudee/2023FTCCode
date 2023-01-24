@@ -32,18 +32,19 @@ public class AutoCycleRight extends LinearOpMode{
         bertha.AutoCheck();
 
         ElapsedTime timer = new ElapsedTime();
+        Constants.Right = true;
         waitForStart();
         timer.startTime();
 
         //Drive to Cones
-        bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Fast);
+        bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Conservative);
 
         bertha.TeleOpCycle();
-        while(bertha.GetConeCount() <= Constants.ConeCount && timer.seconds() <= 25){
+        while(bertha.GetConeCount() <= Constants.ConeCount && timer.seconds() <= 27){
             bertha.RunOpMode();
             if(bertha.extaking == Bertha.Extaking.None && bertha.lift.IsLiftAtPosition(Constants.LiftHigh, 200)){
                 bertha.IncrementCone(1);
-                bertha.lift.Wait(1000);
+                bertha.lift.Wait(500);
                 bertha.IntakeReturn();
             }
         }

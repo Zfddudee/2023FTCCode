@@ -252,7 +252,14 @@ public class Bertha{
                 intake.IntakeIn();
                 turret.SlideIn();
                 IntakeFlipDown();
-                if(lift.IsLiftAtPosition(Constants.LiftMid, 200)) {
+                if(lift.IsLiftAtPosition(Constants.LiftMid, 200) && Constants.Right) {
+                    lift.MoveLift(Lift.LiftHeight.High);
+//                    extaking = Extaking.TurretAutoTurn;
+                    extaking = Extaking.TurretTurnRight;
+                    TurretGo = true;
+//                    turret.MoveVertical(Turret.TurretHeight.Flipped);
+                }
+                else if(lift.IsLiftAtPosition(Constants.LiftMid, 200)) {
                     lift.MoveLift(Lift.LiftHeight.High);
 //                    extaking = Extaking.TurretAutoTurn;
                     extaking = Extaking.TurretTurnLeft;
@@ -276,6 +283,7 @@ public class Bertha{
                 break;
 //Case that turns turret right
             case TurretTurnRight:
+                turret.SlideMid();
                 intake.IntakeOut();
                 IntakeFlipDown();
                 intake.OpenClaw();

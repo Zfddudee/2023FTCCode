@@ -15,6 +15,7 @@ public class Constants {
     //Boolean that tells weather or not cameras are opened
     public static boolean CameraOpened1 = false;
     public static boolean CameraOpened2 = false;
+    public static boolean Right = false;
 
     public static String CameraState = "None";
 
