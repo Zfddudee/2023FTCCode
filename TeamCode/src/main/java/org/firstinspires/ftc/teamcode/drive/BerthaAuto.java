@@ -26,6 +26,8 @@ public class BerthaAuto extends Bertha {
     private HardwareMap hardwareMap;
     private AutonomousDrive drive;
 
+    private int last;
+
     private OpenCvCamera webcam;
     private ImageDetectorPipelineArea pipeline;
 
@@ -60,44 +62,55 @@ public class BerthaAuto extends Bertha {
                                      }
         );
     }
+    //parking position
+    public void Read(){
+       last = pipeline.Last;
+    }
 
     public int GetParkPosition()
     {
-        return pipeline.Last;
+        return last;
     }
 
-    public void SetState(AutoState newState){
-        state = newState;
-    }
 
+    //Starting check on init to make sure subsytems positions correct.
     public void AutoCheck() {
         turret.CloseClaw();
         turret.SlideIn();
     }
 
+    //Gets amount of cones placed
     public int GetConeCount(){
         return coneCount;
     }
+
+    //Adds one to cone count
     public void IncrementCone(int step){
         coneCount += step;
     }
 
+    //Main function to place all cones
     public void PlaceCones(ElapsedTime timer, int maxTime) {
         TeleOpCycle();
-        GetIntakeOffsetHeight(1);
+        intakeHeightOffset =  GetIntakeOffsetHeight(1);
         while(GetConeCount() <= Constants.ConeCount && timer.seconds() <= maxTime){
-            if(extaking == Bertha.Extaking.TurretTurnLeft)
-                extaking = Bertha.Extaking.TurretTurnRight;
+//            if(!IsCone())
+//                drive.TurnCorrect();
+
+//            if(extaking == Bertha.Extaking.TurretTurnLeft)
+//                extaking = Bertha.Extaking.TurretTurnRight;
             RunOpMode();
-            if(extaking == Bertha.Extaking.None && lift.IsLiftAtPosition(Constants.LiftHigh, 200)){
+//            if(extaking == Bertha.Extaking.None && lift.IsLiftAtPosition(Constants.LiftHigh, 200)){
+            if(extaking == Bertha.Extaking.None && intaking == Intaking.None){
                 IncrementCone(1);
                 this.intakeHeightOffset = GetIntakeOffsetHeight(GetConeCount() + 1);
-                lift.Wait(500);
+//                lift.Wait(500);
                 IntakeReturn();
             }
         }
     }
 
+    //Calls reset and resets everything for auto end
     public void CycleDown(){
         Reset();
         while(extaking == Bertha.Extaking.Reset || intaking == Bertha.Intaking.Reset)
@@ -107,6 +120,7 @@ public class BerthaAuto extends Bertha {
         turret.Wait(1000);
     }
 
+    //Int position for intake arm heights
     private int GetIntakeOffsetHeight(int count){
         switch (count){
             case 1:
@@ -128,12 +142,14 @@ public class BerthaAuto extends Bertha {
         return 0;
     }
 
+    //Function to call and drive to cones
     public void DriveToConeStation(AutonomousDrive.DriveSpeed speed){
         drive = new AutonomousDrive(hardwareMap);
         AutonomousDrive.DriveDirection direction = (state == AutoState.Right)? AutonomousDrive.DriveDirection.Right : AutonomousDrive.DriveDirection.Left;
         drive.Go(speed, direction);
     }
 
+    //Function call to park in correct location
     public void Park(){
         ///TODO: add all logic to drive cone cycling to parking spot.
         drive.Park(GetParkPosition());

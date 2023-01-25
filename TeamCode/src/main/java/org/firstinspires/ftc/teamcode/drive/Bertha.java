@@ -60,6 +60,7 @@ public class Bertha{
 
     ///region Private members
     private ElapsedTime timer;
+    private ElapsedTime timer2;
     private ElapsedTime CurrentTime;
     private State state;
     protected Intaking intaking;
@@ -97,6 +98,7 @@ public class Bertha{
         intake = new Intake(map, tel);
 
         timer = new ElapsedTime();
+        timer2 = new ElapsedTime();
         CurrentTime = new ElapsedTime();
         state = State.None;
         intaking = Intaking.None;
@@ -188,7 +190,7 @@ public class Bertha{
             case SlideIn:
                 lift.MoveLift(Lift.LiftHeight.Default);
                 intake.CloseClaw();
-            if(timer.milliseconds() >= 150) {
+            if(timer.milliseconds() >= 250) {
                 turret.SlideOut();
                 intake.FlipUp();
                 turret.MoveVertical(Turret.TurretHeight.Default);
@@ -258,6 +260,7 @@ public class Bertha{
                     lift.MoveLift(Lift.LiftHeight.High);
 //                    extaking = Extaking.TurretAutoTurn;
                     extaking = Extaking.TurretTurnLeft;
+                    timer2.reset();
                     TurretGo = true;
 //                    turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
@@ -265,6 +268,7 @@ public class Bertha{
                     lift.MoveLift(Lift.LiftHeight.High);
 //                    extaking = Extaking.TurretAutoTurn;
                     extaking = Extaking.TurretTurnRight;
+                    timer2.reset();
                     TurretGo = true;
 //                    turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
@@ -293,6 +297,7 @@ public class Bertha{
                 turret.MoveHorizontal(Constants.TurretRight);
                 if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
                     turret.MoveVertical(Turret.TurretHeight.Flipped);
+                    if(timer2.milliseconds() >= 750)
                     extaking = Extaking.None;
                 }
                 break;
@@ -437,6 +442,12 @@ public class Bertha{
         timer.reset();
         IntakeGo = true;
         intaking = Intaking.TurretSlideOut;
+    }
+    public boolean IsCone(){
+        if(intake.AutoCloseClaw())
+            return true;
+        else
+            return false;
     }
 
     /**

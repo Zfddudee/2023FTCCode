@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import androidx.annotation.RequiresPermission;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -23,9 +25,10 @@ public class AutoCycleRight extends LinearOpMode{
         ClawDrop, None
     }
 
+
+
     @Override
     public void runOpMode() throws InterruptedException {
-
 //        String pipelineColorSeen = pipeline.ColorSeen;
         //Initializes Bertha Autonomous with the State to right for the right side
         BerthaAuto bertha = new BerthaAuto(hardwareMap, telemetry, BerthaAuto.AutoState.Right);
@@ -33,13 +36,16 @@ public class AutoCycleRight extends LinearOpMode{
         bertha.AutoCheck();
 
         ElapsedTime timer = new ElapsedTime();
+
         waitForStart();
+        bertha.Read();
         timer.startTime();
+        timer.reset();
 
         //Drive to Cones
         bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Conservative);
 
-        bertha.PlaceCones(timer, 27);
+        bertha.PlaceCones(timer, 25);
 
         //TODO MAKE SURE TO UNBLOCK THIS TO ALLOW CYCLES TO HAPPEN
         //region UNBLOCK THIS TO ALLOW CYCLES

@@ -43,7 +43,7 @@ public class BerthaTeleOp extends LinearOpMode {
         pipeline2 = new JunctionPipeline2();
         webcam.setPipeline(pipeline);
         webcam2.setPipeline(pipeline2);
-        Constants.Right = false;
+        bertha.IsCycleLeft = true;
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
                                          @Override
@@ -118,7 +118,7 @@ public class BerthaTeleOp extends LinearOpMode {
         // Remove test program.
         //sets to going to pickup cone positions
         else if(gamepad1.b && !GamepadB)
-            Constants.Right = !Constants.Right;
+            bertha.IsCycleLeft = !bertha.IsCycleLeft;
         else if(gamepad1.y && !ButtonY) {
             bertha.PickUpOverRide();
             ButtonY = true;

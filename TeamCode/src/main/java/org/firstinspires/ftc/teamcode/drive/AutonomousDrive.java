@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -62,11 +63,14 @@ public class AutonomousDrive {
         hardwareMap = map;
     }
 
+    //Sets right or left, or conservative or fast
     public void Go(DriveSpeed newSpeed, DriveDirection newDirection) {
         direction = newDirection;
         speed = newSpeed;
         Go();
     }
+
+    //Setting up drive. and sets variables, starting position, initialized trajectory out, sets to aggressive or conservative path then follows trajectory.
     public void Go(){
         drive = new SampleMecanumDrive(hardwareMap);
         SetVariables();
@@ -85,6 +89,7 @@ public class AutonomousDrive {
         endPosition = TrajectoryOut.end();
     }
 
+    //Setting starting positions for right or left
     private Pose2d GetStartingPosition() {
         if(direction == DriveDirection.Right)
             // This is the Right Starting Position
@@ -94,6 +99,7 @@ public class AutonomousDrive {
             return new Pose2d(-35, -61, Math.toRadians(90));
     }
 
+    //Sets all position variables for sides.
     private void SetVariables(){
         if(direction ==DriveDirection.Right) {
             // Right Coordinates
@@ -108,7 +114,7 @@ public class AutonomousDrive {
             // This is a y value
             c3 = 13;
             // This is an x value
-            c4 = -47;
+            c4 = -46.5;
             // This is a y value
             c5 = 12;
             //
@@ -143,6 +149,15 @@ public class AutonomousDrive {
         }
     }
 
+    //Attemp at correcting heading
+//    public void TurnCorrect(){
+//        TrajectorySequence Correct = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+//                .lineToLinearHeading(new Pose2d(c4, c5, Math.toRadians(d3)))
+//                        .build();
+//        drive.followTrajectorySequence(Correct);
+//    }
+
+    //Conservative path
     private TrajectorySequence SetConservativePath( SampleMecanumDrive drive, Pose2d startingPosition){
          TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startingPosition)
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
@@ -152,6 +167,7 @@ public class AutonomousDrive {
         return TrajectoryOut;
     }
 
+    //Aggressive path
     private TrajectorySequence SetAggressivePath(SampleMecanumDrive drive, Pose2d startingPosition){
         TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startingPosition)
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))
@@ -160,6 +176,7 @@ public class AutonomousDrive {
         return TrajectoryOut;
     }
 
+    //Setting position that park goes to based off camera and follows sequence
     public void Park(int Position){
         SetVariables();
         if(endPosition == null)
@@ -175,7 +192,8 @@ public class AutonomousDrive {
         drive.followTrajectorySequence(sequence);
     }
 
-    private TrajectorySequence SetStationOne(Pose2d startPose){
+    //Position one path
+    private TrajectorySequence SetStationThree(Pose2d startPose){
         TrajectorySequence TrajectoryX = drive.trajectorySequenceBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(c6, c5, Math.toRadians(d3)))
                 .splineToConstantHeading(new Vector2d(c7, c8), Math.toRadians(d1))
@@ -183,6 +201,7 @@ public class AutonomousDrive {
         return TrajectoryX;
     }
 
+    //Position two path
     private TrajectorySequence SetStationTwo(Pose2d startPose){
         TrajectorySequence TrajectoryY = drive.trajectorySequenceBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(c9, c5, Math.toRadians(d1)))
@@ -190,7 +209,9 @@ public class AutonomousDrive {
                 .build();
         return TrajectoryY;
     }
-    private TrajectorySequence SetStationThree(Pose2d startPose){
+
+    //Position three path
+    private TrajectorySequence SetStationOne(Pose2d startPose){
         TrajectorySequence TrajectoryZ = drive.trajectorySequenceBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(c10, c5, Math.toRadians(d2)))
                 .lineToSplineHeading(new Pose2d(c11, c5, Math.toRadians(d1)))
