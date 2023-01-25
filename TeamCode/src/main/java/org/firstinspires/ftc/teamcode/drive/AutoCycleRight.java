@@ -29,25 +29,17 @@ public class AutoCycleRight extends LinearOpMode{
 //        String pipelineColorSeen = pipeline.ColorSeen;
         //Initializes Bertha Autonomous with the State to right for the right side
         BerthaAuto bertha = new BerthaAuto(hardwareMap, telemetry, BerthaAuto.AutoState.Right);
+        bertha.IsCycleLeft = false;
         bertha.AutoCheck();
 
         ElapsedTime timer = new ElapsedTime();
-        Constants.Right = true;
         waitForStart();
         timer.startTime();
 
         //Drive to Cones
         bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Conservative);
 
-        bertha.TeleOpCycle();
-        while(bertha.GetConeCount() <= Constants.ConeCount && timer.seconds() <= 27){
-            bertha.RunOpMode();
-            if(bertha.extaking == Bertha.Extaking.None && bertha.lift.IsLiftAtPosition(Constants.LiftHigh, 200)){
-                bertha.IncrementCone(1);
-                bertha.lift.Wait(500);
-                bertha.IntakeReturn();
-            }
-        }
+        bertha.PlaceCones(timer, 27);
 
         //TODO MAKE SURE TO UNBLOCK THIS TO ALLOW CYCLES TO HAPPEN
         //region UNBLOCK THIS TO ALLOW CYCLES
