@@ -297,8 +297,8 @@ public class Bertha{
                 turret.MoveHorizontal(Constants.TurretRight);
                 if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
                         turret.MoveVertical(Turret.TurretHeight.Flipped);
-                        if(timer2.milliseconds() >= 750)
-                        extaking = Extaking.None;
+                    if(timer2.milliseconds() >= 750)
+                            extaking = Extaking.None;
                 }
                 break;
 //Case that automatically turns the turret to junction off camera
