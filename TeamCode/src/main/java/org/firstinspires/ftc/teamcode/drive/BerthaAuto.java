@@ -102,7 +102,7 @@ public class BerthaAuto extends Bertha {
                 extaking = Bertha.Extaking.TurretTurnRight;
             else if(coneCount <1 && extaking == Bertha.Extaking.None) {
                 PlaceConeOverJunction();
-                turret.Wait(500);
+                turret.Wait(100);
                 extaking = Bertha.Extaking.ClawDrop;
                 coneCount++;
                 intakeHeightOffset = GetIntakeOffsetHeight();

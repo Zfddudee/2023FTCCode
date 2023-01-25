@@ -75,8 +75,8 @@ public class Constants {
     public static double TurretHorizontalSpeedMultiplier = 1.5;
 
     //Extake servo slide values
-    public static double SlideOut = 0.91; //0.91
-    public static double SlideOut2 = 0.15; //0.15
+    public static double SlideOut = 1; //0.91
+    public static double SlideOut2 = 0; //0.15
     public static double SlideIn = 0.1;
     public static double SlideIn2 = 0.9;
     public static double SlideMid = 0.75; //0.725
@@ -128,7 +128,7 @@ public class Constants {
     public static int IntakeNewExchange = 20;
 
     //Intake servo flip values
-    public static double ServoIntakeFlipIntaking = 0.19;
+    public static double ServoIntakeFlipIntaking = 0.21;
     public static double ServoIntakeFlipExchanging = 0.87;
     public static double AutoServoIntakeFlipExchanging = 0.95;
 

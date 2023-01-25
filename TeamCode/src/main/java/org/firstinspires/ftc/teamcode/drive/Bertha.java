@@ -186,7 +186,7 @@ public class Bertha{
             case SlideIn:
                 lift.MoveLift(Lift.LiftHeight.Default);
                 intake.CloseClaw();
-            if(timer.milliseconds() >= 150) {
+            if(timer.milliseconds() >= 250) {
                 turret.SlideOut();
                 intake.FlipUp();
                 turret.MoveVertical(Turret.TurretHeight.Default);
@@ -253,6 +253,7 @@ public class Bertha{
                 turret.SlideIn();
                 IntakeFlipDown();
                 if(lift.IsLiftAtPosition(Constants.LiftMid, 200) && Constants.Right) {
+
                     lift.MoveLift(Lift.LiftHeight.High);
 //                    extaking = Extaking.TurretAutoTurn;
                     extaking = Extaking.TurretTurnRight;
