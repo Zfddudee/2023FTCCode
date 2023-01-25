@@ -96,7 +96,7 @@ public class AutonomousDrive {
             return new Pose2d(-35, 62, Math.toRadians(90));
         else
             // This is the Left Starting Position
-            return new Pose2d(-35, -61, Math.toRadians(90));
+            return new Pose2d(-35, -62, Math.toRadians(270));
     }
 
     //Sets all position variables for sides.
@@ -132,7 +132,7 @@ public class AutonomousDrive {
         }
         else{
             // Left Coordinates
-            d1 = 90;
+            d1 = 270;
             d2 = 180;
             d3 = 0;
 
@@ -143,9 +143,21 @@ public class AutonomousDrive {
             // This is a y value
             c3 = 13;
             // This is an x value
-            c4 = 47;
+            c4 = 46.5;
             // This is a y value
             c5 = 12;
+            //
+            c6 = 57;
+            //
+            c7 = 59;
+            //
+            c8 = 23;
+            //
+            c9 = 38;
+            //
+            c10 = 18;
+            //
+            c11 = 12;
         }
     }
 

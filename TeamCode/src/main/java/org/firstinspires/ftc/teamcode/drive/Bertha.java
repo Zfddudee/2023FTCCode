@@ -169,7 +169,7 @@ public class Bertha{
             case IntakeFlip:
                 intake.IntakeOut();
                 IntakeFlipDown();
-                if(IsIntakeFlipAtPosition(250))
+                if(IsIntakeFlipAtPosition(175))
                     intake.OpenClaw();
                 if(IntakeGo && IsIntakeFlipAtPosition(50)) {
 //                    IntakeGo = false;
@@ -296,9 +296,9 @@ public class Bertha{
                 intake.SlideMotorIn();
                 turret.MoveHorizontal(Constants.TurretRight);
                 if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
-                    turret.MoveVertical(Turret.TurretHeight.Flipped);
-                    if(timer2.milliseconds() >= 750)
-                    extaking = Extaking.None;
+                        turret.MoveVertical(Turret.TurretHeight.Flipped);
+                        if(timer2.milliseconds() >= 750)
+                        extaking = Extaking.None;
                 }
                 break;
 //Case that automatically turns the turret to junction off camera
