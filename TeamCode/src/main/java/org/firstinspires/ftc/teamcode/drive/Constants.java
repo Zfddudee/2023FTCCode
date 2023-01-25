@@ -39,7 +39,7 @@ public class Constants {
     public static double ClawFullOpen = 0.95;
 
     //Turret servo values
-    public static double TurretRight = 0.065;
+    public static double TurretRight = 0.075;
     public static double TurretLeft = 1;
     public static double TurretDefault = 0.435;
     public static double TurretHorizontalCycle = 0.707;
