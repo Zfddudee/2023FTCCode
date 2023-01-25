@@ -70,6 +70,7 @@ public class Bertha{
     private boolean TurretGo = false;
     private Lift.LiftHeight LiftHeight;
     private int LiftPosition = 3;
+    public boolean IsCycleLeft;
 
     double LastTime = 0;
     double Dt;
@@ -101,6 +102,7 @@ public class Bertha{
         intaking = Intaking.None;
         extaking = Extaking.None;
         telemetry = tel;
+        IsCycleLeft = true;
     }
 
     ///region Private Helper Functions
@@ -186,7 +188,7 @@ public class Bertha{
             case SlideIn:
                 lift.MoveLift(Lift.LiftHeight.Default);
                 intake.CloseClaw();
-            if(timer.milliseconds() >= 250) {
+            if(timer.milliseconds() >= 150) {
                 turret.SlideOut();
                 intake.FlipUp();
                 turret.MoveVertical(Turret.TurretHeight.Default);
@@ -252,18 +254,17 @@ public class Bertha{
                 intake.IntakeIn();
                 turret.SlideIn();
                 IntakeFlipDown();
-                if(lift.IsLiftAtPosition(Constants.LiftMid, 200) && Constants.Right) {
-
+                if(lift.IsLiftAtPosition(Constants.LiftMid, 200) && IsCycleLeft) {
                     lift.MoveLift(Lift.LiftHeight.High);
 //                    extaking = Extaking.TurretAutoTurn;
-                    extaking = Extaking.TurretTurnRight;
+                    extaking = Extaking.TurretTurnLeft;
                     TurretGo = true;
 //                    turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
                 else if(lift.IsLiftAtPosition(Constants.LiftMid, 200)) {
                     lift.MoveLift(Lift.LiftHeight.High);
 //                    extaking = Extaking.TurretAutoTurn;
-                    extaking = Extaking.TurretTurnLeft;
+                    extaking = Extaking.TurretTurnRight;
                     TurretGo = true;
 //                    turret.MoveVertical(Turret.TurretHeight.Flipped);
                 }
