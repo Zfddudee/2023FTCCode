@@ -43,7 +43,7 @@ public class Constants {
     public static double TurretLeft = 1;
     public static double TurretDefault = 0.435;
     public static double TurretHorizontalCycle = 0.707;
-    public static double AutoLeft = 0.8;
+    public static double AutoLeft = 0.85;
     public static double TurretStepOver = -0.005;
     public static double AutoRight = 0.09;
     public static double PointsPerDegree = 0.0059375;
@@ -120,7 +120,7 @@ public class Constants {
     public static int IntakeFlips1 = 435;
     public static int IntakeFlips2 = 460;
     public static int IntakeFlips3 = 505;
-    public static int IntakeFlips4 = 520;
+    public static int IntakeFlips4 = 535;
     public static int IntakeFlips5 = 550;
     public static int IntakeFlipsLow = 400;
     public static int IntakeFlipsIn = 0;

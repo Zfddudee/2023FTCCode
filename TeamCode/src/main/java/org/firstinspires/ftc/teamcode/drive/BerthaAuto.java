@@ -43,9 +43,6 @@ public class BerthaAuto extends Bertha {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "FalconCam"), cameraMonitorViewId);
 
-        // OR...  Do Not Activate the Camera Monitor View
-        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-
         pipeline = new ImageDetectorPipelineArea(telemetry);
         webcam.setPipeline(pipeline);
 
@@ -96,15 +93,10 @@ public class BerthaAuto extends Bertha {
         while(GetConeCount() <= Constants.ConeCount && timer.seconds() <= maxTime){
 //            if(!IsCone())
 //                drive.TurnCorrect();
-
-//            if(extaking == Bertha.Extaking.TurretTurnLeft)
-//                extaking = Bertha.Extaking.TurretTurnRight;
             RunOpMode();
-//            if(extaking == Bertha.Extaking.None && lift.IsLiftAtPosition(Constants.LiftHigh, 200)){
             if(extaking == Bertha.Extaking.None && intaking == Intaking.None){
                 IncrementCone(1);
                 this.intakeHeightOffset = GetIntakeOffsetHeight(GetConeCount() + 1);
-//                lift.Wait(500);
                 IntakeReturn();
             }
         }

@@ -26,6 +26,7 @@ public class AutoCycleLeft extends LinearOpMode{
         ElapsedTime timer = new ElapsedTime();
 
         waitForStart();
+        bertha.Auto();
         bertha.Read();
         timer.startTime();
         timer.reset();

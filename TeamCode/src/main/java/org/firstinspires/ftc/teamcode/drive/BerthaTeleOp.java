@@ -72,6 +72,7 @@ public class BerthaTeleOp extends LinearOpMode {
 
         );
         waitForStart();
+        bertha.Teleop();
         while (!isStopRequested()) {
             X1 = pipeline.x;
             X2 = pipeline2.x;

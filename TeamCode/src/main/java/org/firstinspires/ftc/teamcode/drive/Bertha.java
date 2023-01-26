@@ -69,6 +69,8 @@ public class Bertha{
 
     private boolean IntakeGo = false;
     private boolean TurretGo = false;
+    private boolean DropGo = false;
+    private boolean Auto = false;
     private Lift.LiftHeight LiftHeight;
     private int LiftPosition = 3;
     public boolean IsCycleLeft;
@@ -156,8 +158,10 @@ public class Bertha{
         // Make possible to press button to just return intake when driving around
         switch (intaking) {
             case TurretSlideOut:
-                if(IsIntakeFlipAtPosition(150))
+                if(IsIntakeFlipAtPosition(150)) {
+                    intake.OpenClaw();
                     intaking = Intaking.IntakeSlide;
+                }
                 else {
                     turret.SlideOut();
                     turret.MoveVertical(Turret.TurretHeight.Low);
@@ -170,6 +174,7 @@ public class Bertha{
                 intake.IntakeOut();
                 IntakeFlipDown();
                 if(IsIntakeFlipAtPosition(175))
+                    turret.MoveVertical(Turret.TurretHeight.Default); //Todo decide
                     intake.OpenClaw();
                 if(IntakeGo && IsIntakeFlipAtPosition(50)) {
 //                    IntakeGo = false;
@@ -209,7 +214,7 @@ public class Bertha{
                 if(!intake.AutoCloseClaw()) {
                     intaking = Intaking.IntakeFlip;
                 }
-                else if(intake.IsIntakeFlipAtPosition(Constants.IntakeNewExchange, 50)) {
+                else if(intake.IsIntakeFlipAtPosition(Constants.IntakeNewExchange, 50) && lift.IsLiftAtPosition(0, 30)) {
                     timer.reset();
                     intaking = Intaking.ExhchangeToExtake;
                 }
@@ -280,24 +285,36 @@ public class Bertha{
                 intake.IntakeOut();
                 IntakeFlipDown();
                 intake.OpenClaw();
-                intake.SlideMotorIn();
-                turret.MoveHorizontal(Constants.TurretHorizontalCycle);
-                if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
+
+                if(Auto) {
+                    turret.SlideMid();
+                    turret.MoveHorizontal(Constants.AutoLeft);
+                }
+                else {
+                    turret.MoveHorizontal(Constants.TurretHorizontalCycle);
+                    intake.SlideMotorIn();
+                }
+                if(lift.IsLiftAtPosition(Constants.LiftHigh, 50)) {
                     turret.MoveVertical(Turret.TurretHeight.Flipped);
-                    extaking = Extaking.None;
+                    DropGo = true;
+                    if(timer2.milliseconds() >= 1000)
+                        extaking = Extaking.None;
                 }
                 break;
 //Case that turns turret right
             case TurretTurnRight:
-                turret.SlideMid();
                 intake.IntakeOut();
                 IntakeFlipDown();
                 intake.OpenClaw();
-                intake.SlideMotorIn();
                 turret.MoveHorizontal(Constants.TurretRight);
-                if(lift.IsLiftAtPosition(Constants.LiftHigh, 100)) {
+                if(Auto)
+                    turret.SlideMid();
+                else
+                    intake.SlideMotorIn();
+                if(lift.IsLiftAtPosition(Constants.LiftHigh, 50)) {
                         turret.MoveVertical(Turret.TurretHeight.Flipped);
-                    if(timer2.milliseconds() >= 750)
+                        DropGo = true;
+                    if(timer2.milliseconds() >= 1000)
                             extaking = Extaking.None;
                 }
                 break;
@@ -320,6 +337,7 @@ public class Bertha{
                 state = State.None;
                 intaking = Intaking.TurretSlideOut;
                 TurretGo = false;
+                DropGo = false;
                 if(timer.milliseconds() >= 100)
                     turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 if(timer.milliseconds() >= 300) {
@@ -343,6 +361,7 @@ public class Bertha{
                 break;
 //This is the case that starts the reset
             case Reset:
+                DropGo = false;
                 turret.FullOpenClaw();
                 turret.MoveVertical(Turret.TurretHeight.CycleVertical);
                 lift.MoveLift(Lift.LiftHeight.ActualMedium);
@@ -457,6 +476,12 @@ public class Bertha{
         timer.reset();
         intaking = Intaking.SlideIn;
     }
+    public void Auto(){
+        Auto = true;
+    }
+    public void Teleop(){
+        Auto = false;
+    }
 
     /**
      * Start intaking process but without distance sensor
@@ -482,7 +507,8 @@ public class Bertha{
      * B button press on gamepad 2 that brings lift down
      */
     public void IntakeReturn() {
-        if(extaking == Extaking.None) {
+//        if(extaking == Extaking.None) {
+        if(DropGo){
             timer.reset();
             extaking = Extaking.ClawDrop;
         }
