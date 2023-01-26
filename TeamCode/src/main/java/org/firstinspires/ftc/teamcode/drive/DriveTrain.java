@@ -198,10 +198,10 @@ public class DriveTrain extends BaseRobot {
     }
 
     public void StompDown() {
-        OdoRetractRear.setPosition(Constants.StompDown);
+        Stomp.setPosition(Constants.StompDown);
     }
 
     public void StompUp() {
-        OdoRetractRear.setPosition(Constants.StompUp);
+        Stomp.setPosition(Constants.StompUp);
     }
 }

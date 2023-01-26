@@ -209,8 +209,14 @@ public class Bertha{
                 break;
             case Flipin:
                 turret.OpenClaw();
-                intake.SlideMotorExchange();
-                intake.IntakeNewExchange();
+                if(Auto){
+                    intake.IntakeNewExchange();
+                    if(intake.IsIntakeFlipAtPosition(300, 75))
+                        intake.SlideMotorExchange();
+                }else {
+                    intake.SlideMotorExchange();
+                    intake.IntakeNewExchange();
+                }
                 if(!intake.AutoCloseClaw()) {
                     intaking = Intaking.IntakeFlip;
                 }

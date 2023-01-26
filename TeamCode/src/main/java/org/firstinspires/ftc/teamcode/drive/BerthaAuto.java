@@ -74,6 +74,7 @@ public class BerthaAuto extends Bertha {
     public void AutoCheck() {
         turret.CloseClaw();
         turret.SlideIn();
+        driveTrain.StompUp();
     }
 
     //Gets amount of cones placed

@@ -145,14 +145,14 @@ public class Intake extends BaseRobot {
     }
 
     /**
-     * This is the servo that flips the intake wheels downwards
+     * This is the servo that flips the intake claw downwards
       */
     public void FlipDown() {
         SetFlip(Constants.ServoIntakeFlipIntaking);
     }
 
     /**
-     * This is the servo that flips the intake wheels upwards
+     * This is the servo that flips the intake claw upwards
      */
     public void FlipUp() {
         SetFlip(Constants.ServoIntakeFlipExchanging);

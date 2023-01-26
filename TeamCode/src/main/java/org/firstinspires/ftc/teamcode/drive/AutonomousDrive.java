@@ -114,9 +114,9 @@ public class AutonomousDrive {
             // This is a y value
             c3 = 13;
             // This is an x value
-            c4 = -46.5;
+            c4 = -49.5;
             // This is a y value
-            c5 = 13;
+            c5 = 12;
             //
             c6 = -57;
             //
@@ -143,7 +143,7 @@ public class AutonomousDrive {
             // This is a y value
             c3 = 13;
             // This is an x value
-            c4 = 45.5;
+            c4 = 46.5;
             // This is a y value
             c5 = 11;
             //
@@ -170,6 +170,10 @@ public class AutonomousDrive {
 //    }
 
     //Conservative path
+    //Y positive towards starting position side to side
+    //Y negative away from starting position side to side
+    //X Negative further away from cones
+    //X Positive closer to cones
     private TrajectorySequence SetConservativePath( SampleMecanumDrive drive, Pose2d startingPosition){
          TrajectorySequence TrajectoryOut = drive.trajectorySequenceBuilder(startingPosition)
                 .lineToSplineHeading(new Pose2d(c1, c2, Math.toRadians(d1)))

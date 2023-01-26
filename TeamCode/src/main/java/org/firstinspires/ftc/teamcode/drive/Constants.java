@@ -26,7 +26,7 @@ public class Constants {
     public static int LowVelocity = 600;
 
     //Stomp servo values
-    public static double StompDown = 0.5;
+    public static double StompDown = 0.13;
     public static double StompUp = 0;
 
     //Odometry servo values
