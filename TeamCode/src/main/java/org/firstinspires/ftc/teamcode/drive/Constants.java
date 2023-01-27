@@ -128,6 +128,7 @@ public class Constants {
 
     //Intake servo flip values
     public static double ServoIntakeFlipIntaking = 0.21;
+    public static double ServoIntakeFlipIntakingTeleOp = 0.2;
     public static double ServoIntakeFlipExchanging = 0.87;
     public static double AutoServoIntakeFlipExchanging = 0.95;
 

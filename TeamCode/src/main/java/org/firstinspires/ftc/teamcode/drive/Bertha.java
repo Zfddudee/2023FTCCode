@@ -665,6 +665,10 @@ public class Bertha{
         if (intakeHeightOffset > 0) {
             intake.SetIntakeFlipPosition(intakeHeightOffset, Constants.HighVelocity);
         }
+        if(Auto)
         intake.FlipDown();
+        else
+            intake.FlipDownTeleOp();
+
     }
 }
