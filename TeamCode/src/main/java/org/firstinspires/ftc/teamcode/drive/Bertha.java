@@ -67,7 +67,7 @@ public class Bertha{
     protected Extaking extaking;
     protected Telemetry telemetry;
 
-    private boolean IntakeGo = false;
+//    private boolean IntakeGo = false;
     private boolean TurretGo = false;
     private boolean DropGo = false;
     private boolean Auto = false;
@@ -176,7 +176,7 @@ public class Bertha{
                 if(IsIntakeFlipAtPosition(175))
                     turret.MoveVertical(Turret.TurretHeight.Default); //Todo decide
                     intake.OpenClaw();
-                if(IntakeGo && IsIntakeFlipAtPosition(50)) {
+                if(IsIntakeFlipAtPosition(50)) {
 //                    IntakeGo = false;
                     intaking = Intaking.IntakeSlide;
                 }
@@ -241,12 +241,13 @@ public class Bertha{
 //This is the case that starts the reset
             case Reset:
                 state = State.None;
-                intake.CloseClaw();
+//                intake.CloseClaw();
                 intake.FlipUp();
                 intake.SlideMotorOut();
                 if(intake.IsIntakeSlideAtPosition(-650, 80)) {
                     intake.IntakeIn();
                     if (intake.IsIntakeFlipAtPosition(0, 80)) {
+                        intake.CloseClaw();
                         intake.SlideMotorIn();
                         turret.MoveHorizontal(Turret.TurretHorizontal.Center);
                         intaking = Intaking.None;
@@ -295,16 +296,24 @@ public class Bertha{
                 if(Auto) {
                     turret.SlideMid();
                     turret.MoveHorizontal(Constants.AutoLeft);
+
+                    if (lift.IsLiftAtPosition(Constants.LiftHigh, 50) && timer2.milliseconds() > 250) {
+                        turret.MoveVertical(Turret.TurretHeight.Flipped);
+                        DropGo = true;
+                        if (timer2.milliseconds() >= 1000)
+                            extaking = Extaking.None;
+                    }
                 }
                 else {
                     turret.MoveHorizontal(Constants.TurretHorizontalCycle);
                     intake.SlideMotorIn();
-                }
-                if(lift.IsLiftAtPosition(Constants.LiftHigh, 50)) {
-                    turret.MoveVertical(Turret.TurretHeight.Flipped);
-                    DropGo = true;
-                    if(timer2.milliseconds() >= 1000)
-                        extaking = Extaking.None;
+
+                    if (lift.IsLiftAtPosition(Constants.LiftHigh, 50)) {
+                        turret.MoveVertical(Turret.TurretHeight.Flipped);
+                        DropGo = true;
+                        if (timer2.milliseconds() >= 1000)
+                            extaking = Extaking.None;
+                    }
                 }
                 break;
 //Case that turns turret right
@@ -315,13 +324,20 @@ public class Bertha{
                 turret.MoveHorizontal(Constants.TurretRight);
                 if(Auto)
                     turret.SlideMid();
-                else
+                if(lift.IsLiftAtPosition(Constants.LiftHigh, 50) && timer2.milliseconds() > 250) {
+                    turret.MoveVertical(Turret.TurretHeight.Flipped);
+                    DropGo = true;
+                    if (timer2.milliseconds() >= 1000)
+                        extaking = Extaking.None;
+                }
+                else{
                     intake.SlideMotorIn();
                 if(lift.IsLiftAtPosition(Constants.LiftHigh, 50)) {
-                        turret.MoveVertical(Turret.TurretHeight.Flipped);
-                        DropGo = true;
-                    if(timer2.milliseconds() >= 1000)
-                            extaking = Extaking.None;
+                    turret.MoveVertical(Turret.TurretHeight.Flipped);
+                    DropGo = true;
+                    if (timer2.milliseconds() >= 1000)
+                        extaking = Extaking.None;
+                }
                 }
                 break;
 //Case that automatically turns the turret to junction off camera
@@ -465,7 +481,6 @@ public class Bertha{
      */
     public void PreConePickup(){
         timer.reset();
-        IntakeGo = true;
         intaking = Intaking.TurretSlideOut;
     }
     public boolean IsCone(){
@@ -578,6 +593,9 @@ public class Bertha{
     }
     public void LiftMedium() {
         lift.MoveLift(Lift.LiftHeight.Medium);
+    }
+    public void LiftFix(int Stepover){
+        lift.MoveLift(lift.LiftPosition() + Stepover);
     }
 
     public void ExtakeSlideInOut() {

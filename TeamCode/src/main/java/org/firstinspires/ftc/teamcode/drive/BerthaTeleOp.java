@@ -218,10 +218,10 @@ public class BerthaTeleOp extends LinearOpMode {
             DpadDown = true;
         }
         else if(gamepad2.dpad_right) {
-            bertha.LiftPositioning(-1);
+            bertha.LiftFix(-10);
         }
         else if(gamepad2.dpad_left) {
-            bertha.LiftPositioning(-1);
+            bertha.LiftFix(10);
         }
             //centers turret
         else if(gamepad2.touchpad)

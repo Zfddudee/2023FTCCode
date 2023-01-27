@@ -114,7 +114,7 @@ public class AutonomousDrive {
             // This is a y value
             c3 = 13;
             // This is an x value
-            c4 = -49.5;
+            c4 = -50;
             // This is a y value
             c5 = 12;
             //
@@ -145,7 +145,7 @@ public class AutonomousDrive {
             // This is an x value
             c4 = 46.5;
             // This is a y value
-            c5 = 11;
+            c5 = 12.5;
             //
             c6 = 57;
             //
@@ -198,10 +198,12 @@ public class AutonomousDrive {
         if(endPosition == null)
             endPosition = new Pose2d(0.0);
         TrajectorySequence sequence;
-        if(Position == 1)
+        if(Position == 1 && direction == DriveDirection.Right || Position == 3 && direction == DriveDirection.Left)
             sequence = SetStationOne(endPosition);
         else if(Position == 2)
             sequence = SetStationTwo(endPosition);
+        else if (Position == 3 && direction == DriveDirection.Right ||  Position == 1 && direction == DriveDirection.Left)
+            sequence = SetStationThree(endPosition);
         else
             sequence = SetStationThree(endPosition);
 

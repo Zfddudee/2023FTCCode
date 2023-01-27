@@ -46,11 +46,11 @@ public class AutoCycleRight extends LinearOpMode{
 //        Drive to Cones
         bertha.DriveToConeStation(AutonomousDrive.DriveSpeed.Conservative);
 
-        bertha.StompDown();
+//        bertha.StompDown();
 //        Place cones
         bertha.PlaceCones(timer, 25);
 
-        bertha.StompUp();
+//        bertha.StompUp();
 
 //        Cycle Bertha to default state
        bertha.CycleDown();
